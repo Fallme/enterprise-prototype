@@ -282,7 +282,7 @@ tr:hover { background: #fafafa; }
         <span class="icon">📁</span>企业管理
       </div>
       <div class="sidebar-menu-item" onclick="showPage('page-platform-plans', this)">
-        <span class="icon">💳</span>积分与订单
+        <span class="icon">💳</span>套餐设置
       </div>
       <div class="sidebar-menu-item" onclick="showPage('page-platform-models', this)">
         <span class="icon">🤖</span>模型配置
@@ -467,80 +467,122 @@ tr:hover { background: #fafafa; }
 
     <!-- ========== PAGE 9: Platform Plans & Orders ========== -->
     <div class="page-content" id="page-platform-plans">
-      <div class="page-header"><h2>积分与订单</h2><p>管理套餐、积分和订单</p></div>
-      <!-- A: Points Conversion Banner -->
+      <div class="page-header"><h2>套餐设置</h2><p>配置订阅套餐、补充包和购买权限</p></div>
+      <!-- 积分说明 -->
       <div class="chart-box mb-20" style="background:linear-gradient(135deg,#e6f7ff,#bae7ff);border-left:4px solid #1890ff;">
         <strong>积分换算说明：</strong> <span style="font-size:18px;color:#1890ff;font-weight:700;">1积分 = 10,000 Token</span> &nbsp;|&nbsp; 积分通过套餐或补充包获取，消耗积分使用AI功能。
       </div>
-      <!-- B: Plan Table -->
-      <div class="table-section">
-        <h3>套餐管理</h3>
+      <!-- 订阅套餐 -->
+      <div class="table-section mb-20">
+        <h3>订阅套餐 <button class="btn btn-sm btn-primary" style="float:right" onclick="addPlanRow()">+ 新增套餐</button></h3>
         <div class="table-container">
           <table>
-            <thead><tr><th>套餐名</th><th>价格</th><th>积分额度</th><th>功能</th><th>订阅人数</th><th>操作</th></tr></thead>
+            <thead><tr><th>套餐名</th><th>价格</th><th>周期</th><th>积分额度</th><th>功能权限</th><th>订阅人数</th><th>状态</th><th>操作</th></tr></thead>
             <tbody>
-              <tr><td><strong>免费版</strong></td><td>¥0</td><td>1,000</td><td>基础合同生成</td><td>5,234</td><td><button class="btn btn-sm" onclick="openModal('planEditModal')">编辑</button></td></tr>
-              <tr><td><strong>个人版</strong></td><td>¥99/月</td><td>10,000</td><td>合同生成 + 审查 + 模板库</td><td>4,821</td><td><button class="btn btn-sm" onclick="openModal('planEditModal')">编辑</button></td></tr>
-              <tr><td><strong>企业版</strong></td><td>¥499/月</td><td>50,000</td><td>全部功能 + 团队协作 + API</td><td>1,892</td><td><button class="btn btn-sm" onclick="openModal('planEditModal')">编辑</button></td></tr>
-              <tr><td><strong>旗舰版</strong></td><td>¥1,999/月</td><td>200,000</td><td>全部功能 + 定制 + 专属客服</td><td>892</td><td><button class="btn btn-sm" onclick="openModal('planEditModal')">编辑</button></td></tr>
+              <tr>
+                <td><strong>免费版</strong></td>
+                <td><input type="number" value="0" style="width:80px;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px"> 元</td>
+                <td>永久</td>
+                <td><input type="number" value="1000" style="width:90px;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px"> 积分</td>
+                <td>基础合同生成</td>
+                <td>5,234</td>
+                <td><span class="status-badge normal">上架</span></td>
+                <td><button class="btn btn-sm" onclick="alert('已保存')">保存</button></td>
+              </tr>
+              <tr>
+                <td><strong>个人版</strong></td>
+                <td><input type="number" value="99" style="width:80px;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px"> 元/月</td>
+                <td>月付</td>
+                <td><input type="number" value="10000" style="width:90px;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px"> 积分</td>
+                <td>合同生成 + 审查 + 模板库</td>
+                <td>4,821</td>
+                <td><span class="status-badge normal">上架</span></td>
+                <td><button class="btn btn-sm" onclick="alert('已保存')">保存</button></td>
+              </tr>
+              <tr>
+                <td><strong>企业版</strong></td>
+                <td><input type="number" value="499" style="width:80px;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px"> 元/月</td>
+                <td>月付</td>
+                <td><input type="number" value="50000" style="width:90px;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px"> 积分</td>
+                <td>全部功能 + 团队协作 + API</td>
+                <td>1,892</td>
+                <td><span class="status-badge normal">上架</span></td>
+                <td><button class="btn btn-sm" onclick="alert('已保存')">保存</button></td>
+              </tr>
+              <tr>
+                <td><strong>旗舰版</strong></td>
+                <td><input type="number" value="1999" style="width:80px;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px"> 元/月</td>
+                <td>月付</td>
+                <td><input type="number" value="200000" style="width:90px;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px"> 积分</td>
+                <td>全部功能 + 定制 + 专属客服</td>
+                <td>892</td>
+                <td><span class="status-badge normal">上架</span></td>
+                <td><button class="btn btn-sm" onclick="alert('已保存')">保存</button></td>
+              </tr>
             </tbody>
           </table>
         </div>
       </div>
-      <!-- C: Supplement Packs -->
-      <div class="chart-box mb-20">
-        <h3>补充包</h3>
-        <div class="supplement-grid">
-          <div class="plan-card">
-            <div class="plan-name">小量补充包</div>
-            <div class="plan-price">¥9.9</div>
-            <div class="plan-points">获得 100 积分（1,000,000 Token）</div>
-          </div>
-          <div class="plan-card">
-            <div class="plan-name">大量补充包</div>
-            <div class="plan-price">¥888</div>
-            <div class="plan-points">获得 10,000 积分（100,000,000 Token）</div>
-          </div>
-          <div class="plan-card" style="display:flex;align-items:center;justify-content:center;border:2px dashed #d9d9d9;cursor:pointer;" onclick="alert('添加补充包')">
-            <span style="font-size:24px;color:#999;">+ 添加补充包</span>
-          </div>
+      <!-- 补充包 -->
+      <div class="table-section mb-20">
+        <h3>补充包配置 <button class="btn btn-sm btn-primary" style="float:right" onclick="addPackRow()">+ 新增补充包</button></h3>
+        <div class="table-container">
+          <table>
+            <thead><tr><th>补充包名称</th><th>价格</th><th>积分额度</th><th>购买权限</th><th>已售</th><th>状态</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><input type="text" value="小量补充包" style="width:120px;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px"></td>
+                <td><input type="number" value="9.9" step="0.1" style="width:80px;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px"> 元</td>
+                <td><input type="number" value="100" style="width:90px;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px"> 积分</td>
+                <td>
+                  <select style="padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px">
+                    <option selected>所有用户</option>
+                    <option>仅订阅用户</option>
+                    <option>仅企业订阅</option>
+                  </select>
+                </td>
+                <td>1,283</td>
+                <td><span class="status-badge normal">上架</span></td>
+                <td><button class="btn btn-sm" onclick="alert('已保存')">保存</button></td>
+              </tr>
+              <tr>
+                <td><input type="text" value="中量补充包" style="width:120px;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px"></td>
+                <td><input type="number" value="99" step="0.1" style="width:80px;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px"> 元</td>
+                <td><input type="number" value="1000" style="width:90px;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px"> 积分</td>
+                <td>
+                  <select style="padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px">
+                    <option>所有用户</option>
+                    <option selected>仅订阅用户</option>
+                    <option>仅企业订阅</option>
+                  </select>
+                </td>
+                <td>567</td>
+                <td><span class="status-badge normal">上架</span></td>
+                <td><button class="btn btn-sm" onclick="alert('已保存')">保存</button></td>
+              </tr>
+              <tr>
+                <td><input type="text" value="大量补充包" style="width:120px;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px"></td>
+                <td><input type="number" value="888" step="0.1" style="width:80px;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px"> 元</td>
+                <td><input type="number" value="10000" style="width:90px;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px"> 积分</td>
+                <td>
+                  <select style="padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px">
+                    <option>所有用户</option>
+                    <option>仅订阅用户</option>
+                    <option selected>仅企业订阅</option>
+                  </select>
+                </td>
+                <td>89</td>
+                <td><span class="status-badge normal">上架</span></td>
+                <td><button class="btn btn-sm" onclick="alert('已保存')">保存</button></td>
+              </tr>
+              <tr style="border:2px dashed #d9d9d9;background:#fafafa">
+                <td colspan="7" style="text-align:center;color:#999;cursor:pointer" onclick="addPackRow()">+ 点击新增补充包</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
-      <!-- D: Points Consumption -->
-      <div class="chart-row mb-20">
-        <div class="chart-box">
-          <h3>积分消耗趋势</h3>
-          <div class="bar-chart" id="pointsChart"></div>
-        </div>
-        <div class="chart-box">
-          <h3>消耗类型分布</h3>
-          <div class="pie-chart-wrapper">
-            <div class="pie-chart" id="consumeTypePie"></div>
-            <div class="pie-legend" id="consumeTypeLegend"></div>
-          </div>
-        </div>
-      </div>
-      <!-- E: Subscription Stats -->
-      <div class="sub-stats">
-        <div class="sub-stat"><div class="val" style="color:#1890ff">892</div><div class="lbl">当月新增订阅</div></div>
-        <div class="sub-stat"><div class="val" style="color:#722ed1">7,642</div><div class="lbl">活跃订阅用户</div></div>
-        <div class="sub-stat"><div class="val" style="color:#52c41a">96.8%</div><div class="lbl">续费率</div></div>
-        <div class="sub-stat"><div class="val" style="color:#fa8c16">¥2.68M</div><div class="lbl">当月营收</div></div>
-      </div>
-      <div class="chart-row mb-20">
-        <div class="chart-box">
-          <h3>订阅趋势</h3>
-          <div class="bar-chart" id="subTrendChart"></div>
-        </div>
-        <div class="chart-box">
-          <h3>订阅来源</h3>
-          <div class="pie-chart-wrapper">
-            <div class="pie-chart" id="subSourcePie"></div>
-            <div class="pie-legend" id="subSourceLegend"></div>
-          </div>
-        </div>
-      </div>
-      <!-- F: Orders Table -->
+      <!-- 订单记录 -->
       <div class="table-section mb-20">
         <h3>订单记录</h3>
         <div class="table-container">
@@ -559,7 +601,7 @@ tr:hover { background: #fafafa; }
           </table>
         </div>
       </div>
-      <!-- G: Plan Change Records -->
+      <!-- 套餐变更记录 -->
       <div class="table-section">
         <h3>套餐变更记录</h3>
         <div class="table-container">
@@ -670,21 +712,6 @@ tr:hover { background: #fafafa; }
     <span id="modelTestResult" style="margin-left:8px;font-size:13px;"></span>
   </div>
   <div class="modal-footer"><button class="btn" onclick="closeModelModal()">取消</button><button class="btn btn-primary" onclick="saveModel()">保存</button></div>
-</div>
-
-<!-- Plan Edit Modal -->
-<div class="modal-mask" id="planEditModalMask" onclick="closeModal('planEditModal')"></div>
-<div class="modal modal-md" id="planEditModal">
-  <div class="modal-header"><h3 class="modal-title">编辑套餐</h3><button class="modal-close" onclick="closeModal('planEditModal')">&times;</button></div>
-  <div class="modal-body">
-    <div class="form-group"><label>套餐名称</label><input type="text" value="个人版"></div>
-    <div class="form-row">
-      <div class="form-group"><label>价格</label><input type="text" value="99"></div>
-      <div class="form-group"><label>积分额度</label><input type="number" value="10000"></div>
-    </div>
-    <div class="form-group"><label>功能说明</label><input type="text" value="合同生成 + 审查 + 模板库"></div>
-  </div>
-  <div class="modal-footer"><button class="btn" onclick="closeModal('planEditModal')">取消</button><button class="btn btn-primary" onclick="closeModal('planEditModal')">保存</button></div>
 </div>
 
 <!-- ==================== USER DETAIL PANEL ==================== -->
@@ -1093,27 +1120,20 @@ function init() {
     renderPlatformUsers();
     // Platform enterprises
     renderEnterpriseGrid();
-    // Plans page charts
-    renderBarChart('pointsChart', [
-        {label:'6/18',val:32000},{label:'6/19',val:28500},{label:'6/20',val:35200},{label:'6/21',val:29800},{label:'6/22',val:42100},{label:'6/23',val:38600},{label:'6/24',val:45200}
-    ], '#fa8c16');
-    renderPie('consumeTypePie','consumeTypeLegend', [
-        {label:'合同生成',val:45,color:'#1890ff'},{label:'合同审查',val:25,color:'#722ed1'},
-        {label:'文档解析',val:15,color:'#52c41a'},{label:'其他',val:15,color:'#d9d9d9'}
-    ]);
-    renderBarChart('subTrendChart', [
-        {label:'1月',val:52},{label:'2月',val:68},{label:'3月',val:75},{label:'4月',val:89},{label:'5月',val:102},{label:'6月',val:118}
-    ], '#1890ff');
-    renderPie('subSourcePie','subSourceLegend', [
-        {label:'企业购买',val:42,color:'#722ed1'},{label:'个人订阅',val:35,color:'#1890ff'},
-        {label:'补充包',val:15,color:'#fa8c16'},{label:'邀请注册',val:8,color:'#52c41a'}
-    ]);
     // Models
     renderModelList(); populateModelDropdowns();
     renderBarChart('modelCallChart', [
         {label:'Claude',val:4200},{label:'GPT-4o',val:2800},{label:'Qwen',val:1800},{label:'DeepSeek',val:1200}
     ], '#1890ff');
     renderResponseTimeBars();
+}
+
+/* ==================== PLAN/PACK ROW ADD ==================== */
+function addPlanRow() {
+    alert('新增套餐行已添加（原型演示）');
+}
+function addPackRow() {
+    alert('新增补充包行已添加（原型演示）');
 }
 
 init();
