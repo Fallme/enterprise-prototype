@@ -340,24 +340,6 @@
         .points-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s; }
 
         /* 模型管理 */
-        .model-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-        .model-card { background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); display: flex; align-items: center; gap: 16px; transition: all 0.2s; border: 2px solid transparent; }
-        .model-card:hover { border-color: #e6f7ff; }
-        .model-card.active { border-color: #1890ff; background: #f6fffe; }
-        .model-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
-        .model-icon.claude { background: #f9f0ff; }
-        .model-icon.gpt { background: #e6f7ff; }
-        .model-icon.qwen { background: #fff7e6; }
-        .model-icon.deepseek { background: #f6ffed; }
-        .model-info { flex: 1; }
-        .model-name { font-size: 15px; font-weight: 600; color: #333; margin-bottom: 4px; }
-        .model-desc { font-size: 12px; color: #999; }
-        .model-meta { display: flex; gap: 16px; margin-top: 8px; }
-        .model-meta-item { font-size: 11px; color: #666; }
-        .model-switch { width: 44px; height: 24px; background: #d9d9d9; border-radius: 12px; position: relative; cursor: pointer; transition: background 0.2s; }
-        .model-switch.on { background: #1890ff; }
-        .model-switch::after { content: ''; width: 20px; height: 20px; background: #fff; border-radius: 50%; position: absolute; top: 2px; left: 2px; transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
-        .model-switch.on::after { transform: translateX(20px); }
 
         /* 订阅用户 */
         .sub-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
@@ -365,6 +347,85 @@
         .sub-stat { text-align: center; }
         .sub-stat-value { font-size: 20px; font-weight: 600; color: #333; }
         .sub-stat-label { font-size: 12px; color: #999; }
+
+        /* ===== 新增样式 ===== */
+        /* 蓝V认证标识 */
+        .verified-badge { display: inline-flex; align-items: center; gap: 4px; background: #e6f7ff; color: #1890ff; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; border: 1px solid #91d5ff; }
+        .verified-badge::before { content: 'V'; display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; background: #1890ff; color: #fff; border-radius: 50%; font-size: 10px; font-weight: 700; }
+
+        /* 企业文件夹卡片 */
+        .folder-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+        .folder-card { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); padding: 20px; cursor: pointer; transition: all 0.2s; border: 2px solid transparent; position: relative; }
+        .folder-card:hover { border-color: #1890ff; transform: translateY(-2px); box-shadow: 0 4px 16px rgba(24,144,255,0.15); }
+        .folder-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+        .folder-icon { font-size: 32px; }
+        .folder-name { font-size: 16px; font-weight: 600; color: #333; }
+        .folder-meta { display: flex; gap: 16px; margin: 12px 0; padding: 12px 0; border-top: 1px solid #f0f0f0; border-bottom: 1px solid #f0f0f0; }
+        .folder-meta-item { font-size: 12px; color: #999; }
+        .folder-meta-item strong { color: #333; font-size: 14px; display: block; margin-top: 2px; }
+        .folder-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
+        .folder-actions { display: flex; gap: 8px; }
+
+        /* 散户卡片 */
+        .standalone-section { margin-top: 32px; }
+        .standalone-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .standalone-title { font-size: 15px; font-weight: 600; color: #666; display: flex; align-items: center; gap: 8px; }
+
+        /* 用户详情面板 */
+        .user-detail-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.45); z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.3s; }
+        .user-detail-overlay.show { opacity: 1; visibility: visible; }
+        .user-detail-panel { position: fixed; top: 0; right: -680px; width: 680px; height: 100vh; background: #fff; z-index: 1001; transition: right 0.3s; display: flex; flex-direction: column; box-shadow: -4px 0 20px rgba(0,0,0,0.1); }
+        .user-detail-panel.show { right: 0; }
+        .user-detail-header { padding: 20px 24px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+        .user-detail-body { flex: 1; overflow-y: auto; padding: 24px; }
+        .user-profile-card { display: flex; align-items: center; gap: 16px; padding: 20px; background: #f6f8fa; border-radius: 8px; margin-bottom: 24px; }
+        .user-avatar-lg { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #1890ff, #69c0ff); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 24px; font-weight: 600; flex-shrink: 0; }
+        .user-profile-info { flex: 1; }
+        .user-profile-name { font-size: 18px; font-weight: 600; color: #333; margin-bottom: 4px; }
+        .user-profile-id { font-size: 12px; color: #999; }
+        .user-profile-tags { display: flex; gap: 8px; margin-top: 8px; }
+        .user-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+        .user-detail-item { background: #fafafa; padding: 12px; border-radius: 6px; }
+        .user-detail-label { font-size: 12px; color: #999; margin-bottom: 4px; }
+        .user-detail-value { font-size: 14px; color: #333; font-weight: 500; }
+        .detail-section { margin-bottom: 24px; }
+        .detail-section-title { font-size: 14px; font-weight: 600; color: #333; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; align-items: center; }
+        .detail-timeline { position: relative; padding-left: 20px; }
+        .detail-timeline::before { content: ''; position: absolute; left: 6px; top: 4px; bottom: 4px; width: 2px; background: #e8e8e8; }
+        .timeline-item { position: relative; padding: 0 0 16px 16px; font-size: 13px; }
+        .timeline-item::before { content: ''; position: absolute; left: -18px; top: 4px; width: 10px; height: 10px; border-radius: 50%; border: 2px solid #1890ff; background: #fff; }
+        .timeline-item.success::before { border-color: #52c41a; background: #f6ffed; }
+        .timeline-item.warning::before { border-color: #fa8c16; background: #fff7e6; }
+        .timeline-item.danger::before { border-color: #ff4d4f; background: #fff1f0; }
+        .timeline-time { font-size: 11px; color: #999; margin-bottom: 2px; }
+        .timeline-text { color: #333; }
+        .timeline-text .amount { font-weight: 600; }
+        .timeline-text .amount.minus { color: #ff4d4f; }
+        .timeline-text .amount.plus { color: #52c41a; }
+
+        /* 编辑弹窗表格 */
+        .edit-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+        .edit-label { width: 80px; font-size: 13px; color: #666; text-align: right; flex-shrink: 0; }
+        .edit-input { flex: 1; height: 32px; padding: 0 10px; border: 1px solid #d9d9d9; border-radius: 4px; font-size: 13px; }
+        .edit-input:focus { outline: none; border-color: #1890ff; }
+        .edit-input-sm { width: 120px; }
+
+        /* 模型功能选择 */
+        .model-func-section { margin-bottom: 24px; }
+        .model-func-title { font-size: 14px; font-weight: 600; color: #333; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .model-func-icon { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+        .model-func-icon.draft { background: #e6f7ff; }
+        .model-func-icon.review { background: #fff7e6; }
+        .model-func-icon.parse { background: #f6ffed; }
+        .model-select-group { display: flex; gap: 12px; flex-wrap: wrap; }
+        .model-select-card { flex: 1; min-width: 200px; padding: 16px; border: 2px solid #e8e8e8; border-radius: 8px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 12px; }
+        .model-select-card:hover { border-color: #91d5ff; }
+        .model-select-card.selected { border-color: #1890ff; background: #f6fffe; }
+        .model-select-icon { font-size: 24px; }
+        .model-select-name { font-size: 14px; font-weight: 600; color: #333; }
+        .model-select-desc { font-size: 11px; color: #999; margin-top: 2px; }
+        .model-select-check { margin-left: auto; width: 20px; height: 20px; border-radius: 50%; border: 2px solid #d9d9d9; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #fff; transition: all 0.2s; }
+        .model-select-card.selected .model-select-check { background: #1890ff; border-color: #1890ff; }
     </style>
 </head>
 <body>
@@ -584,7 +645,10 @@
                 <div class="table-section">
                     <div class="table-header-actions">
                         <div class="table-search">
-                            <input type="text" placeholder="搜索用户名/手机号/邮箱">
+                            <input type="text" placeholder="搜索账号/昵称/手机号">
+                            <select class="filter-select" style="width:100px;height:32px;">
+                                <option>全部套餐</option><option>免费版</option><option>专业版</option><option>企业版</option><option>旗舰版</option>
+                            </select>
                             <button class="btn btn-primary btn-sm">搜索</button>
                         </div>
                         <div style="display:flex;gap:8px;">
@@ -596,16 +660,15 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th><input type="checkbox" class="checkbox"></th>
-                                    <th>ID</th>
-                                    <th>用户名</th>
+                                    <th style="width:40px;">#</th>
+                                    <th>账号</th>
+                                    <th>昵称</th>
                                     <th>手机号</th>
-                                    <th>邮箱</th>
-                                    <th>所属企业</th>
-                                    <th>套餐</th>
-                                    <th>积分余额</th>
-                                    <th>状态</th>
+                                    <th>头像</th>
+                                    <th>密码</th>
                                     <th>注册时间</th>
+                                    <th>套餐</th>
+                                    <th>积分剩余</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
@@ -625,53 +688,58 @@
                 </div>
             </div>
 
+            <!-- 用户详情侧滑面板 -->
+            <div class="user-detail-overlay" id="userDetailOverlay" onclick="closeUserDetail()"></div>
+            <div class="user-detail-panel" id="userDetailPanel">
+                <div class="user-detail-header">
+                    <span style="font-size:16px;font-weight:600;color:#333;">用户详情</span>
+                    <button style="background:none;border:none;font-size:20px;cursor:pointer;color:#999;" onclick="closeUserDetail()">✕</button>
+                </div>
+                <div class="user-detail-body" id="userDetailBody"></div>
+            </div>
+
             <!-- 平台企业管理 -->
             <div class="page-content" id="page-platform-enterprises">
-                <div class="table-section">
-                    <div class="table-header-actions">
-                        <div class="table-search">
-                            <input type="text" placeholder="搜索企业名称/管理员">
-                            <select class="filter-select" style="width:120px;height:32px;">
-                                <option>全部状态</option>
-                                <option>正常</option>
-                                <option>已过期</option>
-                                <option>已冻结</option>
-                            </select>
-                            <button class="btn btn-primary btn-sm">搜索</button>
-                        </div>
-                        <div style="display:flex;gap:8px;">
-                            <button class="btn btn-sm">导出</button>
-                            <button class="btn btn-primary btn-sm">+ 新增企业</button>
-                        </div>
+                <div class="table-header-actions" style="background:#fff;border-radius:8px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+                    <div class="table-search">
+                        <input type="text" placeholder="搜索企业名称">
+                        <select class="filter-select" style="width:100px;height:32px;">
+                            <option>全部状态</option><option>正常</option><option>已过期</option><option>已冻结</option>
+                        </select>
+                        <button class="btn btn-primary btn-sm">搜索</button>
                     </div>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th><input type="checkbox" class="checkbox"></th>
-                                    <th>企业ID</th>
-                                    <th>企业名称</th>
-                                    <th>管理员</th>
-                                    <th>成员数</th>
-                                    <th>套餐</th>
-                                    <th>Token余额</th>
-                                    <th>到期时间</th>
-                                    <th>状态</th>
-                                    <th>操作</th>
-                                </tr>
-                            </thead>
-                            <tbody id="enterpriseTableBody"></tbody>
-                        </table>
+                    <div style="display:flex;gap:8px;">
+                        <button class="btn btn-sm">导出</button>
+                        <button class="btn btn-primary btn-sm">+ 新增企业</button>
                     </div>
-                    <div class="pagination">
-                        <span style="font-size:13px;color:#999;">共 328 家企业</span>
-                        <button class="page-btn">‹</button>
-                        <button class="page-btn active">1</button>
-                        <button class="page-btn">2</button>
-                        <button class="page-btn">3</button>
-                        <button class="page-btn">...</button>
-                        <button class="page-btn">33</button>
-                        <button class="page-btn">›</button>
+                </div>
+                <div class="folder-grid" id="enterpriseFolderGrid"></div>
+
+                <div class="standalone-section">
+                    <div class="standalone-header">
+                        <div class="standalone-title">
+                            <span>👤</span> 散户用户（未加入企业）
+                        </div>
+                        <span style="font-size:13px;color:#999;">共 8,214 人</span>
+                    </div>
+                    <div class="table-section">
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th style="width:40px;">#</th>
+                                        <th>账号</th>
+                                        <th>昵称</th>
+                                        <th>手机号</th>
+                                        <th>套餐</th>
+                                        <th>积分剩余</th>
+                                        <th>注册时间</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="standaloneUserTableBody"></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -850,14 +918,39 @@
 
             <!-- 模型管理 -->
             <div class="page-content" id="page-platform-models">
+                <!-- 按功能选择模型 -->
                 <div class="chart-box" style="margin-bottom:24px;">
-                    <div class="chart-title">模型配置</div>
-                    <p style="font-size:13px;color:#999;margin-bottom:16px;">开启/关闭平台可用的AI模型，调整默认模型和调用优先级</p>
-                    <div class="model-grid" id="modelGrid"></div>
+                    <div class="chart-title">功能模型配置</div>
+                    <p style="font-size:13px;color:#999;margin-bottom:20px;">为每个功能选择使用的AI模型，切换即时生效</p>
+
+                    <div class="model-func-section">
+                        <div class="model-func-title">
+                            <span class="model-func-icon draft">📝</span> 合同起草
+                            <span style="font-size:11px;color:#999;font-weight:400;margin-left:8px;">生成合同文本、填充模板</span>
+                        </div>
+                        <div class="model-select-group" id="draftModels"></div>
+                    </div>
+
+                    <div class="model-func-section">
+                        <div class="model-func-title">
+                            <span class="model-func-icon review">🔍</span> 合同审查
+                            <span style="font-size:11px;color:#999;font-weight:400;margin-left:8px;">逐条审查、风险识别、修订建议</span>
+                        </div>
+                        <div class="model-select-group" id="reviewModels"></div>
+                    </div>
+
+                    <div class="model-func-section">
+                        <div class="model-func-title">
+                            <span class="model-func-icon parse">📄</span> 文档解析
+                            <span style="font-size:11px;color:#999;font-weight:400;margin-left:8px;">OCR识别、结构化提取、格式转换</span>
+                        </div>
+                        <div class="model-select-group" id="parseModels"></div>
+                    </div>
                 </div>
+
                 <div class="chart-row">
                     <div class="chart-box">
-                        <div class="chart-title">模型调用量（近7天）</div>
+                        <div class="chart-title">各功能模型调用量（近7天）</div>
                         <div class="bar-chart" id="modelCallChart"></div>
                     </div>
                     <div class="chart-box">
@@ -1323,99 +1416,228 @@
         }
 
         // ==================== 平台后台数据 ====================
-        const platformUsers = [
-            { id: 10001, name: 'admin', phone: '13666666666', email: 'admin@tongyou.com', enterprise: '通友科技', plan: '企业版', points: 50000, status: 'normal', regTime: '2024-01-15' },
-            { id: 10002, name: '张三', phone: '13888888888', email: 'zhangsan@qq.com', enterprise: '通友科技', plan: '专业版', points: 4880, status: 'normal', regTime: '2024-02-20' },
-            { id: 10003, name: '李四', phone: '13999999999', email: 'lisi@163.com', enterprise: '创新工场', plan: '旗舰版', points: 12000, status: 'normal', regTime: '2024-03-10' },
-            { id: 10004, name: '王五', phone: '13777777777', email: 'wangwu@gmail.com', enterprise: '-', plan: '免费版', points: 500, status: 'normal', regTime: '2024-05-08' },
-            { id: 10005, name: '赵六', phone: '13555555555', email: 'zhaoliu@outlook.com', enterprise: '未来科技', plan: '专业版', points: 1800, status: 'disabled', regTime: '2024-06-12' },
-            { id: 10006, name: '孙七', phone: '13444444444', email: 'sunqi@qq.com', enterprise: '通友科技', plan: '企业版', points: 8600, status: 'normal', regTime: '2024-07-20' },
+        const allPlatformUsers = [
+            { id: 10001, account: 'tongyou_admin', nickname: 'xxx', phone: '13666666666', password: '****', avatar: 'X', enterprise: '通友科技', plan: '企业版', planPoints: 50000, freePoints: 5000, regTime: '2024-01-15 09:00', isStandalone: false },
+            { id: 10002, account: 'zhangsan', nickname: '张三', phone: '13888888888', password: '****', avatar: '张', enterprise: '通友科技', plan: '专业版', planPoints: 4000, freePoints: 880, regTime: '2024-02-20 14:30', isStandalone: false },
+            { id: 10003, account: 'lisi', nickname: '李四', phone: '13999999999', password: '****', avatar: '李', enterprise: '创新工场', plan: '旗舰版', planPoints: 10000, freePoints: 2000, regTime: '2024-03-10 10:15', isStandalone: false },
+            { id: 10004, account: 'wangwu', nickname: '王五', phone: '13777777777', password: '****', avatar: '王', enterprise: '', plan: '免费版', planPoints: 0, freePoints: 500, regTime: '2024-05-08 16:42', isStandalone: true },
+            { id: 10005, account: 'zhaoliu', nickname: '赵六', phone: '13555555555', password: '****', avatar: '赵', enterprise: '未来科技', plan: '专业版', planPoints: 1500, freePoints: 300, regTime: '2024-06-12 08:20', isStandalone: false },
+            { id: 10006, account: 'sunqi', nickname: '孙七', phone: '13444444444', password: '****', avatar: '孙', enterprise: '通友科技', plan: '企业版', planPoints: 8000, freePoints: 600, regTime: '2024-07-20 11:00', isStandalone: false },
+            { id: 10007, account: 'zhouba', nickname: '周八', phone: '13333333333', password: '****', avatar: '周', enterprise: '星辰互联', plan: '免费版', planPoints: 0, freePoints: 1000, regTime: '2024-08-05 09:30', isStandalone: false },
+            { id: 10008, account: 'wujiu', nickname: '吴九', phone: '13222222222', password: '****', avatar: '吴', enterprise: '蓝海集团', plan: '旗舰版', planPoints: 20000, freePoints: 3000, regTime: '2024-09-18 15:45', isStandalone: false },
+            { id: 10009, account: 'zhengshi', nickname: '郑十', phone: '13111111111', password: '****', avatar: '郑', enterprise: '', plan: '专业版', planPoints: 3000, freePoints: 200, regTime: '2024-10-22 13:00', isStandalone: true },
+            { id: 10010, account: 'liuyang', nickname: '刘洋', phone: '13000000000', password: '****', avatar: '刘', enterprise: '', plan: '免费版', planPoints: 0, freePoints: 100, regTime: '2025-01-05 10:10', isStandalone: true },
         ];
 
         const enterprises = [
-            { id: 'E001', name: '通友科技', admin: 'xxx', members: 28, plan: '企业版', tokens: '1,250,000', expire: '2027-01-15', status: 'normal' },
-            { id: 'E002', name: '创新工场', admin: '李四', members: 52, plan: '旗舰版', tokens: '3,800,000', expire: '2026-12-31', status: 'normal' },
-            { id: 'E003', name: '未来科技', admin: '赵六', members: 15, plan: '专业版', tokens: '420,000', expire: '2026-08-15', status: 'normal' },
-            { id: 'E004', name: '星辰互联', admin: '周八', members: 8, plan: '免费版', tokens: '8,000', expire: '-', status: 'expired' },
-            { id: 'E005', name: '蓝海集团', admin: '吴九', members: 120, plan: '旗舰版', tokens: '5,200,000', expire: '2027-06-30', status: 'normal' },
-            { id: 'E006', name: '极简软件', admin: '郑十', members: 5, plan: '专业版', tokens: '180,000', expire: '2026-03-01', status: 'frozen' },
+            { id: 'E001', name: '通友科技', verified: true, plan: '企业版', planPoints: 200000, freePoints: 50000, members: 28, expire: '2027-01-15', status: 'normal' },
+            { id: 'E002', name: '创新工场', verified: true, plan: '旗舰版', planPoints: 500000, freePoints: 100000, members: 52, expire: '2026-12-31', status: 'normal' },
+            { id: 'E003', name: '未来科技', verified: true, plan: '专业版', planPoints: 50000, freePoints: 10000, members: 15, expire: '2026-08-15', status: 'normal' },
+            { id: 'E004', name: '星辰互联', verified: false, plan: '免费版', planPoints: 0, freePoints: 5000, members: 8, expire: '-', status: 'expired' },
+            { id: 'E005', name: '蓝海集团', verified: true, plan: '旗舰版', planPoints: 800000, freePoints: 200000, members: 120, expire: '2027-06-30', status: 'normal' },
+            { id: 'E006', name: '极简软件', verified: true, plan: '专业版', planPoints: 30000, freePoints: 8000, members: 5, expire: '2026-03-01', status: 'frozen' },
         ];
 
         const models = [
-            { id: 'claude', name: 'Claude Sonnet 4', desc: 'Anthropic 最新模型，擅长长文本和复杂推理', icon: '🧠', cost: '¥0.03/1K tokens', speed: '1.2s', enabled: true },
-            { id: 'gpt4', name: 'GPT-4o', desc: 'OpenAI 多模态模型，综合能力强', icon: '🤖', cost: '¥0.05/1K tokens', speed: '1.8s', enabled: true },
-            { id: 'qwen', name: 'Qwen-Max', desc: '阿里通义千问旗舰模型，中文优秀', icon: '🔮', cost: '¥0.02/1K tokens', speed: '0.9s', enabled: true },
-            { id: 'deepseek', name: 'DeepSeek-V3', desc: '深度求索最新模型，性价比极高', icon: '🔍', cost: '¥0.01/1K tokens', speed: '1.5s', enabled: true },
+            { id: 'claude', name: 'Claude Sonnet 4', desc: '擅长长文本和复杂推理', icon: '🧠', cost: '¥0.03/1K', speed: '1.2s' },
+            { id: 'gpt4', name: 'GPT-4o', desc: '综合能力强，多模态', icon: '🤖', cost: '¥0.05/1K', speed: '1.8s' },
+            { id: 'qwen', name: 'Qwen-Max', desc: '中文理解优秀', icon: '🔮', cost: '¥0.02/1K', speed: '0.9s' },
+            { id: 'deepseek', name: 'DeepSeek-V3', desc: '性价比极高', icon: '🔍', cost: '¥0.01/1K', speed: '1.5s' },
         ];
+
+        // 功能模型配置（当前选中）
+        const funcModelConfig = { draft: 'claude', review: 'claude', parse: 'qwen' };
+
+        const userDetailData = {
+            10001: {
+                recentOps: [
+                    { time: '2026-06-24 15:30', text: '生成合同 <strong>采购合同-2026Q2</strong>', type: 'success', cost: -120 },
+                    { time: '2026-06-24 14:10', text: '审查合同 <strong>劳动合同-张三</strong>', type: 'success', cost: -80 },
+                    { time: '2026-06-24 11:00', text: '解析文档 <strong>营业执照.pdf</strong>', type: 'success', cost: -30 },
+                    { time: '2026-06-23 16:45', text: '生成合同 <strong>服务协议-创新工场</strong>', type: 'success', cost: -120 },
+                ],
+                loginRecords: [
+                    { time: '2026-06-24 15:28', ip: '192.168.1.100', device: 'Chrome / Windows', type: 'success' },
+                    { time: '2026-06-24 09:02', ip: '192.168.1.100', device: 'Chrome / Windows', type: 'success' },
+                    { time: '2026-06-23 18:30', ip: '10.0.0.55', device: 'Safari / macOS', type: 'success' },
+                    { time: '2026-06-23 08:55', ip: '192.168.1.100', device: 'Chrome / Windows', type: 'success' },
+                ],
+                recharges: [
+                    { time: '2026-06-01 10:00', text: '企业套餐月度充值', amount: '+200,000', type: 'plus' },
+                    { time: '2026-05-01 10:00', text: '企业套餐月度充值', amount: '+200,000', type: 'plus' },
+                    { time: '2026-04-15 14:30', text: '额外购买积分包', amount: '+50,000', type: 'plus' },
+                ]
+            }
+        };
 
         // ==================== 平台后台渲染 ====================
         function renderPlatformUsers() {
             const tbody = document.getElementById('platformUserTableBody');
             if (!tbody) return;
-            const statusMap = { 'normal': ['正常', 'normal'], 'disabled': ['禁用', 'invalid'] };
-            tbody.innerHTML = platformUsers.map(u => {
-                const [sText, sClass] = statusMap[u.status] || ['未知', ''];
-                return `<tr>
-                    <td><input type="checkbox" class="checkbox"></td>
-                    <td>${u.id}</td>
-                    <td>${u.name}</td>
+            tbody.innerHTML = allPlatformUsers.map((u, i) => {
+                const totalPts = u.planPoints + u.freePoints;
+                return `<tr style="cursor:pointer;" onclick="openUserDetail(${u.id})">
+                    <td>${i + 1}</td>
+                    <td style="font-weight:500;color:#333;">${u.account}</td>
+                    <td>${u.nickname}</td>
                     <td>${u.phone}</td>
-                    <td>${u.email}</td>
-                    <td>${u.enterprise}</td>
+                    <td><div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#1890ff,#69c0ff);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;">${u.avatar}</div></td>
+                    <td style="color:#999;">${u.password}</td>
+                    <td style="font-size:12px;">${u.regTime}</td>
                     <td><span style="padding:2px 8px;border-radius:4px;font-size:12px;background:#e6f7ff;color:#1890ff;">${u.plan}</span></td>
-                    <td>${u.points.toLocaleString()}</td>
-                    <td><span class="status-badge ${sClass}"><span class="status-dot"></span>${sText}</span></td>
-                    <td>${u.regTime}</td>
-                    <td><div class="table-actions"><button class="table-action-btn">编辑</button><button class="table-action-btn danger">禁用</button></div></td>
+                    <td><span style="font-size:13px;">${totalPts.toLocaleString()}</span> <span style="font-size:11px;color:#999;">(套餐${u.planPoints.toLocaleString()}+免费${u.freePoints.toLocaleString()})</span></td>
+                    <td><div class="table-actions" onclick="event.stopPropagation()"><button class="table-action-btn" onclick="openEditUserModal(${u.id})">编辑</button><button class="table-action-btn">详情</button></div></td>
                 </tr>`;
             }).join('');
         }
 
-        function renderEnterprises() {
-            const tbody = document.getElementById('enterpriseTableBody');
-            if (!tbody) return;
-            const statusMap = { 'normal': ['正常', 'normal'], 'expired': ['已过期', 'invalid'], 'frozen': ['已冻结', 'pending-review'] };
-            tbody.innerHTML = enterprises.map(e => {
-                const [sText, sClass] = statusMap[e.status] || ['未知', ''];
-                return `<tr>
-                    <td><input type="checkbox" class="checkbox"></td>
-                    <td>${e.id}</td>
-                    <td><strong>${e.name}</strong></td>
-                    <td>${e.admin}</td>
-                    <td>${e.members}</td>
-                    <td><span style="padding:2px 8px;border-radius:4px;font-size:12px;background:#e6f7ff;color:#1890ff;">${e.plan}</span></td>
-                    <td>${e.tokens}</td>
-                    <td>${e.expire}</td>
-                    <td><span class="status-badge ${sClass}"><span class="status-dot"></span>${sText}</span></td>
-                    <td><div class="table-actions"><button class="table-action-btn">详情</button><button class="table-action-btn">编辑</button></div></td>
-                </tr>`;
-            }).join('');
-        }
+        function openUserDetail(userId) {
+            const u = allPlatformUsers.find(x => x.id === userId);
+            if (!u) return;
+            const data = userDetailData[userId] || userDetailData[10001]; // fallback demo data
+            const totalPts = u.planPoints + u.freePoints;
 
-        function renderModels() {
-            const grid = document.getElementById('modelGrid');
-            if (!grid) return;
-            grid.innerHTML = models.map(m => `
-                <div class="model-card ${m.enabled ? 'active' : ''}" id="model-${m.id}">
-                    <div class="model-icon ${m.id}">${m.icon}</div>
-                    <div class="model-info">
-                        <div class="model-name">${m.name}</div>
-                        <div class="model-desc">${m.desc}</div>
-                        <div class="model-meta">
-                            <span class="model-meta-item">费用: ${m.cost}</span>
-                            <span class="model-meta-item">均响应: ${m.speed}</span>
+            document.getElementById('userDetailBody').innerHTML = `
+                <div class="user-profile-card">
+                    <div class="user-avatar-lg">${u.avatar}</div>
+                    <div class="user-profile-info">
+                        <div class="user-profile-name">${u.nickname} <span style="font-size:12px;color:#999;font-weight:400;">@${u.account}</span></div>
+                        <div class="user-profile-id">ID: ${u.id} · 手机: ${u.phone}</div>
+                        <div class="user-profile-tags">
+                            <span style="padding:2px 8px;border-radius:4px;font-size:11px;background:#e6f7ff;color:#1890ff;">${u.plan}</span>
+                            ${u.enterprise ? '<span style="padding:2px 8px;border-radius:4px;font-size:11px;background:#f6ffed;color:#52c41a;">' + u.enterprise + '</span>' : '<span style="padding:2px 8px;border-radius:4px;font-size:11px;background:#f5f5f5;color:#999;">散户</span>'}
                         </div>
                     </div>
-                    <div class="model-switch ${m.enabled ? 'on' : ''}" onclick="toggleModel('${m.id}', this)"></div>
+                </div>
+                <div class="user-detail-grid">
+                    <div class="user-detail-item"><div class="user-detail-label">套餐积分</div><div class="user-detail-value" style="color:#1890ff;">${u.planPoints.toLocaleString()}</div></div>
+                    <div class="user-detail-item"><div class="user-detail-label">免费积分</div><div class="user-detail-value" style="color:#52c41a;">${u.freePoints.toLocaleString()}</div></div>
+                    <div class="user-detail-item"><div class="user-detail-label">积分总计</div><div class="user-detail-value">${totalPts.toLocaleString()}</div></div>
+                    <div class="user-detail-item"><div class="user-detail-label">注册时间</div><div class="user-detail-value">${u.regTime}</div></div>
+                </div>
+
+                <div class="detail-section">
+                    <div class="detail-section-title">最近操作 <span style="font-size:12px;color:#1890ff;font-weight:400;cursor:pointer;">查看全部</span></div>
+                    <div class="detail-timeline">
+                        ${data.recentOps.map(o => `<div class="timeline-item ${o.type}"><div class="timeline-time">${o.time}</div><div class="timeline-text">${o.text} <span class="amount minus">${o.cost}</span></div></div>`).join('')}
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <div class="detail-section-title">登录记录 <span style="font-size:12px;color:#1890ff;font-weight:400;cursor:pointer;">查看全部</span></div>
+                    <div class="detail-timeline">
+                        ${data.loginRecords.map(o => `<div class="timeline-item success"><div class="timeline-time">${o.time}</div><div class="timeline-text">${o.device} · ${o.ip}</div></div>`).join('')}
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <div class="detail-section-title">充值记录 <span style="font-size:12px;color:#1890ff;font-weight:400;cursor:pointer;">查看全部</span></div>
+                    <div class="detail-timeline">
+                        ${data.recharges.map(o => `<div class="timeline-item success"><div class="timeline-time">${o.time}</div><div class="timeline-text">${o.text} <span class="amount ${o.type}">${o.amount}</span></div></div>`).join('')}
+                    </div>
+                </div>
+            `;
+            document.getElementById('userDetailOverlay').classList.add('show');
+            document.getElementById('userDetailPanel').classList.add('show');
+        }
+
+        function closeUserDetail() {
+            document.getElementById('userDetailOverlay').classList.remove('show');
+            document.getElementById('userDetailPanel').classList.remove('show');
+        }
+
+        function openEditUserModal(userId) {
+            const u = allPlatformUsers.find(x => x.id === userId);
+            if (!u) return;
+            alert('编辑用户: ' + u.nickname + '\n\n可修改：套餐类型、套餐积分、免费积分');
+        }
+
+        function renderEnterpriseFolders() {
+            const grid = document.getElementById('enterpriseFolderGrid');
+            if (!grid) return;
+            const statusColors = { 'normal': '#52c41a', 'expired': '#ff4d4f', 'frozen': '#fa8c16' };
+            const statusText = { 'normal': '正常', 'expired': '已过期', 'frozen': '已冻结' };
+            grid.innerHTML = enterprises.map(e => `
+                <div class="folder-card" onclick="openEditEnterpriseModal('${e.id}')">
+                    <div class="folder-card-header">
+                        <span class="folder-icon">📁</span>
+                        <div>
+                            <div class="folder-name">${e.name}</div>
+                            <div style="margin-top:4px;">
+                                ${e.verified ? '<span class="verified-badge">已认证</span>' : '<span style="font-size:11px;color:#999;">未认证</span>'}
+                                <span style="font-size:11px;color:${statusColors[e.status]};margin-left:8px;">● ${statusText[e.status]}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="folder-meta">
+                        <div class="folder-meta-item">成员<strong>${e.members} 人</strong></div>
+                        <div class="folder-meta-item">套餐<strong>${e.plan}</strong></div>
+                        <div class="folder-meta-item">积分<strong>${(e.planPoints + e.freePoints).toLocaleString()}</strong></div>
+                    </div>
+                    <div style="font-size:12px;color:#999;margin-bottom:8px;">到期: ${e.expire}</div>
+                    <div class="folder-footer">
+                        <span style="font-size:12px;color:#999;">点击查看成员 →</span>
+                        <div class="folder-actions" onclick="event.stopPropagation()">
+                            <button class="btn btn-sm" onclick="openEditEnterpriseModal('${e.id}')">编辑</button>
+                        </div>
+                    </div>
                 </div>
             `).join('');
         }
 
-        function toggleModel(modelId, el) {
-            const m = models.find(x => x.id === modelId);
-            if (m) { m.enabled = !m.enabled; }
-            el.classList.toggle('on');
-            el.closest('.model-card').classList.toggle('active');
+        function openEditEnterpriseModal(enterpriseId) {
+            const e = enterprises.find(x => x.id === enterpriseId);
+            if (!e) return;
+            const members = allPlatformUsers.filter(u => u.enterprise === e.name);
+            alert(`企业: ${e.name}\n认证: ${e.verified ? '已认证' : '未认证'}\n套餐: ${e.plan}\n套餐积分: ${e.planPoints.toLocaleString()}\n免费积分: ${e.freePoints.toLocaleString()}\n成员数: ${members.length}\n\n可修改：企业套餐、积分量、认证状态`);
+        }
+
+        function renderStandaloneUsers() {
+            const tbody = document.getElementById('standaloneUserTableBody');
+            if (!tbody) return;
+            const standalones = allPlatformUsers.filter(u => u.isStandalone);
+            tbody.innerHTML = standalones.map((u, i) => {
+                const totalPts = u.planPoints + u.freePoints;
+                return `<tr style="cursor:pointer;" onclick="openUserDetail(${u.id})">
+                    <td>${i + 1}</td>
+                    <td style="font-weight:500;color:#333;">${u.account}</td>
+                    <td>${u.nickname}</td>
+                    <td>${u.phone}</td>
+                    <td><span style="padding:2px 8px;border-radius:4px;font-size:12px;background:#e6f7ff;color:#1890ff;">${u.plan}</span></td>
+                    <td>${totalPts.toLocaleString()}</td>
+                    <td style="font-size:12px;">${u.regTime}</td>
+                    <td><div class="table-actions" onclick="event.stopPropagation()"><button class="table-action-btn">加入企业</button></div></td>
+                </tr>`;
+            }).join('');
+        }
+
+        // 模型功能选择渲染
+        function renderFuncModels() {
+            ['draft', 'review', 'parse'].forEach(func => {
+                const container = document.getElementById(func + 'Models');
+                if (!container) return;
+                container.innerHTML = models.map(m => `
+                    <div class="model-select-card ${funcModelConfig[func] === m.id ? 'selected' : ''}" onclick="selectFuncModel('${func}', '${m.id}', this)">
+                        <span class="model-select-icon">${m.icon}</span>
+                        <div>
+                            <div class="model-select-name">${m.name}</div>
+                            <div class="model-select-desc">${m.desc} · ${m.cost} · ${m.speed}</div>
+                        </div>
+                        <div class="model-select-check">${funcModelConfig[func] === m.id ? '✓' : ''}</div>
+                    </div>
+                `).join('');
+            });
+        }
+
+        function selectFuncModel(func, modelId, el) {
+            funcModelConfig[func] = modelId;
+            const container = el.parentNode;
+            container.querySelectorAll('.model-select-card').forEach(c => {
+                c.classList.remove('selected');
+                c.querySelector('.model-select-check').textContent = '';
+            });
+            el.classList.add('selected');
+            el.querySelector('.model-select-check').textContent = '✓';
         }
 
         function renderBarChart(containerId, data, colors) {
@@ -1431,30 +1653,25 @@
 
         // ==================== 初始化图表 ====================
         function initPlatformCharts() {
-            // Token消耗趋势
             renderBarChart('tokenChart', [
                 { label: '6/18', value: 180000 }, { label: '6/19', value: 220000 }, { label: '6/20', value: 195000 },
                 { label: '6/21', value: 240000 }, { label: '6/22', value: 210000 }, { label: '6/23', value: 260000 },
                 { label: '6/24', value: 285000 },
             ]);
-            // 新增订阅
             renderBarChart('subChart', [
                 { label: '6/18', value: 28 }, { label: '6/19', value: 35 }, { label: '6/20', value: 22 },
                 { label: '6/21', value: 42 }, { label: '6/22', value: 38 }, { label: '6/23', value: 45 },
                 { label: '6/24', value: 52 },
             ], ['green']);
-            // 积分消耗
             renderBarChart('pointsChart', [
                 { label: '6/18', value: 52000 }, { label: '6/19', value: 68000 }, { label: '6/20', value: 45000 },
                 { label: '6/21', value: 72000 }, { label: '6/22', value: 61000 }, { label: '6/23', value: 78000 },
                 { label: '6/24', value: 85000 },
             ], ['orange']);
-            // 模型调用
             renderBarChart('modelCallChart', [
-                { label: 'Claude', value: 42000 }, { label: 'GPT-4', value: 33000 },
-                { label: 'Qwen', value: 25000 }, { label: 'DeepSeek', value: 22000 },
-            ], ['purple', 'blue', 'orange', 'green']);
-            // 订阅趋势
+                { label: '起草', value: 42000 }, { label: '审查', value: 33000 },
+                { label: '解析', value: 25000 }, { label: '对比', value: 18000 },
+            ], ['blue', 'orange', 'green', 'purple']);
             renderBarChart('subTrendChart', [
                 { label: '6/18', value: 28 }, { label: '6/19', value: 35 }, { label: '6/20', value: 22 },
                 { label: '6/21', value: 42 }, { label: '6/22', value: 38 }, { label: '6/23', value: 45 },
@@ -2064,8 +2281,9 @@
         // ==================== 初始化 ====================
         renderUserTable();
         renderPlatformUsers();
-        renderEnterprises();
-        renderModels();
+        renderEnterpriseFolders();
+        renderStandaloneUsers();
+        renderFuncModels();
         initPlatformCharts();
     </script>
 </body>
