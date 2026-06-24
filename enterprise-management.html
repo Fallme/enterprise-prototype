@@ -652,12 +652,12 @@
                         <div class="chart-title">
                             <span>Token消耗趋势</span>
                             <div class="chart-period">
-                                <button class="chart-period-btn" onclick="this.parentNode.querySelectorAll('.chart-period-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">7天</button>
-                                <button class="chart-period-btn active" onclick="this.parentNode.querySelectorAll('.chart-period-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">30天</button>
-                                <button class="chart-period-btn" onclick="this.parentNode.querySelectorAll('.chart-period-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">90天</button>
+                                <button class="chart-period-btn" onclick="switchTokenChart('24h', this)">近24小时</button>
+                                <button class="chart-period-btn active" onclick="switchTokenChart('7d', this)">近7天</button>
+                                <button class="chart-period-btn" onclick="switchTokenChart('30d', this)">近30天</button>
                             </div>
                         </div>
-                        <div class="bar-chart" id="tokenChart"></div>
+                        <div id="tokenLineChart" style="width:100%;height:220px;position:relative;"></div>
                     </div>
                     <div class="chart-box">
                         <div class="chart-title">套餐分布</div>
@@ -679,7 +679,7 @@
                             <span>新增订阅用户</span>
                             <span style="font-size:13px;color:#52c41a;font-weight:400">本月 +156</span>
                         </div>
-                        <div class="bar-chart" id="subChart"></div>
+                        <div id="subLineChart" style="width:100%;height:220px;position:relative;"></div>
                     </div>
                     <div class="chart-box">
                         <div class="chart-title">模型调用占比</div>
@@ -719,6 +719,7 @@
                                     <th style="width:40px;">#</th>
                                     <th>账号</th>
                                     <th>昵称</th>
+                                    <th>所属企业</th>
                                     <th>手机号</th>
                                     <th>头像</th>
                                     <th>密码</th>
@@ -784,34 +785,6 @@
                     </div>
                 </div>
                 <div class="folder-grid" id="enterpriseFolderGrid"></div>
-
-                <div class="standalone-section">
-                    <div class="standalone-header">
-                        <div class="standalone-title">
-                            <span>👤</span> 散户用户（未加入企业）
-                        </div>
-                        <span style="font-size:13px;color:#999;">共 8,214 人</span>
-                    </div>
-                    <div class="table-section">
-                        <div class="table-container">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th style="width:40px;">#</th>
-                                        <th>账号</th>
-                                        <th>昵称</th>
-                                        <th>手机号</th>
-                                        <th>套餐</th>
-                                        <th>积分剩余</th>
-                                        <th>注册时间</th>
-                                        <th>操作</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="standaloneUserTableBody"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <!-- 套餐管理 -->
@@ -826,73 +799,59 @@
                     </div>
                 </div>
 
-                <!-- 套餐卡片 -->
-                <div class="plan-cards">
-                    <div class="plan-card">
-                        <div class="plan-card-header">
-                            <div>
-                                <div class="plan-name">免费版</div>
-                                <div style="font-size:12px;color:#999;margin-top:4px;">注册即享</div>
-                            </div>
-                            <div class="plan-price">¥0<span>/月</span></div>
-                        </div>
-                        <ul class="plan-features">
-                            <li>每月 <strong>0.1</strong> 积分 (1,000 Token)</li>
-                            <li>基础合同模板</li>
-                            <li>单人使用</li>
-                            <li>社区支持</li>
-                        </ul>
-                        <div class="plan-subscribers">当前订阅：<strong>1,927</strong> 用户</div>
+                <!-- 套餐列表 -->
+                <div class="table-section" style="margin-bottom:24px;">
+                    <div class="table-header-actions">
+                        <span style="font-size:15px;font-weight:600;color:#333;">套餐列表</span>
+                        <button class="btn btn-primary btn-sm" onclick="alert('添加新套餐')">+ 新增套餐</button>
                     </div>
-                    <div class="plan-card active">
-                        <div class="plan-card-header">
-                            <div>
-                                <div class="plan-name">个人版</div>
-                                <div style="font-size:12px;color:#999;margin-top:4px;">适合个人/自由职业</div>
-                            </div>
-                            <div class="plan-price">¥99<span>/月</span></div>
-                        </div>
-                        <ul class="plan-features">
-                            <li>每月 <strong>10</strong> 积分 (100,000 Token)</li>
-                            <li>全部合同模板</li>
-                            <li>单人使用</li>
-                            <li>邮件客服</li>
-                        </ul>
-                        <div class="plan-subscribers">当前订阅：<strong>5,396</strong> 用户</div>
-                    </div>
-                    <div class="plan-card">
-                        <div class="plan-card-header">
-                            <div>
-                                <div class="plan-name">企业版</div>
-                                <div style="font-size:12px;color:#999;margin-top:4px;">适合团队协作</div>
-                            </div>
-                            <div class="plan-price">¥499<span>/月</span></div>
-                        </div>
-                        <ul class="plan-features">
-                            <li>每月 <strong>60</strong> 积分 (600,000 Token)</li>
-                            <li>全部模板 + 自定义</li>
-                            <li>最多 50 人</li>
-                            <li>专属客服经理</li>
-                            <li>API + Webhook</li>
-                        </ul>
-                        <div class="plan-subscribers">当前订阅：<strong>3,342</strong> 用户</div>
-                    </div>
-                    <div class="plan-card">
-                        <div class="plan-card-header">
-                            <div>
-                                <div class="plan-name">旗舰版</div>
-                                <div style="font-size:12px;color:#999;margin-top:4px;">适合集团用户</div>
-                            </div>
-                            <div class="plan-price">¥1,999<span>/月</span></div>
-                        </div>
-                        <ul class="plan-features">
-                            <li>每月 <strong>300</strong> 积分 (3,000,000 Token)</li>
-                            <li>无限成员</li>
-                            <li>私有化部署</li>
-                            <li>7×24 专线支持</li>
-                            <li>定制开发 + SLA</li>
-                        </ul>
-                        <div class="plan-subscribers">当前订阅：<strong>2,181</strong> 用户</div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>套餐名</th>
+                                    <th>价格</th>
+                                    <th>积分额度</th>
+                                    <th>功能</th>
+                                    <th>订阅人数</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="font-weight:600;color:#333;">免费版</td>
+                                    <td style="color:#999;">¥0/月</td>
+                                    <td>0.1 积分 (1,000 Token)</td>
+                                    <td style="font-size:12px;color:#666;">基础合同模板 · 单人使用 · 社区支持</td>
+                                    <td><strong>1,927</strong></td>
+                                    <td><button class="btn btn-sm">编辑</button></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:600;color:#333;">个人版</td>
+                                    <td style="color:#1890ff;font-weight:600;">¥99/月</td>
+                                    <td>10 积分 (100,000 Token)</td>
+                                    <td style="font-size:12px;color:#666;">全部合同模板 · 单人使用 · 邮件客服</td>
+                                    <td><strong>5,396</strong></td>
+                                    <td><button class="btn btn-sm">编辑</button></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:600;color:#333;">企业版</td>
+                                    <td style="color:#1890ff;font-weight:600;">¥499/月</td>
+                                    <td>60 积分 (600,000 Token)</td>
+                                    <td style="font-size:12px;color:#666;">全部模板+自定义 · 最多50人 · 专属客服 · API+Webhook</td>
+                                    <td><strong>3,342</strong></td>
+                                    <td><button class="btn btn-sm">编辑</button></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight:600;color:#333;">旗舰版</td>
+                                    <td style="color:#1890ff;font-weight:600;">¥1,999/月</td>
+                                    <td>300 积分 (3,000,000 Token)</td>
+                                    <td style="font-size:12px;color:#666;">无限成员 · 私有化部署 · 7x24专线 · 定制开发+SLA</td>
+                                    <td><strong>2,181</strong></td>
+                                    <td><button class="btn btn-sm">编辑</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
@@ -937,6 +896,39 @@
                                 <div>新增补充包</div>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- 订单记录 -->
+                <div class="table-section" style="margin-top:24px;">
+                    <div class="table-header-actions">
+                        <span style="font-size:15px;font-weight:600;color:#333;">订单记录</span>
+                        <div class="table-search">
+                            <input type="text" placeholder="搜索企业/用户">
+                            <button class="btn btn-primary btn-sm">查询</button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr><th>订单时间</th><th>企业/用户</th><th>套餐</th><th>金额</th><th>积分</th><th>状态</th><th>是否开票</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>2026-06-24 15:30</td><td>通友科技</td><td>企业版</td><td style="font-weight:600;">¥499</td><td style="color:#52c41a;">+60积分</td><td><span class="status-badge normal"><span class="status-dot"></span>已完成</span></td><td>已开票</td></tr>
+                                <tr><td>2026-06-23 14:10</td><td>创新工场</td><td>个人版</td><td style="font-weight:600;">¥99</td><td style="color:#52c41a;">+10积分</td><td><span class="status-badge normal"><span class="status-dot"></span>已完成</span></td><td>未开票</td></tr>
+                                <tr><td>2026-06-22 11:45</td><td>李明</td><td>补充包(大量)</td><td style="font-weight:600;">¥888</td><td style="color:#52c41a;">+10000积分</td><td><span class="status-badge normal"><span class="status-dot"></span>已完成</span></td><td>已开票</td></tr>
+                                <tr><td>2026-06-21 17:20</td><td>未来科技</td><td>旗舰版</td><td style="font-weight:600;">¥1,999</td><td style="color:#52c41a;">+300积分</td><td><span class="status-badge normal"><span class="status-dot"></span>已完成</span></td><td>已开票</td></tr>
+                                <tr><td>2026-06-20 10:00</td><td>张三</td><td>补充包(小量)</td><td style="font-weight:600;">¥9.9</td><td style="color:#52c41a;">+100积分</td><td><span class="status-badge normal"><span class="status-dot"></span>已完成</span></td><td>未开票</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination">
+                        <span style="font-size:13px;color:#999;">共 892 条</span>
+                        <button class="page-btn">‹</button>
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn">2</button>
+                        <button class="page-btn">3</button>
+                        <button class="page-btn">›</button>
                     </div>
                 </div>
 
@@ -1037,36 +1029,7 @@
                 <div class="chart-box" style="margin-bottom:24px;">
                     <div class="chart-title">
                         <span>模型列表</span>
-                        <button class="btn btn-primary btn-sm" onclick="toggleAddModel()">+ 添加模型</button>
-                    </div>
-
-                    <!-- 添加模型表单 -->
-                    <div id="addModelForm" style="display:none;background:#f6f8fa;border-radius:8px;padding:20px;margin-bottom:20px;border:1px dashed #d9d9d9;">
-                        <div style="font-size:14px;font-weight:600;color:#333;margin-bottom:16px;">添加新模型</div>
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-                            <div class="ent-form-item">
-                                <label class="ent-form-label">显示名称 <span style="color:#ff4d4f;">*</span></label>
-                                <input class="ent-form-input" id="newModelName" placeholder="如：Claude Sonnet 4">
-                            </div>
-                            <div class="ent-form-item">
-                                <label class="ent-form-label">模型名称 <span style="color:#ff4d4f;">*</span></label>
-                                <input class="ent-form-input" id="newModelId" placeholder="如：claude-sonnet-4-20250514">
-                            </div>
-                            <div class="ent-form-item" style="grid-column:1/3;">
-                                <label class="ent-form-label">API URL <span style="color:#ff4d4f;">*</span></label>
-                                <input class="ent-form-input" id="newModelUrl" placeholder="如：https://api.anthropic.com/v1/messages">
-                            </div>
-                            <div class="ent-form-item" style="grid-column:1/3;">
-                                <label class="ent-form-label">API Key <span style="color:#ff4d4f;">*</span></label>
-                                <input class="ent-form-input" id="newModelKey" placeholder="sk-..." type="password">
-                            </div>
-                        </div>
-                        <div style="display:flex;gap:8px;margin-top:16px;">
-                            <button class="btn btn-primary btn-sm" id="testBtn" onclick="testModelConnection()">🔗 测试连接</button>
-                            <button class="btn btn-sm" onclick="saveNewModel()">保存</button>
-                            <button class="btn btn-sm" onclick="toggleAddModel()">取消</button>
-                        </div>
-                        <div id="testResult" style="display:none;margin-top:12px;padding:10px 14px;border-radius:6px;font-size:13px;"></div>
+                        <button class="btn btn-primary btn-sm" onclick="openAddModelModal()">+ 添加模型</button>
                     </div>
 
                     <!-- 模型列表 -->
@@ -1078,28 +1041,25 @@
                     <div class="chart-title">功能模型分配</div>
                     <p style="font-size:13px;color:#999;margin-bottom:20px;">为每个功能选择使用的AI模型，切换即时生效</p>
 
-                    <div class="model-func-section">
-                        <div class="model-func-title">
-                            <span class="model-func-icon draft">📝</span> 合同起草
-                            <span style="font-size:11px;color:#999;font-weight:400;margin-left:8px;">生成合同文本、填充模板</span>
+                    <div style="display:flex;flex-direction:column;gap:12px;">
+                        <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:#f6f8fa;border-radius:8px;">
+                            <span style="font-size:18px;">📝</span>
+                            <span style="font-size:14px;font-weight:600;color:#333;width:80px;">合同起草</span>
+                            <select class="form-select" style="width:200px;height:36px;" id="draftModelSelect" onchange="onFuncModelChange('draft', this.value)"></select>
+                            <span style="font-size:12px;color:#999;">生成合同文本、填充模板</span>
                         </div>
-                        <div class="model-select-group" id="draftModels"></div>
-                    </div>
-
-                    <div class="model-func-section">
-                        <div class="model-func-title">
-                            <span class="model-func-icon review">🔍</span> 合同审查
-                            <span style="font-size:11px;color:#999;font-weight:400;margin-left:8px;">逐条审查、风险识别、修订建议</span>
+                        <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:#f6f8fa;border-radius:8px;">
+                            <span style="font-size:18px;">🔍</span>
+                            <span style="font-size:14px;font-weight:600;color:#333;width:80px;">合同审查</span>
+                            <select class="form-select" style="width:200px;height:36px;" id="reviewModelSelect" onchange="onFuncModelChange('review', this.value)"></select>
+                            <span style="font-size:12px;color:#999;">逐条审查、风险识别、修订建议</span>
                         </div>
-                        <div class="model-select-group" id="reviewModels"></div>
-                    </div>
-
-                    <div class="model-func-section">
-                        <div class="model-func-title">
-                            <span class="model-func-icon parse">📄</span> 文档解析
-                            <span style="font-size:11px;color:#999;font-weight:400;margin-left:8px;">OCR识别、结构化提取、格式转换</span>
+                        <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:#f6f8fa;border-radius:8px;">
+                            <span style="font-size:18px;">📄</span>
+                            <span style="font-size:14px;font-weight:600;color:#333;width:80px;">文档解析</span>
+                            <select class="form-select" style="width:200px;height:36px;" id="parseModelSelect" onchange="onFuncModelChange('parse', this.value)"></select>
+                            <span style="font-size:12px;color:#999;">OCR识别、结构化提取、格式转换</span>
                         </div>
-                        <div class="model-select-group" id="parseModels"></div>
                     </div>
                 </div>
 
@@ -1338,33 +1298,7 @@
             <div class="form-group"><label class="form-label">权限</label><select class="form-select" id="editUserRole"><option value="user">普通用户</option><option value="admin">管理员</option><option value="viewer">只读用户</option></select></div>
             <div class="form-group"><label class="form-label">状态</label><select class="form-select" id="editUserStatus"><option value="normal">正常</option><option value="pending-review">待审核</option><option value="pending-accept">待接受</option><option value="invalid">失效</option></select></div>
 
-            <!-- 手机号修改 - 双重验证 -->
-            <div style="margin-top:16px;padding-top:16px;border-top:1px solid #f0f0f0;">
-                <label class="form-label" style="font-weight:600;">修改手机号</label>
-                <p class="form-hint" style="margin-bottom:12px;">修改手机号需要新旧手机号双重验证</p>
-                <div class="verify-steps" id="phoneVerifySteps">
-                    <div class="verify-step active" id="verifyStep1">
-                        <div class="verify-step-num">1</div>
-                        <div class="verify-step-title">验证旧手机号</div>
-                        <div class="verify-step-desc" id="oldPhoneHint">当前手机: 136****6666</div>
-                        <div class="verify-code-row">
-                            <input type="text" class="verify-code-input" placeholder="6位验证码" maxlength="6" id="oldPhoneCode" onblur="if(this.value.length===6)verifyCode('old')">
-                            <button class="verify-send-btn" id="oldPhoneSendBtn" onclick="sendVerifyCode('old')">发送验证码</button>
-                        </div>
-                    </div>
-                    <div class="verify-step" id="verifyStep2">
-                        <div class="verify-step-num">2</div>
-                        <div class="verify-step-title">验证新手机号</div>
-                        <div class="verify-step-desc">请输入新手机号并验证</div>
-                        <input type="tel" class="form-input" placeholder="新手机号" maxlength="11" id="newPhoneInput" style="margin-top:10px;" disabled>
-                        <div class="verify-code-row">
-                            <input type="text" class="verify-code-input" placeholder="6位验证码" maxlength="6" id="newPhoneCode" disabled onblur="if(this.value.length===6)verifyCode('new')">
-                            <button class="verify-send-btn" id="newPhoneSendBtn" onclick="sendVerifyCode('new')" disabled>发送验证码</button>
-                        </div>
-                    </div>
-                </div>
-                <div id="phoneVerifyResult" style="display:none;padding:8px 12px;border-radius:6px;font-size:13px;margin-top:8px;"></div>
-            </div>
+            <div class="form-group"><label class="form-label">手机号</label><input type="tel" class="form-input" id="editUserPhone" placeholder="请输入手机号" maxlength="11"></div>
         </div>
         <div class="modal-footer">
             <button class="btn" onclick="closeEditUserModal()">取消</button>
@@ -1545,6 +1479,41 @@
         </div>
     </div>
 
+    <!-- 模型管理弹窗 -->
+    <div class="modal-mask" id="modelModalMask" onclick="closeModelModal()"></div>
+    <div class="modal modal-md" id="modelModal">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modelModalTitle">添加模型</h3>
+            <button class="modal-close" onclick="closeModelModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label class="form-label">显示名称 <span class="required">*</span></label>
+                <input type="text" class="form-input" id="modalModelName" placeholder="如：Claude Sonnet 4">
+            </div>
+            <div class="form-group">
+                <label class="form-label">模型名称 (modelId) <span class="required">*</span></label>
+                <input type="text" class="form-input" id="modalModelId" placeholder="如：claude-sonnet-4-20250514">
+            </div>
+            <div class="form-group">
+                <label class="form-label">API URL <span class="required">*</span></label>
+                <input type="text" class="form-input" id="modalModelUrl" placeholder="如：https://api.anthropic.com/v1/messages">
+            </div>
+            <div class="form-group">
+                <label class="form-label">API Key <span class="required">*</span></label>
+                <input type="password" class="form-input" id="modalModelKey" placeholder="sk-...">
+            </div>
+            <div style="display:flex;gap:8px;margin-top:8px;">
+                <button class="btn btn-primary btn-sm" id="modalTestBtn" onclick="testModalConnection()">🔗 测试连接</button>
+                <span id="modalTestResult" style="display:none;padding:0 8px;font-size:13px;line-height:28px;"></span>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" onclick="closeModelModal()">取消</button>
+            <button class="btn btn-primary" onclick="saveModelFromModal()">保存</button>
+        </div>
+    </div>
+
     <script>
         // ==================== 数据 ====================
         const ENTERPRISE_NAME = '通友科技';
@@ -1613,12 +1582,12 @@
         ];
 
         const enterprises = [
-            { id: 'E001', name: '通友科技', verified: true, plan: '企业版', planPoints: 200000, freePoints: 50000, members: 28, expire: '2027-01-15', status: 'normal' },
-            { id: 'E002', name: '创新工场', verified: true, plan: '旗舰版', planPoints: 500000, freePoints: 100000, members: 52, expire: '2026-12-31', status: 'normal' },
-            { id: 'E003', name: '未来科技', verified: true, plan: '专业版', planPoints: 50000, freePoints: 10000, members: 15, expire: '2026-08-15', status: 'normal' },
-            { id: 'E004', name: '星辰互联', verified: false, plan: '免费版', planPoints: 0, freePoints: 5000, members: 8, expire: '-', status: 'expired' },
-            { id: 'E005', name: '蓝海集团', verified: true, plan: '旗舰版', planPoints: 800000, freePoints: 200000, members: 120, expire: '2027-06-30', status: 'normal' },
-            { id: 'E006', name: '极简软件', verified: true, plan: '专业版', planPoints: 30000, freePoints: 8000, members: 5, expire: '2026-03-01', status: 'frozen' },
+            { id: 'E001', name: '通友科技', verified: true, plan: '企业版', planPoints: 200000, freePoints: 50000, usedPoints: 120000, members: 28, expire: '2027-01-15', status: 'normal' },
+            { id: 'E002', name: '创新工场', verified: true, plan: '旗舰版', planPoints: 500000, freePoints: 100000, usedPoints: 380000, members: 52, expire: '2026-12-31', status: 'normal' },
+            { id: 'E003', name: '未来科技', verified: true, plan: '专业版', planPoints: 50000, freePoints: 10000, usedPoints: 28000, members: 15, expire: '2026-08-15', status: 'normal' },
+            { id: 'E004', name: '星辰互联', verified: false, plan: '免费版', planPoints: 0, freePoints: 5000, usedPoints: 3200, members: 8, expire: '-', status: 'expired' },
+            { id: 'E005', name: '蓝海集团', verified: true, plan: '旗舰版', planPoints: 800000, freePoints: 200000, usedPoints: 650000, members: 120, expire: '2027-06-30', status: 'normal' },
+            { id: 'E006', name: '极简软件', verified: true, plan: '专业版', planPoints: 30000, freePoints: 8000, usedPoints: 15000, members: 5, expire: '2026-03-01', status: 'frozen' },
         ];
 
         const models = [
@@ -1664,6 +1633,7 @@
                     <td>${i + 1}</td>
                     <td style="font-weight:500;color:#333;">${u.account}</td>
                     <td>${u.nickname}</td>
+                    <td>${u.enterprise ? '<span style="padding:2px 8px;border-radius:4px;font-size:12px;background:#f6ffed;color:#52c41a;">' + u.enterprise + '</span>' : '<span style="color:#999;">散户</span>'}</td>
                     <td>${u.phone}</td>
                     <td><div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#1890ff,#69c0ff);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;">${u.avatar}</div></td>
                     <td style="color:#999;">${u.password}</td>
@@ -1756,7 +1726,15 @@
                     <div class="folder-meta">
                         <div class="folder-meta-item">成员<strong>${e.members} 人</strong></div>
                         <div class="folder-meta-item">套餐<strong>${e.plan}</strong></div>
-                        <div class="folder-meta-item">积分<strong>${(e.planPoints + e.freePoints).toLocaleString()}</strong></div>
+                    </div>
+                    <div style="margin:8px 0;">
+                        <div style="display:flex;justify-content:space-between;font-size:12px;color:#999;margin-bottom:4px;">
+                            <span>套餐积分: ${(e.planPoints + e.freePoints).toLocaleString()}</span>
+                            <span>已用: ${(e.usedPoints || 0).toLocaleString()} | 剩余: ${(e.planPoints + e.freePoints - (e.usedPoints || 0)).toLocaleString()}</span>
+                        </div>
+                        <div style="height:6px;background:#f0f0f0;border-radius:3px;overflow:hidden;">
+                            <div style="height:100%;width:${Math.min(((e.usedPoints || 0) / (e.planPoints + e.freePoints || 1)) * 100, 100)}%;background:linear-gradient(90deg,#1890ff,#69c0ff);border-radius:3px;"></div>
+                        </div>
                     </div>
                     <div style="font-size:12px;color:#999;margin-bottom:8px;">到期: ${e.expire}</div>
                     <div class="folder-footer">
@@ -1917,7 +1895,6 @@
             const expireVal = document.getElementById('entEditExpire').value;
             e.expire = expireVal || '-';
             renderEnterpriseFolders();
-            renderStandaloneUsers();
             alert('企业信息已更新！');
             closeEntDetail();
         }
@@ -1941,33 +1918,18 @@
             }).join('');
         }
 
-        // 模型功能选择渲染
+        // 模型功能选择渲染（下拉框方式）
         function renderFuncModels() {
-            ['draft', 'review', 'parse'].forEach(func => {
-                const container = document.getElementById(func + 'Models');
-                if (!container) return;
-                container.innerHTML = models.map(m => `
-                    <div class="model-select-card ${funcModelConfig[func] === m.id ? 'selected' : ''}" onclick="selectFuncModel('${func}', '${m.id}', this)">
-                        <span class="model-select-icon">${m.icon}</span>
-                        <div>
-                            <div class="model-select-name">${m.name}</div>
-                            <div class="model-select-desc">${m.modelId} · ${m.cost} · ${m.speed}</div>
-                        </div>
-                        <div class="model-select-check">${funcModelConfig[func] === m.id ? '✓' : ''}</div>
-                    </div>
-                `).join('');
+            const selectMap = { draft: 'draftModelSelect', review: 'reviewModelSelect', parse: 'parseModelSelect' };
+            Object.keys(selectMap).forEach(func => {
+                const sel = document.getElementById(selectMap[func]);
+                if (!sel) return;
+                sel.innerHTML = models.map(m => `<option value="${m.id}" ${funcModelConfig[func] === m.id ? 'selected' : ''}>${m.icon} ${m.name}</option>`).join('');
             });
         }
 
-        function selectFuncModel(func, modelId, el) {
+        function onFuncModelChange(func, modelId) {
             funcModelConfig[func] = modelId;
-            const container = el.parentNode;
-            container.querySelectorAll('.model-select-card').forEach(c => {
-                c.classList.remove('selected');
-                c.querySelector('.model-select-check').textContent = '';
-            });
-            el.classList.add('selected');
-            el.querySelector('.model-select-check').textContent = '✓';
         }
 
         // 模型管理：列表渲染
@@ -1983,6 +1945,7 @@
                         <div class="model-list-url">${m.url}</div>
                     </div>
                     <div class="model-list-actions">
+                        <button class="btn btn-sm" onclick="openEditModelModal('${m.id}')">编辑</button>
                         <button class="btn btn-sm" onclick="testModelById('${m.id}')">测试</button>
                         <button class="btn btn-sm btn-danger" onclick="removeModel('${m.id}')">删除</button>
                     </div>
@@ -2007,60 +1970,96 @@
             }).join('');
         }
 
-        // 模型管理：添加/删除
-        function toggleAddModel() {
-            const form = document.getElementById('addModelForm');
-            if (!form) return;
-            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        // 模型管理：添加/编辑弹窗
+        let editingModelId = null;
+
+        function openAddModelModal() {
+            editingModelId = null;
+            document.getElementById('modelModalTitle').textContent = '添加模型';
+            document.getElementById('modalModelName').value = '';
+            document.getElementById('modalModelId').value = '';
+            document.getElementById('modalModelUrl').value = '';
+            document.getElementById('modalModelKey').value = '';
+            document.getElementById('modalTestResult').style.display = 'none';
+            document.getElementById('modelModalMask').classList.add('show');
+            document.getElementById('modelModal').classList.add('show');
         }
 
-        function testModelConnection() {
-            const btn = document.getElementById('testBtn');
+        function openEditModelModal(modelId) {
+            const m = models.find(x => x.id === modelId);
+            if (!m) return;
+            editingModelId = modelId;
+            document.getElementById('modelModalTitle').textContent = '编辑模型';
+            document.getElementById('modalModelName').value = m.name;
+            document.getElementById('modalModelId').value = m.modelId;
+            document.getElementById('modalModelUrl').value = m.url;
+            document.getElementById('modalModelKey').value = m.key;
+            document.getElementById('modalTestResult').style.display = 'none';
+            document.getElementById('modelModalMask').classList.add('show');
+            document.getElementById('modelModal').classList.add('show');
+        }
+
+        function closeModelModal() {
+            document.getElementById('modelModalMask').classList.remove('show');
+            document.getElementById('modelModal').classList.remove('show');
+            editingModelId = null;
+        }
+
+        function testModalConnection() {
+            const btn = document.getElementById('modalTestBtn');
             if (!btn) return;
             btn.disabled = true;
             btn.textContent = '测试中...';
             setTimeout(() => {
                 btn.disabled = false;
-                btn.textContent = '测试连接';
-                const result = document.getElementById('testResult');
+                btn.textContent = '🔗 测试连接';
+                const result = document.getElementById('modalTestResult');
                 if (result) {
-                    result.style.display = 'flex';
+                    result.style.display = 'inline';
                     result.innerHTML = '<span style="color:#52c41a;">✓ 连接成功！响应时间 0.8s</span>';
                 }
             }, 1500);
         }
 
+        function saveModelFromModal() {
+            const name = document.getElementById('modalModelName').value.trim();
+            const modelId = document.getElementById('modalModelId').value.trim();
+            const url = document.getElementById('modalModelUrl').value.trim();
+            const key = document.getElementById('modalModelKey').value.trim();
+            if (!name || !modelId || !url || !key) { alert('请填写所有必填字段'); return; }
+
+            if (editingModelId) {
+                // 编辑模式
+                const m = models.find(x => x.id === editingModelId);
+                if (m) {
+                    m.name = name;
+                    m.modelId = modelId;
+                    m.url = url;
+                    if (key !== m.key) m.key = key.substring(0, 6) + '****';
+                }
+            } else {
+                // 添加模式
+                models.push({
+                    id: 'custom_' + nextModelId++,
+                    name: name,
+                    modelId: modelId,
+                    desc: '自定义模型',
+                    icon: '🔧',
+                    url: url,
+                    key: key.substring(0, 6) + '****',
+                    cost: '-',
+                    speed: '-'
+                });
+            }
+            renderModelList();
+            renderFuncModels();
+            closeModelModal();
+            alert(editingModelId ? '模型信息已更新！' : '模型添加成功！');
+        }
+
         function testModelById(modelId) {
             const m = models.find(x => x.id === modelId);
             if (m) alert('测试连接: ' + m.name + '\n模型ID: ' + m.modelId + '\nURL: ' + m.url + '\n\n✓ 连接成功！响应时间 ' + m.speed);
-        }
-
-        function saveNewModel() {
-            const name = document.getElementById('newModelName').value.trim();
-            const modelId = document.getElementById('newModelId').value.trim();
-            const url = document.getElementById('newModelUrl').value.trim();
-            const key = document.getElementById('newModelKey').value.trim();
-            if (!name || !modelId || !url || !key) { alert('请填写所有必填字段'); return; }
-            models.push({
-                id: 'custom_' + nextModelId++,
-                name: name,
-                modelId: modelId,
-                desc: '自定义模型',
-                icon: '🔧',
-                url: url,
-                key: key.substring(0, 6) + '****',
-                cost: '-',
-                speed: '-'
-            });
-            renderModelList();
-            renderFuncModels();
-            toggleAddModel();
-            document.getElementById('newModelName').value = '';
-            document.getElementById('newModelId').value = '';
-            document.getElementById('newModelUrl').value = '';
-            document.getElementById('newModelKey').value = '';
-            document.getElementById('testResult').style.display = 'none';
-            alert('模型添加成功！');
         }
 
         function removeModel(modelId) {
@@ -2089,18 +2088,98 @@
             }).join('');
         }
 
+        // ==================== SVG折线图 ====================
+        const tokenChartData = {
+            '24h': { labels: ['00:00','03:00','06:00','09:00','12:00','15:00','18:00','21:00'], values: [12000,8000,5000,35000,42000,38000,28000,18000] },
+            '7d': { labels: ['6/18','6/19','6/20','6/21','6/22','6/23','6/24'], values: [180000,220000,195000,240000,210000,260000,285000] },
+            '30d': { labels: ['5/26','5/28','5/30','6/1','6/3','6/5','6/7','6/9','6/11','6/13','6/15','6/17','6/19','6/21','6/23'], values: [95000,110000,125000,140000,135000,160000,175000,180000,195000,210000,220000,230000,220000,240000,260000] }
+        };
+        let currentTokenRange = '7d';
+
+        function renderLineChart(containerId, labels, values, color, gradientId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            const w = container.offsetWidth || 600;
+            const h = 200;
+            const padL = 60, padR = 20, padT = 10, padB = 30;
+            const chartW = w - padL - padR;
+            const chartH = h - padT - padB;
+            const max = Math.max(...values) * 1.1;
+            const min = 0;
+
+            const points = values.map((v, i) => {
+                const x = padL + (i / (values.length - 1)) * chartW;
+                const y = padT + chartH - ((v - min) / (max - min)) * chartH;
+                return { x, y, v };
+            });
+
+            const polylinePoints = points.map(p => `${p.x},${p.y}`).join(' ');
+            const areaPoints = `${points[0].x},${padT + chartH} ${polylinePoints} ${points[points.length - 1].x},${padT + chartH}`;
+
+            // Y轴刻度
+            const yTicks = 5;
+            let yLabels = '';
+            let yGridLines = '';
+            for (let i = 0; i <= yTicks; i++) {
+                const val = min + (max - min) * (i / yTicks);
+                const y = padT + chartH - (i / yTicks) * chartH;
+                const label = val >= 1000000 ? (val / 1000000).toFixed(1) + 'M' : val >= 1000 ? (val / 1000).toFixed(0) + 'K' : val.toFixed(0);
+                yLabels += `<text x="${padL - 8}" y="${y + 4}" text-anchor="end" fill="#999" font-size="11">${label}</text>`;
+                if (i > 0) yGridLines += `<line x1="${padL}" y1="${y}" x2="${w - padR}" y2="${y}" stroke="#f0f0f0" stroke-width="1"/>`;
+            }
+
+            // X轴标签
+            let xLabels = '';
+            const step = Math.max(1, Math.floor(labels.length / 7));
+            labels.forEach((l, i) => {
+                if (i % step === 0 || i === labels.length - 1) {
+                    const x = padL + (i / (labels.length - 1)) * chartW;
+                    xLabels += `<text x="${x}" y="${h - 5}" text-anchor="middle" fill="#999" font-size="11">${l}</text>`;
+                }
+            });
+
+            // 数据点
+            const circles = points.map(p => `<circle cx="${p.x}" cy="${p.y}" r="4" fill="#fff" stroke="${color}" stroke-width="2"><title>${p.v.toLocaleString()}</title></circle>`).join('');
+
+            container.innerHTML = `
+                <svg width="${w}" height="${h}" style="display:block;">
+                    <defs>
+                        <linearGradient id="${gradientId}" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="${color}" stop-opacity="0.3"/>
+                            <stop offset="100%" stop-color="${color}" stop-opacity="0.02"/>
+                        </linearGradient>
+                    </defs>
+                    ${yGridLines}
+                    ${yLabels}
+                    ${xLabels}
+                    <polygon points="${areaPoints}" fill="url(#${gradientId})"/>
+                    <polyline points="${polylinePoints}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+                    ${circles}
+                </svg>
+            `;
+        }
+
+        function switchTokenChart(range, btn) {
+            currentTokenRange = range;
+            btn.parentNode.querySelectorAll('.chart-period-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const d = tokenChartData[range];
+            renderLineChart('tokenLineChart', d.labels, d.values, '#1890ff', 'tokenGrad');
+        }
+
         // ==================== 初始化图表 ====================
         function initPlatformCharts() {
-            renderBarChart('tokenChart', [
-                { label: '6/18', value: 180000 }, { label: '6/19', value: 220000 }, { label: '6/20', value: 195000 },
-                { label: '6/21', value: 240000 }, { label: '6/22', value: 210000 }, { label: '6/23', value: 260000 },
-                { label: '6/24', value: 285000 },
-            ]);
-            renderBarChart('subChart', [
-                { label: '6/18', value: 28 }, { label: '6/19', value: 35 }, { label: '6/20', value: 22 },
-                { label: '6/21', value: 42 }, { label: '6/22', value: 38 }, { label: '6/23', value: 45 },
-                { label: '6/24', value: 52 },
-            ], ['green']);
+            // Token折线图
+            const td = tokenChartData['7d'];
+            renderLineChart('tokenLineChart', td.labels, td.values, '#1890ff', 'tokenGrad');
+
+            // 订阅用户折线图
+            renderLineChart('subLineChart',
+                ['6/18','6/19','6/20','6/21','6/22','6/23','6/24'],
+                [28,35,22,42,38,45,52],
+                '#52c41a', 'subGrad'
+            );
+
             renderBarChart('pointsChart', [
                 { label: '6/18', value: 52000 }, { label: '6/19', value: 68000 }, { label: '6/20', value: 45000 },
                 { label: '6/21', value: 72000 }, { label: '6/22', value: 61000 }, { label: '6/23', value: 78000 },
@@ -2128,7 +2207,7 @@
                 renderFuncModels();
             }
             if (pageName === 'platform-users') renderPlatformUsers();
-            if (pageName === 'platform-enterprises') { renderEnterpriseFolders(); renderStandaloneUsers(); }
+            if (pageName === 'platform-enterprises') { renderEnterpriseFolders(); }
         }
 
         function switchProfileTab(tabName, el) {
@@ -2452,35 +2531,18 @@
                 document.getElementById('editUserDept').value = user.dept;
                 document.getElementById('editUserRole').value = user.role;
                 document.getElementById('editUserStatus').value = user.status;
-                // 重置手机号验证状态
-                phoneVerified = { old: false, new: false };
-                newPhoneNumber = '';
-                document.getElementById('oldPhoneHint').textContent = '当前手机: ' + user.phone.slice(0, 3) + '****' + user.phone.slice(7);
-                document.getElementById('oldPhoneCode').value = '';
-                document.getElementById('newPhoneInput').value = '';
-                document.getElementById('newPhoneInput').disabled = true;
-                document.getElementById('newPhoneCode').value = '';
-                document.getElementById('newPhoneCode').disabled = true;
-                document.getElementById('newPhoneSendBtn').disabled = true;
-                document.getElementById('phoneVerifyResult').style.display = 'none';
-                // 重置步骤样式
-                document.getElementById('verifyStep1').className = 'verify-step active';
-                document.getElementById('verifyStep2').className = 'verify-step';
+                document.getElementById('editUserPhone').value = user.phone;
             }
             document.getElementById('editUserModalMask').classList.add('show');
             document.getElementById('editUserModal').classList.add('show');
         }
 
-        let phoneVerified = { old: false, new: false };
-        let newPhoneNumber = '';
+        // 手机号验证函数（保留供其他场景使用）
         let verifyTimers = {};
 
         function sendVerifyCode(type) {
             const btn = document.getElementById(type === 'old' ? 'oldPhoneSendBtn' : 'newPhoneSendBtn');
-            if (type === 'new') {
-                newPhoneNumber = document.getElementById('newPhoneInput').value.trim();
-                if (!newPhoneNumber || newPhoneNumber.length !== 11) { alert('请输入正确的11位新手机号'); return; }
-            }
+            if (!btn) return;
             let seconds = 60;
             btn.disabled = true;
             btn.textContent = seconds + 's';
@@ -2493,12 +2555,6 @@
                     btn.textContent = '重新发送';
                 }
             }, 1000);
-            // 模拟发送
-            if (type === 'old') {
-                document.getElementById('oldPhoneCode').focus();
-            } else {
-                document.getElementById('newPhoneCode').focus();
-            }
         }
 
         function verifyCode(type) {
@@ -2527,23 +2583,15 @@
             document.getElementById('editUserModalMask').classList.remove('show');
             document.getElementById('editUserModal').classList.remove('show');
             editingUserId = null;
-            Object.values(verifyTimers).forEach(t => clearInterval(t));
         }
 
         function saveEditUser() {
-            // 检查手机号是否修改了
-            const newPhoneInput = document.getElementById('newPhoneInput').value.trim();
-            if (newPhoneInput && newPhoneInput.length === 11) {
-                // 如果输入了新手机号，必须完成双重验证
-                if (!phoneVerified.old || !phoneVerified.new) {
-                    alert('修改手机号需要完成新旧手机号双重验证');
-                    return;
-                }
-            }
+            const phoneInput = document.getElementById('editUserPhone').value.trim();
+            if (phoneInput && phoneInput.length !== 11) { alert('请输入正确的11位手机号'); return; }
             const user = employees.find(e => e.id === editingUserId);
             if (user) {
-                if (newPhoneInput && newPhoneInput.length === 11 && phoneVerified.old && phoneVerified.new) {
-                    user.phone = newPhoneInput;
+                if (phoneInput && phoneInput.length === 11) {
+                    user.phone = phoneInput;
                 }
                 user.account = document.getElementById('editUserAccount').value;
                 user.name = document.getElementById('editUserName').value;
@@ -2808,7 +2856,6 @@
         renderUserTable();
         renderPlatformUsers();
         renderEnterpriseFolders();
-        renderStandaloneUsers();
         renderFuncModels();
         renderModelList();
         initPlatformCharts();
