@@ -426,6 +426,55 @@
         .model-select-desc { font-size: 11px; color: #999; margin-top: 2px; }
         .model-select-check { margin-left: auto; width: 20px; height: 20px; border-radius: 50%; border: 2px solid #d9d9d9; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #fff; transition: all 0.2s; }
         .model-select-card.selected .model-select-check { background: #1890ff; border-color: #1890ff; }
+
+        /* 手机号双重验证 */
+        .verify-steps { display: flex; gap: 16px; margin-bottom: 20px; }
+        .verify-step { flex: 1; padding: 16px; background: #fafafa; border-radius: 8px; border: 2px solid transparent; transition: all 0.2s; }
+        .verify-step.active { border-color: #1890ff; background: #f6fffe; }
+        .verify-step.done { border-color: #52c41a; background: #f6ffed; }
+        .verify-step-num { width: 24px; height: 24px; border-radius: 50%; background: #d9d9d9; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; margin-bottom: 8px; }
+        .verify-step.active .verify-step-num { background: #1890ff; }
+        .verify-step.done .verify-step-num { background: #52c41a; }
+        .verify-step-title { font-size: 14px; font-weight: 600; color: #333; margin-bottom: 4px; }
+        .verify-step-desc { font-size: 12px; color: #999; }
+        .verify-code-row { display: flex; gap: 8px; margin-top: 12px; }
+        .verify-code-input { flex: 1; height: 40px; padding: 0 12px; border: 1px solid #d9d9d9; border-radius: 6px; font-size: 14px; letter-spacing: 4px; text-align: center; }
+        .verify-code-input:focus { outline: none; border-color: #1890ff; }
+        .verify-send-btn { white-space: nowrap; height: 40px; padding: 0 16px; border: 1px solid #1890ff; border-radius: 6px; background: #fff; color: #1890ff; font-size: 13px; cursor: pointer; }
+        .verify-send-btn:hover { background: #e6f7ff; }
+        .verify-send-btn:disabled { border-color: #d9d9d9; color: #999; cursor: not-allowed; }
+
+        /* 企业详情面板 */
+        .ent-detail-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.45); z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.3s; }
+        .ent-detail-overlay.show { opacity: 1; visibility: visible; }
+        .ent-detail-panel { position: fixed; top: 0; right: -720px; width: 720px; height: 100vh; background: #fff; z-index: 1001; transition: right 0.3s; display: flex; flex-direction: column; box-shadow: -4px 0 20px rgba(0,0,0,0.1); }
+        .ent-detail-panel.show { right: 0; }
+        .ent-detail-header { padding: 20px 24px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+        .ent-detail-body { flex: 1; overflow-y: auto; padding: 24px; }
+        .ent-profile-card { display: flex; align-items: center; gap: 16px; padding: 20px; background: #f6f8fa; border-radius: 8px; margin-bottom: 24px; }
+        .ent-profile-icon { width: 56px; height: 56px; border-radius: 12px; background: linear-gradient(135deg, #1890ff, #69c0ff); display: flex; align-items: center; justify-content: center; font-size: 28px; flex-shrink: 0; }
+        .ent-profile-name { font-size: 18px; font-weight: 600; color: #333; }
+        .ent-section { margin-bottom: 24px; }
+        .ent-section-title { font-size: 14px; font-weight: 600; color: #333; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; align-items: center; }
+        .ent-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .ent-form-item { display: flex; flex-direction: column; gap: 4px; }
+        .ent-form-label { font-size: 12px; color: #999; }
+        .ent-form-value { font-size: 14px; color: #333; font-weight: 500; }
+        .ent-form-input { height: 36px; padding: 0 10px; border: 1px solid #d9d9d9; border-radius: 6px; font-size: 13px; }
+        .ent-form-input:focus { outline: none; border-color: #1890ff; }
+        .ent-form-select { height: 36px; padding: 0 10px; border: 1px solid #d9d9d9; border-radius: 6px; font-size: 13px; background: #fff; }
+        .ent-member-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f5f5f5; }
+        .ent-member-row:last-child { border-bottom: none; }
+        .ent-member-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #1890ff, #69c0ff); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; flex-shrink: 0; }
+        .ent-member-info { flex: 1; }
+        .ent-member-name { font-size: 13px; font-weight: 500; color: #333; }
+        .ent-member-meta { font-size: 11px; color: #999; }
+        .ent-member-remove { color: #ff4d4f; cursor: pointer; font-size: 12px; background: none; border: 1px solid #ff4d4f; padding: 4px 10px; border-radius: 4px; }
+        .ent-member-remove:hover { background: #fff1f0; }
+        .ent-add-member { display: flex; gap: 8px; margin-top: 12px; }
+        .ent-add-member input { flex: 1; height: 36px; padding: 0 10px; border: 1px solid #d9d9d9; border-radius: 6px; font-size: 13px; }
+        .ent-add-member input:focus { outline: none; border-color: #1890ff; }
+        .ent-save-bar { padding: 16px 24px; border-top: 1px solid #f0f0f0; display: flex; justify-content: flex-end; gap: 12px; flex-shrink: 0; background: #fff; }
     </style>
 </head>
 <body>
@@ -693,6 +742,20 @@
                     <button style="background:none;border:none;font-size:20px;cursor:pointer;color:#999;" onclick="closeUserDetail()">✕</button>
                 </div>
                 <div class="user-detail-body" id="userDetailBody"></div>
+            </div>
+
+            <!-- 企业详情侧滑面板 -->
+            <div class="ent-detail-overlay" id="entDetailOverlay" onclick="closeEntDetail()"></div>
+            <div class="ent-detail-panel" id="entDetailPanel">
+                <div class="ent-detail-header">
+                    <span style="font-size:16px;font-weight:600;color:#333;">企业详情</span>
+                    <button style="background:none;border:none;font-size:20px;cursor:pointer;color:#999;" onclick="closeEntDetail()">✕</button>
+                </div>
+                <div class="ent-detail-body" id="entDetailBody"></div>
+                <div class="ent-save-bar">
+                    <button class="btn" onclick="closeEntDetail()">取消</button>
+                    <button class="btn btn-primary" onclick="saveEntDetail()">保存修改</button>
+                </div>
             </div>
 
             <!-- 平台企业管理 -->
@@ -1177,13 +1240,40 @@
             <button class="modal-close" onclick="closeEditUserModal()">&times;</button>
         </div>
         <div class="modal-body">
-            <div class="form-group"><label class="form-label">用户手机</label><input type="tel" class="form-input" id="editUserPhone" placeholder="请输入手机号" maxlength="11"></div>
             <div class="form-group"><label class="form-label">用户名</label><input type="text" class="form-input" id="editUserAccount" placeholder="登录账号"></div>
             <div class="form-group"><label class="form-label">姓名</label><input type="text" class="form-input" id="editUserName" placeholder="请输入用户真实姓名"></div>
             <div class="form-group"><label class="form-label">用户密码</label><input type="password" class="form-input" id="editUserPwd" placeholder="留空则不修改密码"></div>
             <div class="form-group"><label class="form-label">用户部门</label><select class="form-select" id="editUserDept"><option value="">请选择部门</option><option value="技术部">技术部</option><option value="销售部">销售部</option><option value="人事部">人事部</option><option value="财务部">财务部</option></select></div>
             <div class="form-group"><label class="form-label">权限</label><select class="form-select" id="editUserRole"><option value="user">普通用户</option><option value="admin">管理员</option><option value="viewer">只读用户</option></select></div>
             <div class="form-group"><label class="form-label">状态</label><select class="form-select" id="editUserStatus"><option value="normal">正常</option><option value="pending-review">待审核</option><option value="pending-accept">待接受</option><option value="invalid">失效</option></select></div>
+
+            <!-- 手机号修改 - 双重验证 -->
+            <div style="margin-top:16px;padding-top:16px;border-top:1px solid #f0f0f0;">
+                <label class="form-label" style="font-weight:600;">修改手机号</label>
+                <p class="form-hint" style="margin-bottom:12px;">修改手机号需要新旧手机号双重验证</p>
+                <div class="verify-steps" id="phoneVerifySteps">
+                    <div class="verify-step active" id="verifyStep1">
+                        <div class="verify-step-num">1</div>
+                        <div class="verify-step-title">验证旧手机号</div>
+                        <div class="verify-step-desc" id="oldPhoneHint">当前手机: 136****6666</div>
+                        <div class="verify-code-row">
+                            <input type="text" class="verify-code-input" placeholder="6位验证码" maxlength="6" id="oldPhoneCode" onblur="if(this.value.length===6)verifyCode('old')">
+                            <button class="verify-send-btn" id="oldPhoneSendBtn" onclick="sendVerifyCode('old')">发送验证码</button>
+                        </div>
+                    </div>
+                    <div class="verify-step" id="verifyStep2">
+                        <div class="verify-step-num">2</div>
+                        <div class="verify-step-title">验证新手机号</div>
+                        <div class="verify-step-desc">请输入新手机号并验证</div>
+                        <input type="tel" class="form-input" placeholder="新手机号" maxlength="11" id="newPhoneInput" style="margin-top:10px;" disabled>
+                        <div class="verify-code-row">
+                            <input type="text" class="verify-code-input" placeholder="6位验证码" maxlength="6" id="newPhoneCode" disabled onblur="if(this.value.length===6)verifyCode('new')">
+                            <button class="verify-send-btn" id="newPhoneSendBtn" onclick="sendVerifyCode('new')" disabled>发送验证码</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="phoneVerifyResult" style="display:none;padding:8px 12px;border-radius:6px;font-size:13px;margin-top:8px;"></div>
+            </div>
         </div>
         <div class="modal-footer">
             <button class="btn" onclick="closeEditUserModal()">取消</button>
@@ -1591,7 +1681,153 @@
             const e = enterprises.find(x => x.id === enterpriseId);
             if (!e) return;
             const members = allPlatformUsers.filter(u => u.enterprise === e.name);
-            alert(`企业: ${e.name}\n认证: ${e.verified ? '已认证' : '未认证'}\n套餐: ${e.plan}\n套餐积分: ${e.planPoints.toLocaleString()}\n免费积分: ${e.freePoints.toLocaleString()}\n成员数: ${members.length}\n\n可修改：企业套餐、积分量、认证状态`);
+            const statusColors = { 'normal': '#52c41a', 'expired': '#ff4d4f', 'frozen': '#fa8c16' };
+            const statusText = { 'normal': '正常', 'expired': '已过期', 'frozen': '已冻结' };
+
+            document.getElementById('entDetailBody').innerHTML = `
+                <div class="ent-profile-card">
+                    <div class="ent-profile-icon">📁</div>
+                    <div>
+                        <div class="ent-profile-name">${e.name} ${e.verified ? '<span class="verified-badge" style="font-size:10px;">已认证</span>' : ''}</div>
+                        <div style="font-size:12px;color:${statusColors[e.status]};margin-top:4px;">● ${statusText[e.status]}</div>
+                    </div>
+                </div>
+
+                <div class="ent-section">
+                    <div class="ent-section-title">基本信息</div>
+                    <div class="ent-form-grid">
+                        <div class="ent-form-item">
+                            <label class="ent-form-label">企业名称</label>
+                            <input class="ent-form-input" id="entEditName" value="${e.name}">
+                        </div>
+                        <div class="ent-form-item">
+                            <label class="ent-form-label">认证状态</label>
+                            <select class="ent-form-select" id="entEditVerified">
+                                <option value="true" ${e.verified ? 'selected' : ''}>已认证</option>
+                                <option value="false" ${!e.verified ? 'selected' : ''}>未认证</option>
+                            </select>
+                        </div>
+                        <div class="ent-form-item">
+                            <label class="ent-form-label">企业状态</label>
+                            <select class="ent-form-select" id="entEditStatus">
+                                <option value="normal" ${e.status === 'normal' ? 'selected' : ''}>正常</option>
+                                <option value="expired" ${e.status === 'expired' ? 'selected' : ''}>已过期</option>
+                                <option value="frozen" ${e.status === 'frozen' ? 'selected' : ''}>已冻结</option>
+                            </select>
+                        </div>
+                        <div class="ent-form-item">
+                            <label class="ent-form-label">到期时间</label>
+                            <input class="ent-form-input" type="date" id="entEditExpire" value="${e.expire !== '-' ? e.expire : ''}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ent-section">
+                    <div class="ent-section-title">套餐与积分</div>
+                    <div class="ent-form-grid">
+                        <div class="ent-form-item">
+                            <label class="ent-form-label">套餐类型</label>
+                            <select class="ent-form-select" id="entEditPlan">
+                                <option value="免费版" ${e.plan === '免费版' ? 'selected' : ''}>免费版</option>
+                                <option value="专业版" ${e.plan === '专业版' ? 'selected' : ''}>专业版</option>
+                                <option value="企业版" ${e.plan === '企业版' ? 'selected' : ''}>企业版</option>
+                                <option value="旗舰版" ${e.plan === '旗舰版' ? 'selected' : ''}>旗舰版</option>
+                            </select>
+                        </div>
+                        <div class="ent-form-item">
+                            <label class="ent-form-label">套餐到期时间</label>
+                            <input class="ent-form-input" type="date" id="entEditPlanExpire" value="${e.expire !== '-' ? e.expire : ''}">
+                        </div>
+                        <div class="ent-form-item">
+                            <label class="ent-form-label">套餐积分</label>
+                            <input class="ent-form-input" type="number" id="entEditPlanPoints" value="${e.planPoints}">
+                        </div>
+                        <div class="ent-form-item">
+                            <label class="ent-form-label">免费积分</label>
+                            <input class="ent-form-input" type="number" id="entEditFreePoints" value="${e.freePoints}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ent-section">
+                    <div class="ent-section-title">企业成员 (${members.length}人)
+                        <span style="font-size:12px;color:#1890ff;font-weight:400;cursor:pointer;" onclick="toggleAddMember()">+ 添加成员</span>
+                    </div>
+                    <div id="addMemberRow" style="display:none;" class="ent-add-member">
+                        <input type="text" placeholder="输入手机号搜索用户" id="addMemberPhone">
+                        <button class="btn btn-primary btn-sm" onclick="addEntMember()">添加</button>
+                    </div>
+                    <div id="entMemberList">
+                        ${members.map(m => `
+                            <div class="ent-member-row" data-uid="${m.id}">
+                                <div class="ent-member-avatar">${m.nickname.charAt(0)}</div>
+                                <div class="ent-member-info">
+                                    <div class="ent-member-name">${m.nickname} <span style="font-size:11px;color:#999;">@${m.account}</span></div>
+                                    <div class="ent-member-meta">${m.phone} · ${m.plan}</div>
+                                </div>
+                                <button class="ent-member-remove" onclick="removeEntMember(${m.id})">移除</button>
+                            </div>
+                        `).join('')}
+                        ${members.length === 0 ? '<div style="text-align:center;padding:24px;color:#999;font-size:13px;">暂无成员</div>' : ''}
+                    </div>
+                </div>
+            `;
+            currentEntId = enterpriseId;
+            document.getElementById('entDetailOverlay').classList.add('show');
+            document.getElementById('entDetailPanel').classList.add('show');
+        }
+
+        let currentEntId = null;
+
+        function closeEntDetail() {
+            document.getElementById('entDetailOverlay').classList.remove('show');
+            document.getElementById('entDetailPanel').classList.remove('show');
+            currentEntId = null;
+        }
+
+        function toggleAddMember() {
+            const row = document.getElementById('addMemberRow');
+            row.style.display = row.style.display === 'none' ? 'flex' : 'none';
+        }
+
+        function addEntMember() {
+            const phone = document.getElementById('addMemberPhone').value.trim();
+            if (!phone) { alert('请输入手机号'); return; }
+            const user = allPlatformUsers.find(u => u.phone === phone);
+            if (!user) { alert('未找到该手机号对应的用户'); return; }
+            if (user.enterprise && user.enterprise !== '') { alert('该用户已属于其他企业'); return; }
+            const e = enterprises.find(x => x.id === currentEntId);
+            if (e) {
+                user.enterprise = e.name;
+                user.isStandalone = false;
+                openEditEnterpriseModal(currentEntId); // 刷新面板
+            }
+        }
+
+        function removeEntMember(userId) {
+            const user = allPlatformUsers.find(u => u.id === userId);
+            if (user && confirm('确认移除成员 ' + user.nickname + '？')) {
+                user.enterprise = '';
+                user.isStandalone = true;
+                openEditEnterpriseModal(currentEntId); // 刷新面板
+            }
+        }
+
+        function saveEntDetail() {
+            const e = enterprises.find(x => x.id === currentEntId);
+            if (!e) return;
+            e.name = document.getElementById('entEditName').value;
+            e.verified = document.getElementById('entEditVerified').value === 'true';
+            e.status = document.getElementById('entEditStatus').value;
+            e.plan = document.getElementById('entEditPlan').value;
+            e.planPoints = parseInt(document.getElementById('entEditPlanPoints').value) || 0;
+            e.freePoints = parseInt(document.getElementById('entEditFreePoints').value) || 0;
+            const expireVal = document.getElementById('entEditExpire').value;
+            e.expire = expireVal || '-';
+            renderEnterpriseFolders();
+            renderStandaloneUsers();
+            alert('企业信息已更新！');
+            closeEntDetail();
         }
 
         function renderStandaloneUsers() {
@@ -2004,28 +2240,105 @@
             editingUserId = userId;
             const user = employees.find(e => e.id === userId);
             if (user) {
-                document.getElementById('editUserPhone').value = user.phone;
                 document.getElementById('editUserAccount').value = user.account;
                 document.getElementById('editUserName').value = user.name;
                 document.getElementById('editUserPwd').value = '';
                 document.getElementById('editUserDept').value = user.dept;
                 document.getElementById('editUserRole').value = user.role;
                 document.getElementById('editUserStatus').value = user.status;
+                // 重置手机号验证状态
+                phoneVerified = { old: false, new: false };
+                newPhoneNumber = '';
+                document.getElementById('oldPhoneHint').textContent = '当前手机: ' + user.phone.slice(0, 3) + '****' + user.phone.slice(7);
+                document.getElementById('oldPhoneCode').value = '';
+                document.getElementById('newPhoneInput').value = '';
+                document.getElementById('newPhoneInput').disabled = true;
+                document.getElementById('newPhoneCode').value = '';
+                document.getElementById('newPhoneCode').disabled = true;
+                document.getElementById('newPhoneSendBtn').disabled = true;
+                document.getElementById('phoneVerifyResult').style.display = 'none';
+                // 重置步骤样式
+                document.getElementById('verifyStep1').className = 'verify-step active';
+                document.getElementById('verifyStep2').className = 'verify-step';
             }
             document.getElementById('editUserModalMask').classList.add('show');
             document.getElementById('editUserModal').classList.add('show');
+        }
+
+        let phoneVerified = { old: false, new: false };
+        let newPhoneNumber = '';
+        let verifyTimers = {};
+
+        function sendVerifyCode(type) {
+            const btn = document.getElementById(type === 'old' ? 'oldPhoneSendBtn' : 'newPhoneSendBtn');
+            if (type === 'new') {
+                newPhoneNumber = document.getElementById('newPhoneInput').value.trim();
+                if (!newPhoneNumber || newPhoneNumber.length !== 11) { alert('请输入正确的11位新手机号'); return; }
+            }
+            let seconds = 60;
+            btn.disabled = true;
+            btn.textContent = seconds + 's';
+            verifyTimers[type] = setInterval(() => {
+                seconds--;
+                btn.textContent = seconds + 's';
+                if (seconds <= 0) {
+                    clearInterval(verifyTimers[type]);
+                    btn.disabled = false;
+                    btn.textContent = '重新发送';
+                }
+            }, 1000);
+            // 模拟发送
+            if (type === 'old') {
+                document.getElementById('oldPhoneCode').focus();
+            } else {
+                document.getElementById('newPhoneCode').focus();
+            }
+        }
+
+        function verifyCode(type) {
+            const code = document.getElementById(type === 'old' ? 'oldPhoneCode' : 'newPhoneCode').value.trim();
+            if (!code || code.length !== 6) { alert('请输入6位验证码'); return false; }
+            // 模拟验证（任意6位都通过）
+            phoneVerified[type] = true;
+            const resultEl = document.getElementById('phoneVerifyResult');
+            if (type === 'old') {
+                document.getElementById('verifyStep1').className = 'verify-step done';
+                document.getElementById('verifyStep2').className = 'verify-step active';
+                document.getElementById('newPhoneInput').disabled = false;
+                document.getElementById('newPhoneSendBtn').disabled = false;
+                document.getElementById('newPhoneInput').focus();
+            } else {
+                document.getElementById('verifyStep2').className = 'verify-step done';
+                resultEl.style.display = 'block';
+                resultEl.style.background = '#f6ffed';
+                resultEl.style.color = '#52c41a';
+                resultEl.innerHTML = '✓ 新旧手机号双重验证通过，保存后生效';
+            }
+            return true;
         }
 
         function closeEditUserModal() {
             document.getElementById('editUserModalMask').classList.remove('show');
             document.getElementById('editUserModal').classList.remove('show');
             editingUserId = null;
+            Object.values(verifyTimers).forEach(t => clearInterval(t));
         }
 
         function saveEditUser() {
+            // 检查手机号是否修改了
+            const newPhoneInput = document.getElementById('newPhoneInput').value.trim();
+            if (newPhoneInput && newPhoneInput.length === 11) {
+                // 如果输入了新手机号，必须完成双重验证
+                if (!phoneVerified.old || !phoneVerified.new) {
+                    alert('修改手机号需要完成新旧手机号双重验证');
+                    return;
+                }
+            }
             const user = employees.find(e => e.id === editingUserId);
             if (user) {
-                user.phone = document.getElementById('editUserPhone').value;
+                if (newPhoneInput && newPhoneInput.length === 11 && phoneVerified.old && phoneVerified.new) {
+                    user.phone = newPhoneInput;
+                }
                 user.account = document.getElementById('editUserAccount').value;
                 user.name = document.getElementById('editUserName').value;
                 user.dept = document.getElementById('editUserDept').value;
