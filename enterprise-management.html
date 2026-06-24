@@ -266,6 +266,9 @@ tr:hover { background: #fafafa; }
       <div class="sidebar-menu-item active" onclick="showPage('page-ent-info', this)">
         <span class="icon">🏢</span>企业信息
       </div>
+      <div class="sidebar-menu-item" onclick="showPage('page-users', this)">
+        <span class="icon">👥</span>用户管理
+      </div>
       <div class="sidebar-menu-item" onclick="showPage('page-profile', this)">
         <span class="icon">👤</span>个人中心
       </div>
@@ -293,7 +296,7 @@ tr:hover { background: #fafafa; }
   <!-- ==================== MAIN CONTENT ==================== -->
   <div class="main-content">
 
-    <!-- ========== Enterprise Info (Enterprise Management) ========== -->
+    <!-- ========== Enterprise Info ========== -->
     <div class="page-content active" id="page-ent-info">
       <div class="page-header"><h2>企业信息</h2><p>管理企业基本信息和部门结构</p></div>
       <div class="detail-section">
@@ -309,15 +312,44 @@ tr:hover { background: #fafafa; }
         <button class="btn btn-primary" onclick="alert('企业信息已保存')">保存</button>
       </div>
       <div class="detail-section" style="margin-top:20px">
-        <h4>部门管理 <button class="btn btn-sm btn-primary" style="float:right" onclick="addDept()">+ 新建部门</button></h4>
-        <div class="dept-manager">
-          <div class="dept-left">
-            <div id="deptList"></div>
+        <h4>部门管理 <button class="btn btn-sm btn-primary" style="float:right" onclick="openModal('deptManagerModal')">部门管理</button></h4>
+        <div id="deptPreview" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+      </div>
+    </div>
+
+    <!-- ========== User Management ========== -->
+    <div class="page-content" id="page-users">
+      <div class="page-header"><h2>用户管理</h2><p>管理企业成员，审核邀请申请</p></div>
+      <div class="stat-cards" id="statusCards"></div>
+      <div class="filter-section">
+        <div class="filter-row">
+          <div class="filter-item"><label>用户名</label><input type="text" id="fUserName" placeholder="搜索用户名"></div>
+          <div class="filter-item"><label>手机号</label><input type="text" id="fPhone" placeholder="搜索手机号"></div>
+          <div class="filter-item"><label>部门</label><select id="fDept"><option value="">全部</option></select></div>
+          <div class="filter-item"><label>状态</label>
+            <select id="fStatus"><option value="">全部</option><option value="normal">正常</option><option value="pending-review">待审核</option><option value="pending-accept">待接受</option><option value="invalid">失效</option></select>
           </div>
-          <div class="dept-right">
-            <div class="flex-between mb-12"><strong id="deptMemberTitle">选择部门查看成员</strong></div>
-            <div id="deptMemberList"></div>
+          <button class="btn btn-primary" onclick="filterUsers()">查询</button>
+          <button class="btn" onclick="resetFilter()">重置</button>
+        </div>
+        <div class="filter-row">
+          <div class="flex gap-8">
+            <button class="btn btn-primary" onclick="openModal('inviteModal')">+ 邀请用户</button>
+            <button class="btn" onclick="openModal('inviteLinkModal')">邀请链接</button>
+            <button class="btn" onclick="openModal('deptManagerModal')">部门管理</button>
           </div>
+          <div class="orange-hint" style="margin-left:auto">⚠️ 失效用户 30 天后将自动清理出企业</div>
+        </div>
+      </div>
+      <div class="table-section">
+        <div class="table-container">
+          <table>
+            <thead><tr>
+              <th style="width:40px"><input type="checkbox" id="checkAll" onchange="toggleCheckAll()"></th>
+              <th>序号</th><th>用户名</th><th>姓名</th><th>手机号</th><th>部门</th><th>状态</th><th>权限</th><th>加入时间</th><th>操作</th>
+            </tr></thead>
+            <tbody id="userTableBody"></tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -467,10 +499,10 @@ tr:hover { background: #fafafa; }
 
     <!-- ========== PAGE 9: Platform Plans & Orders ========== -->
     <div class="page-content" id="page-platform-plans">
-      <div class="page-header"><h2>套餐设置</h2><p>配置订阅套餐、补充包和购买权限</p></div>
+      <div class="page-header"><h2>套餐设置</h2><p>配置订阅套餐和订单管理</p></div>
       <!-- 积分说明 -->
       <div class="chart-box mb-20" style="background:linear-gradient(135deg,#e6f7ff,#bae7ff);border-left:4px solid #1890ff;">
-        <strong>积分换算说明：</strong> <span style="font-size:18px;color:#1890ff;font-weight:700;">1积分 = 10,000 Token</span> &nbsp;|&nbsp; 积分通过套餐或补充包获取，消耗积分使用AI功能。
+        <strong>积分换算说明：</strong> <span style="font-size:18px;color:#1890ff;font-weight:700;">1积分 = 10,000 Token</span> &nbsp;|&nbsp; 积分通过套餐获取，消耗积分使用AI功能。
       </div>
       <!-- 订阅套餐 -->
       <div class="table-section mb-20">
@@ -487,7 +519,7 @@ tr:hover { background: #fafafa; }
                 <td>基础合同生成</td>
                 <td>5,234</td>
                 <td><span class="status-badge normal">上架</span></td>
-                <td><button class="btn btn-sm" onclick="alert('已保存')">保存</button></td>
+                <td><button class="btn btn-sm" onclick="alert('已保存')">保存</button> <button class="btn btn-sm btn-danger" onclick="this.closest('tr').remove()">删除</button></td>
               </tr>
               <tr>
                 <td><strong>个人版</strong></td>
@@ -497,7 +529,7 @@ tr:hover { background: #fafafa; }
                 <td>合同生成 + 审查 + 模板库</td>
                 <td>4,821</td>
                 <td><span class="status-badge normal">上架</span></td>
-                <td><button class="btn btn-sm" onclick="alert('已保存')">保存</button></td>
+                <td><button class="btn btn-sm" onclick="alert('已保存')">保存</button> <button class="btn btn-sm btn-danger" onclick="this.closest('tr').remove()">删除</button></td>
               </tr>
               <tr>
                 <td><strong>企业版</strong></td>
@@ -507,7 +539,7 @@ tr:hover { background: #fafafa; }
                 <td>全部功能 + 团队协作 + API</td>
                 <td>1,892</td>
                 <td><span class="status-badge normal">上架</span></td>
-                <td><button class="btn btn-sm" onclick="alert('已保存')">保存</button></td>
+                <td><button class="btn btn-sm" onclick="alert('已保存')">保存</button> <button class="btn btn-sm btn-danger" onclick="this.closest('tr').remove()">删除</button></td>
               </tr>
               <tr>
                 <td><strong>旗舰版</strong></td>
@@ -517,66 +549,7 @@ tr:hover { background: #fafafa; }
                 <td>全部功能 + 定制 + 专属客服</td>
                 <td>892</td>
                 <td><span class="status-badge normal">上架</span></td>
-                <td><button class="btn btn-sm" onclick="alert('已保存')">保存</button></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <!-- 补充包 -->
-      <div class="table-section mb-20">
-        <h3>补充包配置 <button class="btn btn-sm btn-primary" style="float:right" onclick="addPackRow()">+ 新增补充包</button></h3>
-        <div class="table-container">
-          <table>
-            <thead><tr><th>补充包名称</th><th>价格</th><th>积分额度</th><th>购买权限</th><th>已售</th><th>状态</th><th>操作</th></tr></thead>
-            <tbody>
-              <tr>
-                <td><input type="text" value="小量补充包" style="width:120px;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px"></td>
-                <td><input type="number" value="9.9" step="0.1" style="width:80px;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px"> 元</td>
-                <td><input type="number" value="100" style="width:90px;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px"> 积分</td>
-                <td>
-                  <select style="padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px">
-                    <option selected>所有用户</option>
-                    <option>仅订阅用户</option>
-                    <option>仅企业订阅</option>
-                  </select>
-                </td>
-                <td>1,283</td>
-                <td><span class="status-badge normal">上架</span></td>
-                <td><button class="btn btn-sm" onclick="alert('已保存')">保存</button></td>
-              </tr>
-              <tr>
-                <td><input type="text" value="中量补充包" style="width:120px;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px"></td>
-                <td><input type="number" value="99" step="0.1" style="width:80px;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px"> 元</td>
-                <td><input type="number" value="1000" style="width:90px;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px"> 积分</td>
-                <td>
-                  <select style="padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px">
-                    <option>所有用户</option>
-                    <option selected>仅订阅用户</option>
-                    <option>仅企业订阅</option>
-                  </select>
-                </td>
-                <td>567</td>
-                <td><span class="status-badge normal">上架</span></td>
-                <td><button class="btn btn-sm" onclick="alert('已保存')">保存</button></td>
-              </tr>
-              <tr>
-                <td><input type="text" value="大量补充包" style="width:120px;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px"></td>
-                <td><input type="number" value="888" step="0.1" style="width:80px;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px"> 元</td>
-                <td><input type="number" value="10000" style="width:90px;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px"> 积分</td>
-                <td>
-                  <select style="padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px">
-                    <option>所有用户</option>
-                    <option>仅订阅用户</option>
-                    <option selected>仅企业订阅</option>
-                  </select>
-                </td>
-                <td>89</td>
-                <td><span class="status-badge normal">上架</span></td>
-                <td><button class="btn btn-sm" onclick="alert('已保存')">保存</button></td>
-              </tr>
-              <tr style="border:2px dashed #d9d9d9;background:#fafafa">
-                <td colspan="7" style="text-align:center;color:#999;cursor:pointer" onclick="addPackRow()">+ 点击新增补充包</td>
+                <td><button class="btn btn-sm" onclick="alert('已保存')">保存</button> <button class="btn btn-sm btn-danger" onclick="this.closest('tr').remove()">删除</button></td>
               </tr>
             </tbody>
           </table>
@@ -597,21 +570,6 @@ tr:hover { background: #fafafa; }
               <tr><td>2026-06-20 11:45</td><td>孙七（散户）</td><td><span class="status-badge pending-review" style="background:#fff7e6;color:#fa8c16">补充包购买</span></td><td>大量补充包</td><td>¥888</td><td>+10,000</td><td><span class="status-badge normal">已支付</span></td><td>未开票</td></tr>
               <tr><td>2026-06-19 15:30</td><td>通友科技 / xxx</td><td><span class="status-badge pending-review" style="background:#fff7e6;color:#fa8c16">补充包购买</span></td><td>小量补充包</td><td>¥9.9</td><td>+100</td><td><span class="status-badge normal">已支付</span></td><td>未开票</td></tr>
               <tr><td>2026-06-18 09:00</td><td>未来科技 / admin</td><td><span class="status-badge normal">套餐订阅</span></td><td>企业版</td><td>¥499</td><td>+50,000</td><td><span class="status-badge normal">已支付</span></td><td>已开票</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <!-- 套餐变更记录 -->
-      <div class="table-section">
-        <h3>套餐变更记录</h3>
-        <div class="table-container">
-          <table>
-            <thead><tr><th>时间</th><th>用户/企业</th><th>变更类型</th><th>原套餐</th><th>新套餐</th><th>操作人</th></tr></thead>
-            <tbody>
-              <tr><td>2026-06-24 10:30</td><td>通友科技</td><td>升级</td><td>个人版</td><td>企业版</td><td>xxx</td></tr>
-              <tr><td>2026-06-20 09:00</td><td>未来科技</td><td>降级</td><td>企业版</td><td>专业版</td><td>admin</td></tr>
-              <tr><td>2026-06-18 14:20</td><td>蓝海集团</td><td>续费</td><td>旗舰版</td><td>旗舰版</td><td>系统</td></tr>
-              <tr><td>2026-06-15 11:30</td><td>星辰互联</td><td>到期未续</td><td>个人版</td><td>免费版</td><td>系统</td></tr>
             </tbody>
           </table>
         </div>
@@ -681,6 +639,12 @@ tr:hover { background: #fafafa; }
       <div class="form-group"><label>密码</label><input type="password" id="editPassword" placeholder="留空则不修改"></div>
       <div class="form-group"><label>手机号</label><input type="text" id="editPhone"></div>
     </div>
+    <div class="form-row">
+      <div class="form-group"><label>套餐</label>
+        <select id="editPlan"><option value="免费版">免费版</option><option value="个人版">个人版</option><option value="企业版">企业版</option><option value="旗舰版">旗舰版</option></select>
+      </div>
+      <div class="form-group"><label>积分数量</label><input type="number" id="editPoints" placeholder="积分额度"></div>
+    </div>
   </div>
   <div class="modal-footer"><button class="btn" onclick="closeModal('editUserModal')">取消</button><button class="btn btn-primary" onclick="closeModal('editUserModal');alert('已保存')">保存</button></div>
 </div>
@@ -696,6 +660,61 @@ tr:hover { background: #fafafa; }
   <div class="modal-footer">
     <button class="btn" onclick="closeModal('exitModal')">取消</button>
     <button class="btn btn-danger" onclick="confirmExit()">确认退出</button>
+  </div>
+</div>
+
+<!-- Department Manager Modal -->
+<div class="modal-mask" id="deptManagerModalMask" onclick="closeModal('deptManagerModal')"></div>
+<div class="modal modal-lg" id="deptManagerModal">
+  <div class="modal-header"><h3 class="modal-title">部门管理</h3><button class="modal-close" onclick="closeModal('deptManagerModal')">&times;</button></div>
+  <div class="modal-body">
+    <div class="dept-manager">
+      <div class="dept-left">
+        <div class="flex-between mb-12"><strong>部门列表</strong><button class="btn btn-sm btn-primary" onclick="addDept()">+ 新建</button></div>
+        <div id="modalDeptList"></div>
+      </div>
+      <div class="dept-right">
+        <div class="flex-between mb-12"><strong id="modalDeptMemberTitle">选择部门查看成员</strong></div>
+        <div id="modalDeptMemberList"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Invite User Modal -->
+<div class="modal-mask" id="inviteModalMask" onclick="closeModal('inviteModal')"></div>
+<div class="modal modal-md" id="inviteModal">
+  <div class="modal-header"><h3 class="modal-title">邀请用户</h3><button class="modal-close" onclick="closeModal('inviteModal')">&times;</button></div>
+  <div class="modal-body">
+    <div class="form-group"><label>手机号</label><input type="text" id="invitePhone" placeholder="请输入手机号"></div>
+    <button class="btn btn-primary" onclick="checkInvitePhone()" style="width:100%">下一步</button>
+    <div id="inviteResult" style="margin-top:16px;display:none;"></div>
+  </div>
+</div>
+
+<!-- Invite Link Modal -->
+<div class="modal-mask" id="inviteLinkModalMask" onclick="closeModal('inviteLinkModal')"></div>
+<div class="modal modal-md" id="inviteLinkModal">
+  <div class="modal-header"><h3 class="modal-title">邀请链接</h3><button class="modal-close" onclick="closeModal('inviteLinkModal')">&times;</button></div>
+  <div class="modal-body" style="text-align:center;">
+    <p style="margin-bottom:12px;">分享以下链接邀请用户加入企业</p>
+    <div style="background:#f5f5f5;padding:12px;border-radius:4px;word-break:break-all;font-size:13px;margin-bottom:12px;" id="inviteLinkText">https://contract.ai/invite/tongyou-abc123</div>
+    <div style="width:120px;height:120px;background:#f5f5f5;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;border-radius:4px;border:1px solid #e8e8e8;">
+      <div style="text-align:center;color:#999;font-size:12px;"><div style="font-size:32px;">📱</div>二维码</div>
+    </div>
+    <p style="font-size:12px;color:#999;">链接有效期：7天 | 已使用：0/50</p>
+    <button class="btn btn-primary mt-12" onclick="navigator.clipboard.writeText(document.getElementById('inviteLinkText').textContent).then(()=>alert('链接已复制')).catch(()=>alert('请手动复制'))">复制链接</button>
+  </div>
+</div>
+
+<!-- Review Modal -->
+<div class="modal-mask" id="reviewModalMask" onclick="closeModal('reviewModal')"></div>
+<div class="modal modal-sm" id="reviewModal">
+  <div class="modal-header"><h3 class="modal-title">审核用户</h3><button class="modal-close" onclick="closeModal('reviewModal')">&times;</button></div>
+  <div class="modal-body"><p id="reviewUserInfo"></p></div>
+  <div class="modal-footer">
+    <button class="btn btn-danger" onclick="reviewAction('reject')">拒绝</button>
+    <button class="btn btn-primary" onclick="reviewAction('accept')">通过</button>
   </div>
 </div>
 
@@ -819,6 +838,101 @@ function showPage(pageId, menuItem) {
 function openModal(id) { document.getElementById(id+'Mask').classList.add('show'); document.getElementById(id).classList.add('show'); }
 function closeModal(id) { document.getElementById(id+'Mask').classList.remove('show'); document.getElementById(id).classList.remove('show'); }
 
+/* ==================== ENTERPRISE USER MANAGEMENT ==================== */
+function renderStatusCards() {
+    const counts = { 'normal':0, 'pending-review':0, 'pending-accept':0, 'invalid':0 };
+    employees.forEach(e => counts[e.status] = (counts[e.status]||0) + 1);
+    const cards = [
+        { label:'正常用户', key:'normal', color:'#52c41a' },
+        { label:'待审核', key:'pending-review', color:'#fa8c16' },
+        { label:'待接受', key:'pending-accept', color:'#1890ff' },
+        { label:'失效用户', key:'invalid', color:'#ff4d4f' },
+    ];
+    document.getElementById('statusCards').innerHTML = cards.map(c =>
+        `<div class="stat-card" style="border-left:4px solid ${c.color}"><div class="label">${c.label}</div><div class="value" style="color:${c.color}">${counts[c.key]}</div></div>`
+    ).join('');
+}
+function populateDeptFilter() {
+    document.getElementById('fDept').innerHTML = '<option value="">全部</option>' + departments.map(d => `<option value="${d.name}">${d.icon} ${d.name}</option>`).join('');
+}
+function renderUserTable(data) {
+    const list = data || employees;
+    document.getElementById('userTableBody').innerHTML = list.map((e, i) => {
+        const roleLabel = e.role === 'admin' ? '<span style="color:#fa8c16">管理员</span>' : '普通用户';
+        return `<tr>
+            <td><input type="checkbox" class="user-check" value="${e.id}"></td>
+            <td>${i+1}</td><td>${e.account}</td><td>${e.name}</td><td>${e.phone}</td><td>${e.dept}</td>
+            <td><span class="status-badge ${e.status}">${getStatusLabel(e.status)}</span></td>
+            <td>${roleLabel}</td><td>${e.joinTime}</td>
+            <td>${e.status==='pending-review'?`<button class="btn btn-sm" onclick="openReviewModal(${e.id})">审核</button>`:''}<button class="btn btn-sm" onclick="openEditModal(${e.id})">编辑</button></td>
+        </tr>`;
+    }).join('');
+}
+function filterUsers() {
+    const name = document.getElementById('fUserName').value.toLowerCase();
+    const phone = document.getElementById('fPhone').value;
+    const dept = document.getElementById('fDept').value;
+    const status = document.getElementById('fStatus').value;
+    renderUserTable(employees.filter(e => {
+        if (name && !e.account.toLowerCase().includes(name) && !e.name.toLowerCase().includes(name)) return false;
+        if (phone && !e.phone.includes(phone)) return false;
+        if (dept && e.dept !== dept) return false;
+        if (status && e.status !== status) return false;
+        return true;
+    }));
+}
+function resetFilter() {
+    ['fUserName','fPhone'].forEach(id => document.getElementById(id).value = '');
+    ['fDept','fStatus'].forEach(id => document.getElementById(id).value = '');
+    renderUserTable();
+}
+function toggleCheckAll() { const c = document.getElementById('checkAll').checked; document.querySelectorAll('.user-check').forEach(cb => cb.checked = c); }
+function openReviewModal(userId) {
+    const user = employees.find(e => e.id === userId);
+    if (!user) return;
+    document.getElementById('reviewUserInfo').innerHTML = `确认审核用户：<strong>${user.name}</strong> (${user.phone})？<br>来源：${user.source==='invite-link'?'邀请链接':'管理员添加'}`;
+    document.getElementById('reviewModal').dataset.userId = userId;
+    openModal('reviewModal');
+}
+function reviewAction(action) {
+    const userId = parseInt(document.getElementById('reviewModal').dataset.userId);
+    const user = employees.find(e => e.id === userId);
+    if (user) user.status = action === 'accept' ? 'normal' : 'invalid';
+    closeModal('reviewModal'); renderStatusCards(); renderUserTable();
+}
+function openEditModal(userId) {
+    const user = employees.find(e => e.id === userId);
+    if (!user) return;
+    document.getElementById('editUsername').value = user.account;
+    document.getElementById('editName').value = user.name;
+    document.getElementById('editPassword').value = '';
+    document.getElementById('editPhone').value = user.phone;
+    document.getElementById('editPlan').value = user.plan || '免费版';
+    document.getElementById('editPoints').value = user.planPoints || 0;
+    openModal('editUserModal');
+}
+function checkInvitePhone() {
+    const phone = document.getElementById('invitePhone').value.trim();
+    const result = document.getElementById('inviteResult');
+    if (!phone) { result.innerHTML = '<span style="color:#ff4d4f">请输入手机号</span>'; result.style.display = 'block'; return; }
+    if (registeredPhones.includes(phone)) {
+        const emp = { id: nextId++, name: '新用户'+nextId, phone, dept:'技术部', role:'user', status:'pending-accept', account:'user'+nextId, joinTime: new Date().toISOString().split('T')[0], source:'admin-add', inviteTime: new Date().toLocaleString() };
+        employees.push(emp);
+        result.innerHTML = `<div style="background:#f6ffed;border:1px solid #b7eb8f;border-radius:4px;padding:12px;"><strong style="color:#52c41a">✓ 该手机号已注册</strong><p style="margin-top:8px;font-size:13px;">已向该用户发送加入企业邀请通知，等待对方确认接受。</p></div>`;
+        renderStatusCards(); renderUserTable();
+    } else {
+        result.innerHTML = `<div style="background:#e6f7ff;border:1px solid #91d5ff;border-radius:4px;padding:12px;"><strong style="color:#1890ff">ℹ 该手机号未注册</strong><p style="margin-top:8px;font-size:13px;">该用户尚未注册，已发送注册邀请短信。</p>
+        <div class="form-row" style="margin-top:12px;"><div class="form-group"><label>姓名</label><input type="text" placeholder="填写姓名"></div><div class="form-group"><label>部门</label><select>${departments.map(d=>`<option>${d.name}</option>`).join('')}</select></div></div>
+        <button class="btn btn-primary btn-sm" onclick="alert('邀请已发送')">发送邀请</button></div>`;
+    }
+    result.style.display = 'block';
+}
+
+function renderDeptPreview() {
+    const el = document.getElementById('deptPreview');
+    if (el) el.innerHTML = departments.map(d => `<span style="display:inline-flex;align-items:center;gap:4px;background:#f5f5f5;padding:4px 12px;border-radius:4px;font-size:13px">${d.icon} ${d.name} <span style="color:#999">(${employees.filter(e=>e.dept===d.name).length}人)</span></span>`).join('');
+}
+
 /* ==================== DEPARTMENT MANAGEMENT ==================== */
 function renderDeptList(containerId) {
     const container = document.getElementById(containerId || 'deptList');
@@ -843,11 +957,11 @@ function selectDept(deptId, containerId) {
 
 function addDept() {
     const name = prompt('请输入部门名称');
-    if (name) { departments.push({ id: departments.length+1, name, icon:'📁' }); renderDeptList('deptList'); }
+    if (name) { departments.push({ id: departments.length+1, name, icon:'📁' }); renderDeptList('modalDeptList'); renderDeptPreview(); }
 }
 
 function removeFromDept(userId) {
-    if (confirm('确定将该成员移出部门？')) { employees = employees.filter(e => e.id !== userId); if (selectedDeptId) selectDept(selectedDeptId); }
+    if (confirm('确定将该成员移出部门？')) { employees = employees.filter(e => e.id !== userId); if (selectedDeptId) selectDept(selectedDeptId, 'modalDeptList'); renderStatusCards(); renderUserTable(); }
 }
 
 /* ==================== PROFILE ==================== */
@@ -989,6 +1103,8 @@ function openEntDetail(entId) {
     const ent = enterprises.find(e=>e.id===entId);
     if (!ent) return;
     const entMembers = allPlatformUsers.filter(u=>u.enterprise===ent.name && !u.isStandalone);
+    const totalPts = ent.planPoints + ent.freePoints;
+    const usedPct = totalPts > 0 ? Math.round((ent.usedPoints/totalPts)*100) : 0;
     document.getElementById('entDetailBody').innerHTML = `
         <div class="detail-profile-card"><div class="detail-avatar" style="background:#722ed1">${ent.name[0]}</div><div class="detail-info"><h4>${ent.name} ${ent.verified?'<span class="verified-badge">V</span>':''}</h4><p>${ent.members} 位成员 | ${ent.plan}</p></div></div>
         <div class="detail-section"><h4>基本信息</h4>
@@ -1001,6 +1117,29 @@ function openEntDetail(entId) {
             <div class="form-row"><div class="form-group"><label>套餐类型</label><select><option>免费版</option><option>个人版</option><option ${ent.plan==='专业版'?'selected':''}>专业版</option><option ${ent.plan==='企业版'?'selected':''}>企业版</option><option ${ent.plan==='旗舰版'?'selected':''}>旗舰版</option></select></div><div class="form-group"><label>到期日期</label><input type="date" value="${ent.expire==='-'?'':ent.expire}"></div></div>
             <div class="form-row"><div class="form-group"><label>套餐积分</label><input type="number" value="${ent.planPoints}"></div><div class="form-group"><label>赠送积分</label><input type="number" value="${ent.freePoints}"></div></div>
             <button class="btn btn-primary btn-sm">保存</button>
+        </div>
+        <div class="detail-section"><h4>修改剩余积分</h4>
+            <div style="background:#f6f8fa;border-radius:6px;padding:12px;margin-bottom:12px">
+              <div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="font-size:13px;color:#666">当前剩余积分</span><span style="font-size:18px;font-weight:700;color:#1890ff">${formatNum(ent.planPoints + ent.freePoints - ent.usedPoints)}</span></div>
+              <div class="progress-bar"><div class="fill" style="width:${100-usedPct}%;background:#52c41a"></div></div>
+              <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:11px;color:#999"><span>已用 ${usedPct}%</span><span>剩余 ${100-usedPct}%</span></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>调整积分</label><input type="number" id="entPointsAdjust" placeholder="正数增加，负数减少"></div>
+              <div class="form-group"><label>调整原因</label><input type="text" id="entPointsReason" placeholder="如：系统赠送、手动调整"></div>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="alert('积分已调整')">确认调整</button>
+        </div>
+        <div class="detail-section"><h4>积分修改记录</h4>
+            <table style="width:100%;font-size:12px">
+              <thead><tr><th>时间</th><th>操作人</th><th>变动</th><th>说明</th></tr></thead>
+              <tbody>
+                <tr><td>2026-06-24 10:30</td><td>系统</td><td style="color:#52c41a">+50,000</td><td>企业版月度充值</td></tr>
+                <tr><td>2026-06-20 09:00</td><td>admin</td><td style="color:#1890ff">+10,000</td><td>手动赠送积分</td></tr>
+                <tr><td>2026-06-18 14:20</td><td>系统</td><td style="color:#ff4d4f">-3,200</td><td>合同生成消耗</td></tr>
+                <tr><td>2026-06-15 11:00</td><td>系统</td><td style="color:#ff4d4f">-1,800</td><td>合同审查消耗</td></tr>
+              </tbody>
+            </table>
         </div>
         <div class="detail-section"><h4>成员列表 (${entMembers.length}人) <button class="btn btn-sm" style="float:right">+ 添加成员</button></h4>
             ${entMembers.map(m=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f5f5f5"><div style="display:flex;align-items:center;gap:8px"><div class="detail-avatar" style="width:28px;height:28px;font-size:12px">${m.avatar}</div><span>${m.nickname} <span style="color:#999;font-size:12px">${m.phone}</span></span></div><button class="btn btn-sm btn-danger">移除</button></div>`).join('')||'<p style="color:#999;text-align:center;padding:20px">暂无成员</p>'}
@@ -1103,8 +1242,12 @@ function renderResponseTimeBars() {
 
 /* ==================== INIT ==================== */
 function init() {
-    // Enterprise info: departments
-    renderDeptList('deptList');
+    // Enterprise info
+    renderDeptPreview();
+    // Enterprise user management
+    renderStatusCards(); populateDeptFilter(); renderUserTable();
+    // Department modal
+    renderDeptList('modalDeptList');
     // Dashboard: dual-line charts
     renderSVGLineChart('tokenChartContainer', tokenData[0], '#1890ff', '#fa8c16', '生成消耗', '审查消耗');
     renderPie('planPie','planLegend', [
@@ -1131,9 +1274,6 @@ function init() {
 /* ==================== PLAN/PACK ROW ADD ==================== */
 function addPlanRow() {
     alert('新增套餐行已添加（原型演示）');
-}
-function addPackRow() {
-    alert('新增补充包行已添加（原型演示）');
 }
 
 init();
