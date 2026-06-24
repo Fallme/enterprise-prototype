@@ -454,6 +454,31 @@
         <main class="main-content">
             <!-- 用户管理页面 -->
             <div class="page-content active" id="page-users">
+                <!-- 成员状态总览 -->
+                <div class="status-overview" style="margin-bottom:20px;">
+                    <div class="status-overview-card normal">
+                        <div class="status-overview-title"><span class="status-overview-dot"></span> 正常</div>
+                        <div class="status-overview-count" id="countNormal">1</div>
+                        <div class="status-overview-desc">已加入企业，可正常使用团队资源</div>
+                    </div>
+                    <div class="status-overview-card pending-review">
+                        <div class="status-overview-title"><span class="status-overview-dot"></span> 待审核</div>
+                        <div class="status-overview-count" id="countPendingReview">1</div>
+                        <div class="status-overview-desc">用户通过链接申请，等待管理员审核</div>
+                    </div>
+                    <div class="status-overview-card pending-accept">
+                        <div class="status-overview-title"><span class="status-overview-dot"></span> 待接受</div>
+                        <div class="status-overview-count" id="countPendingAccept">1</div>
+                        <div class="status-overview-desc">管理员已添加，等待用户登录确认</div>
+                    </div>
+                    <div class="status-overview-card invalid">
+                        <div class="status-overview-title"><span class="status-overview-dot"></span> 失效</div>
+                        <div class="status-overview-count" id="countInvalid">0</div>
+                        <div class="status-overview-desc">拒绝邀请/审核被拒/超时/离开企业</div>
+                    </div>
+                </div>
+
+                <!-- 筛选 + 操作 -->
                 <section class="filter-section">
                     <div class="filter-header">
                         <span class="filter-title">筛选</span>
@@ -491,19 +516,15 @@
                                 <option value="invalid">失效</option>
                             </select>
                         </div>
+                        <div class="action-buttons" style="margin-left:auto;">
+                            <button class="action-btn primary" onclick="openInviteUserModal()">+ 邀请用户</button>
+                            <button class="action-btn" onclick="openInviteModal()">邀请链接</button>
+                            <button class="action-btn" onclick="openDeptManager()">部门管理</button>
+                        </div>
                     </div>
                 </section>
 
-                <section class="action-section">
-                    <div class="action-buttons">
-                        <button class="action-btn primary" onclick="openUserModal()">新增用户</button>
-                        <button class="action-btn" onclick="openInviteModal()">邀请链接</button>
-                        <button class="action-btn" onclick="openDeptManager()">部门管理</button>
-                        <button class="action-btn" onclick="simulatePendingAccept()">模拟待接受</button>
-                        <button class="action-btn" onclick="openLinkExpiredModal()">模拟链接过期</button>
-                    </div>
-                </section>
-
+                <!-- 用户列表（全宽） -->
                 <section class="table-section">
                     <div class="table-container">
                         <table>
@@ -534,30 +555,6 @@
                         <button class="page-btn">›</button>
                     </div>
                 </section>
-
-                <!-- 成员状态总览 -->
-                <div class="status-overview">
-                    <div class="status-overview-card normal">
-                        <div class="status-overview-title"><span class="status-overview-dot"></span> 正常</div>
-                        <div class="status-overview-count" id="countNormal">1</div>
-                        <div class="status-overview-desc">已加入企业，可正常使用团队资源</div>
-                    </div>
-                    <div class="status-overview-card pending-review">
-                        <div class="status-overview-title"><span class="status-overview-dot"></span> 待审核</div>
-                        <div class="status-overview-count" id="countPendingReview">1</div>
-                        <div class="status-overview-desc">用户通过链接申请，等待管理员审核</div>
-                    </div>
-                    <div class="status-overview-card pending-accept">
-                        <div class="status-overview-title"><span class="status-overview-dot"></span> 待接受</div>
-                        <div class="status-overview-count" id="countPendingAccept">1</div>
-                        <div class="status-overview-desc">管理员已添加，等待用户登录确认</div>
-                    </div>
-                    <div class="status-overview-card invalid">
-                        <div class="status-overview-title"><span class="status-overview-dot"></span> 失效</div>
-                        <div class="status-overview-count" id="countInvalid">0</div>
-                        <div class="status-overview-desc">拒绝邀请/审核被拒/超时/离开企业</div>
-                    </div>
-                </div>
             </div>
 
             <!-- ==================== 平台后台页面 ==================== -->
@@ -1114,32 +1111,34 @@
         </main>
     </div>
 
-    <!-- 新增用户弹窗 -->
+    <!-- 邀请用户弹窗 -->
     <div class="modal-mask" id="userModalMask" onclick="closeUserModal()"></div>
     <div class="modal modal-md" id="userModal">
         <div class="modal-header">
-            <h3 class="modal-title">新增用户</h3>
+            <h3 class="modal-title">邀请用户</h3>
             <button class="modal-close" onclick="closeUserModal()">&times;</button>
         </div>
         <div class="modal-body">
             <div class="form-group">
                 <label class="form-label">用户手机 <span class="required">*</span></label>
                 <input type="tel" class="form-input" placeholder="请输入手机号" maxlength="11" id="addUserPhone" onblur="checkPhoneRegistered()">
-                <p class="form-hint">填入手机自动查询，自动带出下面的信息</p>
+                <p class="form-hint">输入手机号自动检测是否已注册</p>
                 <p class="form-hint" id="phoneCheckResult" style="display:none;"></p>
             </div>
-            <div class="form-group">
-                <label class="form-label">用户名 <span class="required">*</span></label>
-                <input type="text" class="form-input" placeholder="用于登录的唯一账号" id="addUserAccount">
-                <p class="form-hint">登录凭证，不可重复</p>
-            </div>
-            <div class="form-group">
-                <label class="form-label">姓名</label>
-                <input type="text" class="form-input" placeholder="请输入用户真实姓名" id="addUserName">
-            </div>
-            <div class="form-group">
-                <label class="form-label">用户密码</label>
-                <input type="password" class="form-input" placeholder="请输入密码" id="addUserPwd">
+            <div id="inviteRegisteredFields" style="display:none;">
+                <div class="form-group">
+                    <label class="form-label">用户名 <span class="required">*</span></label>
+                    <input type="text" class="form-input" placeholder="用于登录的唯一账号" id="addUserAccount">
+                    <p class="form-hint">登录凭证，不可重复</p>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">姓名</label>
+                    <input type="text" class="form-input" placeholder="请输入用户真实姓名" id="addUserName">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">用户密码</label>
+                    <input type="password" class="form-input" placeholder="请输入密码" id="addUserPwd">
+                </div>
             </div>
             <div class="form-group">
                 <label class="form-label">用户部门</label>
@@ -1159,11 +1158,14 @@
                     <option value="viewer">只读用户</option>
                 </select>
             </div>
-            <div class="form-warning" style="color:#fa8c16;font-size:12px;">添加后用户状态为"待接受"，需用户登录确认</div>
+            <div id="inviteHint" style="color:#fa8c16;font-size:12px;padding:8px 0;">
+                已注册用户：发送邀请通知，用户确认后加入<br>
+                未注册用户：用户注册账号后自动接受邀请加入
+            </div>
         </div>
         <div class="modal-footer">
             <button class="btn" onclick="closeUserModal()">取消</button>
-            <button class="btn btn-primary" onclick="submitUser()">确定</button>
+            <button class="btn btn-primary" onclick="submitUser()">发送邀请</button>
         </div>
     </div>
 
@@ -1784,14 +1786,32 @@
         function checkPhoneRegistered() {
             const phone = document.getElementById('addUserPhone').value.trim();
             const resultEl = document.getElementById('phoneCheckResult');
-            if (!phone || phone.length !== 11) { resultEl.style.display = 'none'; return; }
+            const fieldsEl = document.getElementById('inviteRegisteredFields');
+            const hintEl = document.getElementById('inviteHint');
+            if (!phone || phone.length !== 11) { resultEl.style.display = 'none'; fieldsEl.style.display = 'none'; return; }
             const isRegistered = registeredPhones.includes(phone);
             resultEl.style.display = 'block';
             if (isRegistered) {
-                resultEl.innerHTML = '<span style="color:#52c41a;">✓ 手机号已注册，系统将直接邀请该用户</span>';
+                resultEl.innerHTML = '<span style="color:#52c41a;">✓ 该用户已注册，将直接发送邀请通知</span>';
+                fieldsEl.style.display = 'none';
+                hintEl.innerHTML = '已注册用户：发送邀请通知，用户确认后加入';
             } else {
-                resultEl.innerHTML = '<span style="color:#fa8c16;">该手机号未注册，系统将静默创建账户并发送短信通知</span>';
+                resultEl.innerHTML = '<span style="color:#1890ff;">ⓘ 该手机号未注册，用户注册账号后自动接受邀请</span>';
+                fieldsEl.style.display = 'block';
+                hintEl.innerHTML = '未注册用户：填写信息后发送邀请，用户注册账号时自动加入企业';
             }
+        }
+
+        function openInviteUserModal() {
+            document.getElementById('userModalMask').classList.add('show');
+            document.getElementById('userModal').classList.add('show');
+            document.getElementById('addUserPhone').value = '';
+            document.getElementById('addUserAccount').value = '';
+            document.getElementById('addUserName').value = '';
+            document.getElementById('addUserPwd').value = '';
+            document.getElementById('addUserDept').value = '';
+            document.getElementById('phoneCheckResult').style.display = 'none';
+            document.getElementById('inviteRegisteredFields').style.display = 'none';
         }
 
         function submitUser() {
@@ -1802,11 +1822,10 @@
             const role = document.getElementById('addUserRole').value;
 
             if (!phone || phone.length !== 11) { alert('请输入正确的手机号'); return; }
-            if (!account) { alert('请输入用户名'); return; }
 
             const isRegistered = registeredPhones.includes(phone);
+            if (!isRegistered && !account) { alert('未注册用户需要填写用户名'); return; }
 
-            // 添加用户，状态为"待接受"
             const newUser = {
                 id: nextId++,
                 name: name || '新用户',
@@ -1814,7 +1833,7 @@
                 dept: dept || '技术部',
                 role: role,
                 status: 'pending-accept',
-                account: account,
+                account: account || phone.slice(-4),
                 joinTime: formatDateShort(new Date()),
                 source: 'admin-add',
                 inviteTime: formatDate(new Date())
@@ -1822,9 +1841,9 @@
             employees.push(newUser);
 
             if (isRegistered) {
-                alert('用户添加成功！已发送短信通知用户，等待用户登录确认。');
+                alert('邀请已发送！已通知用户 ' + phone.slice(0, 3) + '****' + phone.slice(7) + '，等待用户确认加入。');
             } else {
-                alert('用户添加成功！系统已静默创建账户并发送短信通知，等待用户登录确认。');
+                alert('邀请已发送！用户注册账号后将自动接受邀请加入企业。');
             }
             closeUserModal();
             renderUserTable();
@@ -2016,18 +2035,6 @@
                 alert('用户信息已更新！');
                 closeEditUserModal();
             }
-        }
-
-        // ==================== 新增用户弹窗 ====================
-        function openUserModal() {
-            document.getElementById('userModalMask').classList.add('show');
-            document.getElementById('userModal').classList.add('show');
-            document.getElementById('addUserPhone').value = '';
-            document.getElementById('addUserAccount').value = '';
-            document.getElementById('addUserName').value = '';
-            document.getElementById('addUserPwd').value = '';
-            document.getElementById('addUserDept').value = '';
-            document.getElementById('phoneCheckResult').style.display = 'none';
         }
 
         function closeUserModal() {
