@@ -263,17 +263,8 @@ tr:hover { background: #fafafa; }
     <div class="sidebar-header"><h2>ContractAI</h2></div>
     <div class="sidebar-section">
       <div class="sidebar-section-title">企业管理</div>
-      <div class="sidebar-menu-item active" onclick="showPage('page-users', this)">
-        <span class="icon">👥</span>用户管理
-      </div>
-      <div class="sidebar-menu-item" onclick="showPage('page-depts', this)">
-        <span class="icon">🏢</span>部门管理
-      </div>
-      <div class="sidebar-menu-item" onclick="showPage('page-roles', this)">
-        <span class="icon">🔑</span>角色权限
-      </div>
-      <div class="sidebar-menu-item" onclick="showPage('page-settings', this)">
-        <span class="icon">⚙️</span>企业设置
+      <div class="sidebar-menu-item active" onclick="showPage('page-ent-info', this)">
+        <span class="icon">🏢</span>企业信息
       </div>
       <div class="sidebar-menu-item" onclick="showPage('page-profile', this)">
         <span class="icon">👤</span>个人中心
@@ -302,68 +293,33 @@ tr:hover { background: #fafafa; }
   <!-- ==================== MAIN CONTENT ==================== -->
   <div class="main-content">
 
-    <!-- ========== PAGE 1: Enterprise Users ========== -->
-    <div class="page-content active" id="page-users">
-      <div class="page-header"><h2>用户管理</h2><p>管理企业成员，审核邀请申请</p></div>
-      <div class="stat-cards" id="statusCards"></div>
-      <div class="filter-section">
-        <div class="filter-row">
-          <div class="filter-item"><label>用户名</label><input type="text" id="fUserName" placeholder="搜索用户名"></div>
-          <div class="filter-item"><label>手机号</label><input type="text" id="fPhone" placeholder="搜索手机号"></div>
-          <div class="filter-item"><label>部门</label><select id="fDept"><option value="">全部</option></select></div>
-          <div class="filter-item"><label>状态</label>
-            <select id="fStatus"><option value="">全部</option><option value="normal">正常</option><option value="pending-review">待审核</option><option value="pending-accept">待接受</option><option value="invalid">失效</option></select>
+    <!-- ========== Enterprise Info (Enterprise Management) ========== -->
+    <div class="page-content active" id="page-ent-info">
+      <div class="page-header"><h2>企业信息</h2><p>管理企业基本信息和部门结构</p></div>
+      <div class="detail-section">
+        <h4>基本信息</h4>
+        <div class="form-row">
+          <div class="form-group"><label>企业名称</label><input type="text" id="entNameInput" value="通友科技"></div>
+          <div class="form-group"><label>认证状态</label><div style="padding:6px 0"><span class="verified-badge">V</span> 已认证</div></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>企业状态</label><div style="padding:6px 0"><span class="status-dot normal"></span> 运营中</div></div>
+          <div class="form-group"><label>到期时间</label><input type="date" value="2027-01-15"></div>
+        </div>
+        <button class="btn btn-primary" onclick="alert('企业信息已保存')">保存</button>
+      </div>
+      <div class="detail-section" style="margin-top:20px">
+        <h4>部门管理 <button class="btn btn-sm btn-primary" style="float:right" onclick="addDept()">+ 新建部门</button></h4>
+        <div class="dept-manager">
+          <div class="dept-left">
+            <div id="deptList"></div>
           </div>
-          <button class="btn btn-primary" onclick="filterUsers()">查询</button>
-          <button class="btn" onclick="resetFilter()">重置</button>
-        </div>
-        <div class="filter-row">
-          <div class="flex gap-8">
-            <button class="btn btn-primary" onclick="openModal('inviteModal')">+ 邀请用户</button>
-            <button class="btn" onclick="openModal('inviteLinkModal')">邀请链接</button>
-            <button class="btn" onclick="openModal('deptManagerModal')">部门管理</button>
+          <div class="dept-right">
+            <div class="flex-between mb-12"><strong id="deptMemberTitle">选择部门查看成员</strong></div>
+            <div id="deptMemberList"></div>
           </div>
-          <div class="orange-hint" style="margin-left:auto">⚠️ 失效用户 30 天后将自动清理出企业</div>
         </div>
       </div>
-      <div class="table-section">
-        <div class="table-container">
-          <table>
-            <thead><tr>
-              <th style="width:40px"><input type="checkbox" id="checkAll" onchange="toggleCheckAll()"></th>
-              <th>序号</th><th>用户名</th><th>姓名</th><th>手机号</th><th>部门</th><th>状态</th><th>权限</th><th>加入时间</th><th>操作</th>
-            </tr></thead>
-            <tbody id="userTableBody"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- ========== PAGE 2: Department Manager ========== -->
-    <div class="page-content" id="page-depts">
-      <div class="page-header"><h2>部门管理</h2><p>管理企业部门结构和成员分配</p></div>
-      <div class="dept-manager">
-        <div class="dept-left">
-          <div class="flex-between mb-12"><strong>部门列表</strong><button class="btn btn-sm btn-primary" onclick="addDept()">+ 新建</button></div>
-          <div id="deptList"></div>
-        </div>
-        <div class="dept-right">
-          <div class="flex-between mb-12"><strong id="deptMemberTitle">选择部门查看成员</strong></div>
-          <div id="deptMemberList"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ========== PAGE 3: Roles (placeholder) ========== -->
-    <div class="page-content" id="page-roles">
-      <div class="page-header"><h2>角色权限</h2><p>配置企业角色和权限分配</p></div>
-      <div class="table-section" style="text-align:center;padding:60px;color:#999;">角色权限配置功能开发中...</div>
-    </div>
-
-    <!-- ========== PAGE 4: Enterprise Settings (placeholder) ========== -->
-    <div class="page-content" id="page-settings">
-      <div class="page-header"><h2>企业设置</h2><p>企业基本信息和配置</p></div>
-      <div class="table-section" style="text-align:center;padding:60px;color:#999;">企业设置功能开发中...</div>
     </div>
 
     <!-- ========== PAGE 5: Profile ========== -->
@@ -398,6 +354,16 @@ tr:hover { background: #fafafa; }
             <div class="form-group"><label>当前密码</label><input type="password" placeholder="请输入当前密码"></div>
             <div class="form-group"><label>新密码</label><input type="password" placeholder="请输入新密码"></div>
             <div class="form-group"><label>确认密码</label><input type="password" placeholder="请再次输入新密码"></div>
+            <div style="background:#f6f8fa;border-radius:6px;padding:12px;margin:12px 0">
+              <div style="font-size:13px;font-weight:600;color:#333;margin-bottom:8px">📱 手机验证（交叉验证）</div>
+              <div class="form-row">
+                <div class="form-group" style="flex:1"><label>当前手机号</label><input type="text" value="136****6666" disabled></div>
+                <div class="form-group" style="flex:1"><label>验证码</label>
+                  <div style="display:flex;gap:8px"><input type="text" placeholder="输入验证码" style="flex:1"><button class="btn btn-sm" onclick="alert('验证码已发送至 136****6666')">发送验证码</button></div>
+                </div>
+              </div>
+              <div style="font-size:12px;color:#999">需通过当前绑定手机接收验证码，确认身份后方可修改密码</div>
+            </div>
             <button class="btn btn-primary">修改密码</button>
           </div>
           <div class="profile-tab-content" id="ptab2">
@@ -416,23 +382,21 @@ tr:hover { background: #fafafa; }
       </div>
     </div>
 
-    <!-- ========== PAGE 6: Dashboard ========== -->
+    <!-- ========== Dashboard ========== -->
     <div class="page-content" id="page-dashboard">
       <div class="page-header"><h2>统计看板</h2><p>平台核心数据概览</p></div>
-      <div class="stat-cards">
-        <div class="stat-card"><div class="label">总用户数</div><div class="value" style="color:#1890ff">12,846</div><div class="sub">较昨日 +128</div></div>
-        <div class="stat-card"><div class="label">入驻企业</div><div class="value" style="color:#722ed1">328</div><div class="sub">较上月 +15</div></div>
-        <div class="stat-card"><div class="label">总Token消耗</div><div class="value" style="color:#fa8c16">5.6M</div><div class="sub">今日 286K</div></div>
-        <div class="stat-card"><div class="label">订阅用户</div><div class="value" style="color:#52c41a">892</div><div class="sub">较上月 +67</div></div>
-      </div>
-      <div class="points-overview">
-        <div class="points-card"><div class="label">总发放积分</div><div class="value">2,580,000</div><div class="progress-bar"><div class="fill" style="width:100%;background:#1890ff"></div></div></div>
-        <div class="points-card"><div class="label">已消耗积分</div><div class="value">1,876,400</div><div class="progress-bar"><div class="fill" style="width:72.7%;background:#fa8c16"></div></div></div>
-        <div class="points-card"><div class="label">剩余积分</div><div class="value">703,600</div><div class="progress-bar"><div class="fill" style="width:27.3%;background:#52c41a"></div></div></div>
+      <div class="stat-cards" style="grid-template-columns:repeat(7,1fr)">
+        <div class="stat-card"><div class="label">总用户数</div><div class="value" style="color:#1890ff;font-size:22px">12,846</div><div class="sub">较昨日 +128</div></div>
+        <div class="stat-card"><div class="label">入驻企业</div><div class="value" style="color:#722ed1;font-size:22px">328</div><div class="sub">较上月 +15</div></div>
+        <div class="stat-card"><div class="label">总Token消耗</div><div class="value" style="color:#fa8c16;font-size:22px">5.6M</div><div class="sub">今日 286K</div></div>
+        <div class="stat-card"><div class="label">订阅用户</div><div class="value" style="color:#52c41a;font-size:22px">892</div><div class="sub">较上月 +67</div></div>
+        <div class="stat-card"><div class="label">总发放积分</div><div class="value" style="color:#1890ff;font-size:22px">2,580,000</div><div class="progress-bar"><div class="fill" style="width:100%;background:#1890ff"></div></div></div>
+        <div class="stat-card"><div class="label">已消耗积分</div><div class="value" style="color:#fa8c16;font-size:22px">1,876,400</div><div class="progress-bar"><div class="fill" style="width:72.7%;background:#fa8c16"></div></div></div>
+        <div class="stat-card"><div class="label">剩余积分</div><div class="value" style="color:#52c41a;font-size:22px">703,600</div><div class="progress-bar"><div class="fill" style="width:27.3%;background:#52c41a"></div></div></div>
       </div>
       <div class="chart-row">
         <div class="chart-box">
-          <h3>Token消耗趋势
+          <h3>Token消耗趋势（生成 / 审查）
             <div class="chart-toggle">
               <button class="active" onclick="switchTokenRange(0, this)">近24小时</button>
               <button onclick="switchTokenRange(1, this)">近7天</button>
@@ -451,7 +415,7 @@ tr:hover { background: #fafafa; }
       </div>
       <div class="chart-row equal">
         <div class="chart-box">
-          <h3>新增订阅趋势</h3>
+          <h3>订阅趋势（新增 / 续费）</h3>
           <div class="line-chart-container" id="subChartContainer"></div>
         </div>
         <div class="chart-box">
@@ -556,21 +520,6 @@ tr:hover { background: #fafafa; }
           </div>
         </div>
       </div>
-      <div class="table-section mb-20">
-        <h3>积分明细</h3>
-        <div class="table-container">
-          <table>
-            <thead><tr><th>时间</th><th>用户</th><th>类型</th><th>变动</th><th>余额</th><th>说明</th></tr></thead>
-            <tbody>
-              <tr><td>2026-06-24 15:30</td><td>xxx</td><td><span class="status-badge invalid">消耗</span></td><td style="color:#ff4d4f">-120</td><td>49,880</td><td>生成合同 采购合同-2026Q2</td></tr>
-              <tr><td>2026-06-24 14:10</td><td>xxx</td><td><span class="status-badge invalid">消耗</span></td><td style="color:#ff4d4f">-80</td><td>50,000</td><td>审查合同 劳动合同-张三</td></tr>
-              <tr><td>2026-06-24 10:00</td><td>张三</td><td><span class="status-badge normal">充值</span></td><td style="color:#52c41a">+10,000</td><td>10,000</td><td>购买个人版套餐</td></tr>
-              <tr><td>2026-06-23 16:45</td><td>李四</td><td><span class="status-badge pending-accept">赠送</span></td><td style="color:#52c41a">+2,000</td><td>12,000</td><td>新用户注册赠送</td></tr>
-              <tr><td>2026-06-23 11:00</td><td>王五</td><td><span class="status-badge invalid">消耗</span></td><td style="color:#ff4d4f">-50</td><td>950</td><td>生成合同 服务协议</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
       <!-- E: Subscription Stats -->
       <div class="sub-stats">
         <div class="sub-stat"><div class="val" style="color:#1890ff">892</div><div class="lbl">当月新增订阅</div></div>
@@ -596,13 +545,16 @@ tr:hover { background: #fafafa; }
         <h3>订单记录</h3>
         <div class="table-container">
           <table>
-            <thead><tr><th>订单时间</th><th>企业/用户</th><th>套餐</th><th>金额</th><th>积分</th><th>状态</th><th>是否开票</th></tr></thead>
+            <thead><tr><th>订单时间</th><th>企业/用户</th><th>类型</th><th>项目</th><th>金额</th><th>积分</th><th>状态</th><th>开票</th></tr></thead>
             <tbody>
-              <tr><td>2026-06-24 10:30</td><td>通友科技 / xxx</td><td>企业版</td><td>¥499</td><td>+50,000</td><td><span class="status-badge normal">已支付</span></td><td>已开票</td></tr>
-              <tr><td>2026-06-23 14:20</td><td>创新工场 / lisi</td><td>旗舰版</td><td>¥1,999</td><td>+200,000</td><td><span class="status-badge normal">已支付</span></td><td>已开票</td></tr>
-              <tr><td>2026-06-22 09:15</td><td>王五（散户）</td><td>个人版</td><td>¥99</td><td>+10,000</td><td><span class="status-badge normal">已支付</span></td><td>未开票</td></tr>
-              <tr><td>2026-06-21 16:00</td><td>蓝海集团 / zhouba</td><td>旗舰版</td><td>¥1,999</td><td>+200,000</td><td><span class="status-badge pending-review">待支付</span></td><td>-</td></tr>
-              <tr><td>2026-06-20 11:45</td><td>孙七（散户）</td><td>补充包-大量</td><td>¥888</td><td>+10,000</td><td><span class="status-badge normal">已支付</span></td><td>未开票</td></tr>
+              <tr><td>2026-06-24 10:30</td><td>通友科技 / xxx</td><td><span class="status-badge normal">套餐订阅</span></td><td>企业版</td><td>¥499</td><td>+50,000</td><td><span class="status-badge normal">已支付</span></td><td>已开票</td></tr>
+              <tr><td>2026-06-23 14:20</td><td>创新工场 / lisi</td><td><span class="status-badge normal">套餐订阅</span></td><td>旗舰版</td><td>¥1,999</td><td>+200,000</td><td><span class="status-badge normal">已支付</span></td><td>已开票</td></tr>
+              <tr><td>2026-06-23 11:00</td><td>蓝海集团 / zhouba</td><td><span class="status-badge pending-review" style="background:#fff7e6;color:#fa8c16">补充包购买</span></td><td>大量补充包</td><td>¥888</td><td>+10,000</td><td><span class="status-badge normal">已支付</span></td><td>未开票</td></tr>
+              <tr><td>2026-06-22 09:15</td><td>王五（散户）</td><td><span class="status-badge normal">套餐订阅</span></td><td>个人版</td><td>¥99</td><td>+10,000</td><td><span class="status-badge normal">已支付</span></td><td>未开票</td></tr>
+              <tr><td>2026-06-21 16:00</td><td>蓝海集团 / zhouba</td><td><span class="status-badge normal">套餐订阅</span></td><td>旗舰版</td><td>¥1,999</td><td>+200,000</td><td><span class="status-badge pending-review">待支付</span></td><td>-</td></tr>
+              <tr><td>2026-06-20 11:45</td><td>孙七（散户）</td><td><span class="status-badge pending-review" style="background:#fff7e6;color:#fa8c16">补充包购买</span></td><td>大量补充包</td><td>¥888</td><td>+10,000</td><td><span class="status-badge normal">已支付</span></td><td>未开票</td></tr>
+              <tr><td>2026-06-19 15:30</td><td>通友科技 / xxx</td><td><span class="status-badge pending-review" style="background:#fff7e6;color:#fa8c16">补充包购买</span></td><td>小量补充包</td><td>¥9.9</td><td>+100</td><td><span class="status-badge normal">已支付</span></td><td>未开票</td></tr>
+              <tr><td>2026-06-18 09:00</td><td>未来科技 / admin</td><td><span class="status-badge normal">套餐订阅</span></td><td>企业版</td><td>¥499</td><td>+50,000</td><td><span class="status-badge normal">已支付</span></td><td>已开票</td></tr>
             </tbody>
           </table>
         </div>
@@ -674,103 +626,21 @@ tr:hover { background: #fafafa; }
 
 <!-- ==================== ALL MODALS ==================== -->
 
-<!-- Invite User Modal -->
-<div class="modal-mask" id="inviteModalMask" onclick="closeModal('inviteModal')"></div>
-<div class="modal modal-md" id="inviteModal">
-  <div class="modal-header"><h3 class="modal-title">邀请用户</h3><button class="modal-close" onclick="closeModal('inviteModal')">&times;</button></div>
-  <div class="modal-body">
-    <div class="form-group"><label>手机号</label><input type="text" id="invitePhone" placeholder="请输入手机号"></div>
-    <button class="btn btn-primary" onclick="checkInvitePhone()" style="width:100%">下一步</button>
-    <div id="inviteResult" style="margin-top:16px;display:none;"></div>
-  </div>
-</div>
-
-<!-- Edit User Modal (Admin) -->
+<!-- Platform User Edit Modal -->
 <div class="modal-mask" id="editUserModalMask" onclick="closeModal('editUserModal')"></div>
 <div class="modal modal-md" id="editUserModal">
   <div class="modal-header"><h3 class="modal-title">编辑用户</h3><button class="modal-close" onclick="closeModal('editUserModal')">&times;</button></div>
   <div class="modal-body">
     <div class="form-row">
-      <div class="form-group"><label>用户名</label><input type="text" id="editUsername"></div>
-      <div class="form-group"><label>姓名</label><input type="text" id="editName"></div>
+      <div class="form-group"><label>账号</label><input type="text" id="editUsername"></div>
+      <div class="form-group"><label>昵称</label><input type="text" id="editName"></div>
     </div>
     <div class="form-row">
       <div class="form-group"><label>密码</label><input type="password" id="editPassword" placeholder="留空则不修改"></div>
-      <div class="form-group"><label>部门</label><select id="editDept"></select></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>角色</label><select id="editRole"><option value="user">普通用户</option><option value="admin">管理员</option></select></div>
-      <div class="form-group"><label>状态</label><select id="editStatus"><option value="normal">正常</option><option value="pending-review">待审核</option><option value="pending-accept">待接受</option><option value="invalid">失效</option></select></div>
-    </div>
-    <div class="form-group"><label>手机号</label><input type="text" id="editPhone"></div>
-  </div>
-  <div class="modal-footer"><button class="btn" onclick="closeModal('editUserModal')">取消</button><button class="btn btn-primary" onclick="saveEditUser()">保存</button></div>
-</div>
-
-<!-- Review Modal -->
-<div class="modal-mask" id="reviewModalMask" onclick="closeModal('reviewModal')"></div>
-<div class="modal modal-sm" id="reviewModal">
-  <div class="modal-header"><h3 class="modal-title">审核用户</h3><button class="modal-close" onclick="closeModal('reviewModal')">&times;</button></div>
-  <div class="modal-body"><p id="reviewUserInfo"></p></div>
-  <div class="modal-footer">
-    <button class="btn btn-danger" onclick="reviewAction('reject')">拒绝</button>
-    <button class="btn btn-primary" onclick="reviewAction('accept')">通过</button>
-  </div>
-</div>
-
-<!-- Invite Link Modal -->
-<div class="modal-mask" id="inviteLinkModalMask" onclick="closeModal('inviteLinkModal')"></div>
-<div class="modal modal-md" id="inviteLinkModal">
-  <div class="modal-header"><h3 class="modal-title">邀请链接</h3><button class="modal-close" onclick="closeModal('inviteLinkModal')">&times;</button></div>
-  <div class="modal-body" style="text-align:center;">
-    <p style="margin-bottom:12px;">分享以下链接邀请用户加入企业</p>
-    <div style="background:#f5f5f5;padding:12px;border-radius:4px;word-break:break-all;font-size:13px;margin-bottom:12px;" id="inviteLinkText">https://contract.ai/invite/tongyou-abc123</div>
-    <div style="width:120px;height:120px;background:#f5f5f5;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;border-radius:4px;border:1px solid #e8e8e8;">
-      <div style="text-align:center;color:#999;font-size:12px;"><div style="font-size:32px;">📱</div>二维码</div>
-    </div>
-    <p style="font-size:12px;color:#999;">链接有效期：7天 | 已使用：0/50</p>
-    <button class="btn btn-primary mt-12" onclick="copyInviteLink()">复制链接</button>
-  </div>
-</div>
-
-<!-- Pending Accept Modal -->
-<div class="modal-mask" id="pendingAcceptModalMask" onclick="closeModal('pendingAcceptModal')"></div>
-<div class="modal modal-sm" id="pendingAcceptModal">
-  <div class="modal-header"><h3 class="modal-title">邀请待接受</h3><button class="modal-close" onclick="closeModal('pendingAcceptModal')">&times;</button></div>
-  <div class="modal-body" style="text-align:center;">
-    <div style="font-size:48px;margin-bottom:12px;">⏳</div>
-    <p id="pendingAcceptInfo"></p>
-    <p style="font-size:12px;color:#999;margin-top:8px;">已发送邀请通知，等待对方确认</p>
-  </div>
-</div>
-
-<!-- Link Expired Modal -->
-<div class="modal-mask" id="linkExpiredModalMask" onclick="closeModal('linkExpiredModal')"></div>
-<div class="modal modal-sm" id="linkExpiredModal">
-  <div class="modal-header"><h3 class="modal-title">链接已过期</h3><button class="modal-close" onclick="closeModal('linkExpiredModal')">&times;</button></div>
-  <div class="modal-body" style="text-align:center;">
-    <div style="font-size:48px;margin-bottom:12px;">⏰</div>
-    <p>邀请链接已过期，请联系管理员重新生成</p>
-  </div>
-  <div class="modal-footer"><button class="btn btn-primary" onclick="closeModal('linkExpiredModal')">知道了</button></div>
-</div>
-
-<!-- Department Manager Modal -->
-<div class="modal-mask" id="deptManagerModalMask" onclick="closeModal('deptManagerModal')"></div>
-<div class="modal modal-lg" id="deptManagerModal">
-  <div class="modal-header"><h3 class="modal-title">部门管理</h3><button class="modal-close" onclick="closeModal('deptManagerModal')">&times;</button></div>
-  <div class="modal-body">
-    <div class="dept-manager">
-      <div class="dept-left">
-        <div class="flex-between mb-12"><strong>部门列表</strong><button class="btn btn-sm btn-primary" onclick="addDept()">+ 新建</button></div>
-        <div id="modalDeptList"></div>
-      </div>
-      <div class="dept-right">
-        <div class="flex-between mb-12"><strong id="modalDeptMemberTitle">选择部门查看成员</strong></div>
-        <div id="modalDeptMemberList"></div>
-      </div>
+      <div class="form-group"><label>手机号</label><input type="text" id="editPhone"></div>
     </div>
   </div>
+  <div class="modal-footer"><button class="btn" onclick="closeModal('editUserModal')">取消</button><button class="btn btn-primary" onclick="closeModal('editUserModal');alert('已保存')">保存</button></div>
 </div>
 
 <!-- Exit Enterprise Modal -->
@@ -909,7 +779,6 @@ function getStatusLabel(s) {
     return { 'normal':'正常', 'pending-review':'待审核', 'pending-accept':'待接受', 'invalid':'失效' }[s] || s;
 }
 function formatNum(n) { return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
-function closeAllStatusDropdowns() { document.querySelectorAll('.status-dropdown.show').forEach(d => d.classList.remove('show')); }
 
 /* ==================== PAGE SWITCHING ==================== */
 function showPage(pageId, menuItem) {
@@ -922,134 +791,6 @@ function showPage(pageId, menuItem) {
 /* ==================== MODALS ==================== */
 function openModal(id) { document.getElementById(id+'Mask').classList.add('show'); document.getElementById(id).classList.add('show'); }
 function closeModal(id) { document.getElementById(id+'Mask').classList.remove('show'); document.getElementById(id).classList.remove('show'); }
-
-/* ==================== ENTERPRISE USER MANAGEMENT ==================== */
-function renderStatusCards() {
-    const counts = { 'normal':0, 'pending-review':0, 'pending-accept':0, 'invalid':0 };
-    employees.forEach(e => counts[e.status] = (counts[e.status]||0) + 1);
-    const cards = [
-        { label:'正常用户', key:'normal', color:'#52c41a' },
-        { label:'待审核', key:'pending-review', color:'#fa8c16' },
-        { label:'待接受', key:'pending-accept', color:'#1890ff' },
-        { label:'失效用户', key:'invalid', color:'#ff4d4f' },
-    ];
-    document.getElementById('statusCards').innerHTML = cards.map(c =>
-        `<div class="stat-card" style="border-left:4px solid ${c.color}"><div class="label">${c.label}</div><div class="value" style="color:${c.color}">${counts[c.key]}</div></div>`
-    ).join('');
-}
-
-function populateDeptFilter() {
-    document.getElementById('fDept').innerHTML = '<option value="">全部</option>' + departments.map(d => `<option value="${d.name}">${d.icon} ${d.name}</option>`).join('');
-}
-
-function renderUserTable(data) {
-    const list = data || employees;
-    document.getElementById('userTableBody').innerHTML = list.map((e, i) => {
-        const roleLabel = e.role === 'admin' ? '<span style="color:#fa8c16">管理员</span>' : '普通用户';
-        return `<tr>
-            <td><input type="checkbox" class="user-check" value="${e.id}"></td>
-            <td>${i+1}</td><td>${e.account}</td><td>${e.name}</td><td>${e.phone}</td><td>${e.dept}</td>
-            <td><div style="position:relative;"><span class="status-badge ${e.status}" onclick="toggleStatusDropdown(event,${e.id})">${getStatusLabel(e.status)}</span>
-            <div class="status-dropdown" id="sd-${e.id}"><div class="status-dropdown-item" onclick="changeUserStatus(${e.id},'normal')">正常</div><div class="status-dropdown-item" onclick="changeUserStatus(${e.id},'pending-review')">待审核</div><div class="status-dropdown-item" onclick="changeUserStatus(${e.id},'pending-accept')">待接受</div><div class="status-dropdown-item" onclick="changeUserStatus(${e.id},'invalid')">失效</div></div></div></td>
-            <td>${roleLabel}</td><td>${e.joinTime}</td>
-            <td>${e.status==='pending-review'?`<button class="btn btn-sm" onclick="openReviewModal(${e.id})">审核</button>`:''}<button class="btn btn-sm" onclick="openEditModal(${e.id})">编辑</button></td>
-        </tr>`;
-    }).join('');
-}
-
-function toggleStatusDropdown(e, userId) { e.stopPropagation(); closeAllStatusDropdowns(); document.getElementById('sd-'+userId).classList.toggle('show'); }
-
-function changeUserStatus(userId, newStatus) {
-    const user = employees.find(e => e.id === userId);
-    if (user) user.status = newStatus;
-    closeAllStatusDropdowns(); renderStatusCards(); renderUserTable();
-}
-
-function filterUsers() {
-    const name = document.getElementById('fUserName').value.toLowerCase();
-    const phone = document.getElementById('fPhone').value;
-    const dept = document.getElementById('fDept').value;
-    const status = document.getElementById('fStatus').value;
-    renderUserTable(employees.filter(e => {
-        if (name && !e.account.toLowerCase().includes(name) && !e.name.toLowerCase().includes(name)) return false;
-        if (phone && !e.phone.includes(phone)) return false;
-        if (dept && e.dept !== dept) return false;
-        if (status && e.status !== status) return false;
-        return true;
-    }));
-}
-
-function resetFilter() {
-    ['fUserName','fPhone'].forEach(id => document.getElementById(id).value = '');
-    ['fDept','fStatus'].forEach(id => document.getElementById(id).value = '');
-    renderUserTable();
-}
-
-function toggleCheckAll() { const c = document.getElementById('checkAll').checked; document.querySelectorAll('.user-check').forEach(cb => cb.checked = c); }
-
-/* ==================== INVITE FLOW ==================== */
-function checkInvitePhone() {
-    const phone = document.getElementById('invitePhone').value.trim();
-    const result = document.getElementById('inviteResult');
-    if (!phone) { result.innerHTML = '<span style="color:#ff4d4f">请输入手机号</span>'; result.style.display = 'block'; return; }
-    if (registeredPhones.includes(phone)) {
-        const emp = { id: nextId++, name: '新用户'+nextId, phone, dept:'技术部', role:'user', status:'pending-accept', account:'user'+nextId, joinTime: new Date().toISOString().split('T')[0], source:'admin-add', inviteTime: new Date().toLocaleString() };
-        employees.push(emp);
-        result.innerHTML = `<div style="background:#f6ffed;border:1px solid #b7eb8f;border-radius:4px;padding:12px;"><strong style="color:#52c41a">✓ 该手机号已注册</strong><p style="margin-top:8px;font-size:13px;">已向该用户发送加入企业邀请通知，等待对方确认接受。</p></div>`;
-        renderStatusCards(); renderUserTable();
-    } else {
-        result.innerHTML = `<div style="background:#e6f7ff;border:1px solid #91d5ff;border-radius:4px;padding:12px;"><strong style="color:#1890ff">ℹ 该手机号未注册</strong><p style="margin-top:8px;font-size:13px;">该用户尚未注册，已发送注册邀请短信。</p>
-        <div class="form-row" style="margin-top:12px;"><div class="form-group"><label>姓名</label><input type="text" placeholder="填写姓名"></div><div class="form-group"><label>部门</label><select>${departments.map(d=>`<option>${d.name}</option>`).join('')}</select></div></div>
-        <button class="btn btn-primary btn-sm" onclick="alert('邀请已发送')">发送邀请</button></div>`;
-    }
-    result.style.display = 'block';
-}
-
-function openReviewModal(userId) {
-    const user = employees.find(e => e.id === userId);
-    if (!user) return;
-    document.getElementById('reviewUserInfo').innerHTML = `确认审核用户：<strong>${user.name}</strong> (${user.phone})？<br>来源：${user.source==='invite-link'?'邀请链接':'管理员添加'}`;
-    document.getElementById('reviewModal').dataset.userId = userId;
-    openModal('reviewModal');
-}
-
-function reviewAction(action) {
-    const userId = parseInt(document.getElementById('reviewModal').dataset.userId);
-    const user = employees.find(e => e.id === userId);
-    if (user) user.status = action === 'accept' ? 'normal' : 'invalid';
-    closeModal('reviewModal'); renderStatusCards(); renderUserTable();
-}
-
-function copyInviteLink() {
-    navigator.clipboard.writeText(document.getElementById('inviteLinkText').textContent).then(()=>alert('链接已复制')).catch(()=>alert('请手动复制'));
-}
-
-/* ==================== EDIT USER ==================== */
-function openEditModal(userId) {
-    const user = employees.find(e => e.id === userId);
-    if (!user) return;
-    editingUserId = userId;
-    document.getElementById('editUsername').value = user.account;
-    document.getElementById('editName').value = user.name;
-    document.getElementById('editPassword').value = '';
-    document.getElementById('editDept').innerHTML = departments.map(d => `<option value="${d.name}" ${d.name===user.dept?'selected':''}>${d.icon} ${d.name}</option>`).join('');
-    document.getElementById('editRole').value = user.role;
-    document.getElementById('editStatus').value = user.status;
-    document.getElementById('editPhone').value = user.phone;
-    openModal('editUserModal');
-}
-
-function saveEditUser() {
-    const user = employees.find(e => e.id === editingUserId);
-    if (!user) return;
-    user.account = document.getElementById('editUsername').value;
-    user.name = document.getElementById('editName').value;
-    user.dept = document.getElementById('editDept').value;
-    user.role = document.getElementById('editRole').value;
-    user.status = document.getElementById('editStatus').value;
-    user.phone = document.getElementById('editPhone').value;
-    closeModal('editUserModal'); renderStatusCards(); renderUserTable();
-}
 
 /* ==================== DEPARTMENT MANAGEMENT ==================== */
 function renderDeptList(containerId) {
@@ -1075,11 +816,11 @@ function selectDept(deptId, containerId) {
 
 function addDept() {
     const name = prompt('请输入部门名称');
-    if (name) { departments.push({ id: departments.length+1, name, icon:'📁' }); renderDeptList('deptList'); renderDeptList('modalDeptList'); populateDeptFilter(); }
+    if (name) { departments.push({ id: departments.length+1, name, icon:'📁' }); renderDeptList('deptList'); }
 }
 
 function removeFromDept(userId) {
-    if (confirm('确定将该成员移出部门？')) { employees = employees.filter(e => e.id !== userId); renderStatusCards(); renderUserTable(); if (selectedDeptId) selectDept(selectedDeptId); }
+    if (confirm('确定将该成员移出部门？')) { employees = employees.filter(e => e.id !== userId); if (selectedDeptId) selectDept(selectedDeptId); }
 }
 
 /* ==================== PROFILE ==================== */
@@ -1096,30 +837,43 @@ function confirmExit() {
     else alert('请输入正确的企业名称：' + ENTERPRISE_NAME);
 }
 
-/* ==================== DASHBOARD: SVG LINE CHARTS ==================== */
+/* ==================== DASHBOARD: SVG LINE CHARTS (Dual Series) ==================== */
 const tokenData = [
-    [ {label:'00:00',val:4200},{label:'02:00',val:2800},{label:'04:00',val:1500},{label:'06:00',val:3200},{label:'08:00',val:8500},{label:'10:00',val:12400},{label:'12:00',val:9800},{label:'14:00',val:14200},{label:'16:00',val:11600},{label:'18:00',val:7300},{label:'20:00',val:5600},{label:'22:00',val:3100} ],
-    [ {label:'周一',val:86000},{label:'周二',val:92400},{label:'周三',val:78200},{label:'周四',val:105600},{label:'周五',val:118900},{label:'周六',val:54200},{label:'周日',val:42800} ],
-    [ {label:'6/1',val:45000},{label:'6/3',val:52000},{label:'6/5',val:48000},{label:'6/7',val:61000},{label:'6/9',val:58000},{label:'6/11',val:72000},{label:'6/13',val:65000},{label:'6/15',val:78000},{label:'6/17',val:82000},{label:'6/19',val:88000},{label:'6/21',val:95000},{label:'6/23',val:102000} ]
+    [ {label:'00:00',val:4200,val2:2800},{label:'02:00',val:2800,val2:1900},{label:'04:00',val:1500,val2:1100},{label:'06:00',val:3200,val2:2100},{label:'08:00',val:8500,val2:5600},{label:'10:00',val:12400,val2:8200},{label:'12:00',val:9800,val2:6500},{label:'14:00',val:14200,val2:9300},{label:'16:00',val:11600,val2:7800},{label:'18:00',val:7300,val2:4900},{label:'20:00',val:5600,val2:3800},{label:'22:00',val:3100,val2:2100} ],
+    [ {label:'周一',val:86000,val2:62000},{label:'周二',val:92400,val2:68000},{label:'周三',val:78200,val2:56000},{label:'周四',val:105600,val2:78000},{label:'周五',val:118900,val2:86000},{label:'周六',val:54200,val2:38000},{label:'周日',val:42800,val2:29000} ],
+    [ {label:'6/1',val:45000,val2:32000},{label:'6/3',val:52000,val2:38000},{label:'6/5',val:48000,val2:34000},{label:'6/7',val:61000,val2:44000},{label:'6/9',val:58000,val2:41000},{label:'6/11',val:72000,val2:52000},{label:'6/13',val:65000,val2:46000},{label:'6/15',val:78000,val2:56000},{label:'6/17',val:82000,val2:59000},{label:'6/19',val:88000,val2:63000},{label:'6/21',val:95000,val2:68000},{label:'6/23',val:102000,val2:73000} ]
+];
+const subData = [
+    {series1:[{label:'1月',val:52,val2:38},{label:'2月',val:68,val2:45},{label:'3月',val:75,val2:52},{label:'4月',val:89,val2:61},{label:'5月',val:102,val2:72},{label:'6月',val:118,val2:85}]}
 ];
 
-function renderSVGLineChart(containerId, data, color) {
-    const maxVal = Math.max(...data.map(d=>d.val));
-    const w=600, h=200, pad={top:20,right:20,bottom:30,left:50};
+function renderSVGLineChart(containerId, data, color1, color2, legend1, legend2) {
+    color2 = color2 || '#fa8c16';
+    legend1 = legend1 || '生成消耗';
+    legend2 = legend2 || '审查消耗';
+    const allVals = data.map(d => [d.val, d.val2 || 0]).flat();
+    const maxVal = Math.max(...allVals);
+    const w=600, h=200, pad={top:25,right:20,bottom:30,left:50};
     const cW=w-pad.left-pad.right, cH=h-pad.top-pad.bottom;
-    const pts = data.map((d,i)=>{ const x=pad.left+(i/(data.length-1))*cW; const y=pad.top+cH-(d.val/maxVal)*cH; return {x,y,val:d.val,label:d.label}; });
-    const poly = pts.map(p=>`${p.x},${p.y}`).join(' ');
-    const area = `${pts[0].x},${pad.top+cH} ${poly} ${pts[pts.length-1].x},${pad.top+cH}`;
+    const pts1 = data.map((d,i)=>{ const x=pad.left+(i/(data.length-1))*cW; const y=pad.top+cH-(d.val/maxVal)*cH; return {x,y}; });
+    const pts2 = data.map((d,i)=>{ const x=pad.left+(i/(data.length-1))*cW; const y=pad.top+cH-((d.val2||0)/maxVal)*cH; return {x,y}; });
+    const poly1 = pts1.map(p=>`${p.x},${p.y}`).join(' ');
+    const poly2 = pts2.map(p=>`${p.x},${p.y}`).join(' ');
+    const area1 = `${pts1[0].x},${pad.top+cH} ${poly1} ${pts1[pts1.length-1].x},${pad.top+cH}`;
+    const area2 = `${pts2[0].x},${pad.top+cH} ${poly2} ${pts2[pts2.length-1].x},${pad.top+cH}`;
     let grid='';
     for(let i=0;i<=4;i++){ const y=pad.top+(i/4)*cH; grid+=`<line x1="${pad.left}" y1="${y}" x2="${w-pad.right}" y2="${y}" stroke="#f0f0f0"/>`; grid+=`<text x="${pad.left-8}" y="${y+4}" text-anchor="end" fill="#999" font-size="11">${formatNum(Math.round(maxVal*(1-i/4)))}</text>`; }
-    const circles = pts.map(p=>`<circle cx="${p.x}" cy="${p.y}" r="4" fill="${color}" stroke="#fff" stroke-width="2"/>`).join('');
-    document.getElementById(containerId).innerHTML = `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid meet"><defs><linearGradient id="g_${containerId}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${color}" stop-opacity="0.3"/><stop offset="100%" stop-color="${color}" stop-opacity="0.02"/></linearGradient></defs>${grid}<polygon points="${area}" fill="url(#g_${containerId})"/><polyline points="${poly}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>${circles}</svg>`;
+    const labels = data.map((d,i)=>{const x=pad.left+(i/(data.length-1))*cW; return `<text x="${x}" y="${h-5}" text-anchor="middle" fill="#999" font-size="10">${d.label}</text>`;}).join('');
+    const circles1 = pts1.map(p=>`<circle cx="${p.x}" cy="${p.y}" r="3" fill="${color1}" stroke="#fff" stroke-width="2"/>`).join('');
+    const circles2 = pts2.map(p=>`<circle cx="${p.x}" cy="${p.y}" r="3" fill="${color2}" stroke="#fff" stroke-width="2"/>`).join('');
+    const legend = `<rect x="${pad.left}" y="2" width="10" height="10" rx="2" fill="${color1}"/><text x="${pad.left+14}" y="11" fill="#666" font-size="11">${legend1}</text><rect x="${pad.left+80}" y="2" width="10" height="10" rx="2" fill="${color2}"/><text x="${pad.left+94}" y="11" fill="#666" font-size="11">${legend2}</text>`;
+    document.getElementById(containerId).innerHTML = `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid meet"><defs><linearGradient id="g1_${containerId}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${color1}" stop-opacity="0.25"/><stop offset="100%" stop-color="${color1}" stop-opacity="0.02"/></linearGradient><linearGradient id="g2_${containerId}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${color2}" stop-opacity="0.2"/><stop offset="100%" stop-color="${color2}" stop-opacity="0.02"/></linearGradient></defs>${grid}${labels}${legend}<polygon points="${area2}" fill="url(#g2_${containerId})"/><polyline points="${poly2}" fill="none" stroke="${color2}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="6,3"/>${circles2}<polygon points="${area1}" fill="url(#g1_${containerId})"/><polyline points="${poly1}" fill="none" stroke="${color1}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>${circles1}</svg>`;
 }
 
 function switchTokenRange(index, btn) {
     document.querySelectorAll('.chart-toggle button').forEach(b=>b.classList.remove('active'));
     btn.classList.add('active');
-    renderSVGLineChart('tokenChartContainer', tokenData[index], '#1890ff');
+    renderSVGLineChart('tokenChartContainer', tokenData[index], '#1890ff', '#fa8c16', '生成消耗', '审查消耗');
 }
 
 /* ==================== DASHBOARD: PIE CHARTS ==================== */
@@ -1320,17 +1074,12 @@ function renderResponseTimeBars() {
     }).join('');
 }
 
-/* ==================== GLOBAL EVENTS ==================== */
-document.addEventListener('click', function() { closeAllStatusDropdowns(); });
-
 /* ==================== INIT ==================== */
 function init() {
-    // Enterprise user management
-    renderStatusCards(); populateDeptFilter(); renderUserTable();
-    // Departments
+    // Enterprise info: departments
     renderDeptList('deptList');
-    // Dashboard
-    renderSVGLineChart('tokenChartContainer', tokenData[0], '#1890ff');
+    // Dashboard: dual-line charts
+    renderSVGLineChart('tokenChartContainer', tokenData[0], '#1890ff', '#fa8c16', '生成消耗', '审查消耗');
     renderPie('planPie','planLegend', [
         {label:'免费版',val:5234,color:'#d9d9d9'},{label:'个人版',val:4821,color:'#1890ff'},
         {label:'企业版',val:1892,color:'#722ed1'},{label:'旗舰版',val:892,color:'#fa8c16'}
@@ -1339,9 +1088,7 @@ function init() {
         {label:'Claude Sonnet 4',val:42,color:'#1890ff'},{label:'GPT-4o',val:28,color:'#52c41a'},
         {label:'Qwen-Max',val:18,color:'#722ed1'},{label:'DeepSeek-V3',val:12,color:'#fa8c16'}
     ]);
-    renderSVGLineChart('subChartContainer', [
-        {label:'1月',val:52},{label:'2月',val:68},{label:'3月',val:75},{label:'4月',val:89},{label:'5月',val:102},{label:'6月',val:118}
-    ], '#722ed1');
+    renderSVGLineChart('subChartContainer', subData[0].series1, '#1890ff', '#722ed1', '新增订阅', '续费用户');
     // Platform users
     renderPlatformUsers();
     // Platform enterprises
