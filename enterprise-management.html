@@ -505,7 +505,6 @@
                 <div class="sidebar-menu-item" onclick="switchPage('platform-plans', this)">套餐管理</div>
                 <div class="sidebar-menu-item" onclick="switchPage('platform-points', this)">积分管理</div>
                 <div class="sidebar-menu-item" onclick="switchPage('platform-models', this)">模型管理</div>
-                <div class="sidebar-menu-item" onclick="switchPage('platform-subscriptions', this)">订阅管理</div>
             </nav>
         </aside>
 
@@ -951,6 +950,44 @@
                         </table>
                     </div>
                 </div>
+
+                <!-- 订阅统计 -->
+                <div style="margin-top:32px;">
+                    <div class="sub-header">
+                        <div class="sub-stats">
+                            <div class="sub-stat"><div class="sub-stat-value">892</div><div class="sub-stat-label">当月新增订阅</div></div>
+                            <div class="sub-stat"><div class="sub-stat-value">7,642</div><div class="sub-stat-label">活跃订阅用户</div></div>
+                            <div class="sub-stat"><div class="sub-stat-value">96.8%</div><div class="sub-stat-label">续费率</div></div>
+                            <div class="sub-stat"><div class="sub-stat-value">¥2.68M</div><div class="sub-stat-label">当月营收</div></div>
+                        </div>
+                        <button class="btn btn-sm">导出报表</button>
+                    </div>
+
+                    <div class="chart-row">
+                        <div class="chart-box">
+                            <div class="chart-title">
+                                <span>新增订阅趋势</span>
+                                <div class="chart-period">
+                                    <button class="chart-period-btn" onclick="this.parentNode.querySelectorAll('.chart-period-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">7天</button>
+                                    <button class="chart-period-btn active" onclick="this.parentNode.querySelectorAll('.chart-period-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">30天</button>
+                                </div>
+                            </div>
+                            <div class="bar-chart" id="subTrendChart"></div>
+                        </div>
+                        <div class="chart-box">
+                            <div class="chart-title">订阅来源</div>
+                            <div class="pie-chart-wrapper">
+                                <div class="pie-chart" style="background: conic-gradient(#1890ff 0% 38%, #52c41a 38% 62%, #fa8c16 62% 80%, #722ed1 80% 100%);"></div>
+                                <div class="pie-legend">
+                                    <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#1890ff"></span>官网注册<span class="pie-legend-value">38%</span></div>
+                                    <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#52c41a"></span>邀请链接<span class="pie-legend-value">24%</span></div>
+                                    <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#fa8c16"></span>API接入<span class="pie-legend-value">18%</span></div>
+                                    <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#722ed1"></span>渠道合作<span class="pie-legend-value">20%</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- 积分管理 -->
@@ -1072,82 +1109,6 @@
                     <div class="chart-box">
                         <div class="chart-title">模型响应时间</div>
                         <div id="modelResponseTimes" style="display:flex;flex-direction:column;gap:16px;padding:12px 0;"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 订阅管理 -->
-            <div class="page-content" id="page-platform-subscriptions">
-                <div class="sub-header">
-                    <div class="sub-stats">
-                        <div class="sub-stat"><div class="sub-stat-value">892</div><div class="sub-stat-label">当月新增订阅</div></div>
-                        <div class="sub-stat"><div class="sub-stat-value">7,642</div><div class="sub-stat-label">活跃订阅用户</div></div>
-                        <div class="sub-stat"><div class="sub-stat-value">96.8%</div><div class="sub-stat-label">续费率</div></div>
-                        <div class="sub-stat"><div class="sub-stat-value">¥2.68M</div><div class="sub-stat-label">当月营收</div></div>
-                    </div>
-                    <button class="btn btn-sm">导出报表</button>
-                </div>
-
-                <div class="chart-row">
-                    <div class="chart-box">
-                        <div class="chart-title">
-                            <span>新增订阅趋势</span>
-                            <div class="chart-period">
-                                <button class="chart-period-btn" onclick="this.parentNode.querySelectorAll('.chart-period-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">7天</button>
-                                <button class="chart-period-btn active" onclick="this.parentNode.querySelectorAll('.chart-period-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">30天</button>
-                            </div>
-                        </div>
-                        <div class="bar-chart" id="subTrendChart"></div>
-                    </div>
-                    <div class="chart-box">
-                        <div class="chart-title">订阅来源</div>
-                        <div class="pie-chart-wrapper">
-                            <div class="pie-chart" style="background: conic-gradient(#1890ff 0% 38%, #52c41a 38% 62%, #fa8c16 62% 80%, #722ed1 80% 100%);"></div>
-                            <div class="pie-legend">
-                                <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#1890ff"></span>官网注册<span class="pie-legend-value">38%</span></div>
-                                <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#52c41a"></span>邀请链接<span class="pie-legend-value">24%</span></div>
-                                <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#fa8c16"></span>API接入<span class="pie-legend-value">18%</span></div>
-                                <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#722ed1"></span>渠道合作<span class="pie-legend-value">20%</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="table-section">
-                    <div class="table-header-actions">
-                        <span style="font-size:15px;font-weight:600;color:#333;">最近订阅</span>
-                        <div class="table-search">
-                            <input type="text" placeholder="搜索用户/企业">
-                            <select class="filter-select" style="width:100px;height:32px;">
-                                <option>全部套餐</option>
-                                <option>专业版</option>
-                                <option>企业版</option>
-                                <option>旗舰版</option>
-                            </select>
-                            <button class="btn btn-primary btn-sm">查询</button>
-                        </div>
-                    </div>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr><th>订阅时间</th><th>用户</th><th>企业</th><th>套餐</th><th>金额</th><th>支付方式</th><th>到期时间</th><th>状态</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr><td>2026-06-24 15:30</td><td>张三</td><td>通友科技</td><td>企业版</td><td>¥899</td><td>支付宝</td><td>2026-07-24</td><td><span class="status-badge normal"><span class="status-dot"></span>生效中</span></td></tr>
-                                <tr><td>2026-06-24 14:10</td><td>王芳</td><td>创新工场</td><td>专业版</td><td>¥299</td><td>微信支付</td><td>2026-07-24</td><td><span class="status-badge normal"><span class="status-dot"></span>生效中</span></td></tr>
-                                <tr><td>2026-06-24 11:45</td><td>李明</td><td>-</td><td>专业版</td><td>¥299</td><td>支付宝</td><td>2026-07-24</td><td><span class="status-badge normal"><span class="status-dot"></span>生效中</span></td></tr>
-                                <tr><td>2026-06-23 17:20</td><td>赵强</td><td>未来科技</td><td>旗舰版</td><td>¥2,999</td><td>对公转账</td><td>2026-07-23</td><td><span class="status-badge normal"><span class="status-dot"></span>生效中</span></td></tr>
-                                <tr><td>2026-06-23 10:00</td><td>陈丽</td><td>-</td><td>免费版</td><td>¥0</td><td>-</td><td>-</td><td><span style="color:#999">免费</span></td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="pagination">
-                        <span style="font-size:13px;color:#999;">共 892 条</span>
-                        <button class="page-btn">‹</button>
-                        <button class="page-btn active">1</button>
-                        <button class="page-btn">2</button>
-                        <button class="page-btn">3</button>
-                        <button class="page-btn">›</button>
                     </div>
                 </div>
             </div>
