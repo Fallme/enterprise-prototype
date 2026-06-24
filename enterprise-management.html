@@ -256,6 +256,115 @@
         /* 通知徽章 */
         .notification-badge { position: relative; }
         .notification-badge::after { content: attr(data-count); position: absolute; top: -8px; right: -8px; min-width: 18px; height: 18px; padding: 0 5px; background: #ff4d4f; color: #fff; border-radius: 9px; font-size: 11px; display: flex; align-items: center; justify-content: center; }
+
+        /* ===== 平台后台样式 ===== */
+        .sidebar-group-label { padding: 12px 20px 6px; font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 1px; border-top: 1px solid #f0f0f0; margin-top: 8px; }
+
+        /* 统计卡片 */
+        .stat-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+        .stat-card { background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); position: relative; overflow: hidden; }
+        .stat-card::after { content: ''; position: absolute; top: 0; right: 0; width: 80px; height: 80px; border-radius: 50%; opacity: 0.1; transform: translate(20px, -20px); }
+        .stat-card.blue::after { background: #1890ff; }
+        .stat-card.green::after { background: #52c41a; }
+        .stat-card.orange::after { background: #fa8c16; }
+        .stat-card.purple::after { background: #722ed1; }
+        .stat-card-icon { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 12px; }
+        .stat-card.blue .stat-card-icon { background: #e6f7ff; color: #1890ff; }
+        .stat-card.green .stat-card-icon { background: #f6ffed; color: #52c41a; }
+        .stat-card.orange .stat-card-icon { background: #fff7e6; color: #fa8c16; }
+        .stat-card.purple .stat-card-icon { background: #f9f0ff; color: #722ed1; }
+        .stat-card-value { font-size: 28px; font-weight: 700; color: #333; margin-bottom: 4px; }
+        .stat-card-label { font-size: 13px; color: #999; }
+        .stat-card-trend { position: absolute; top: 20px; right: 20px; font-size: 12px; padding: 2px 8px; border-radius: 10px; }
+        .stat-card-trend.up { color: #52c41a; background: #f6ffed; }
+        .stat-card-trend.down { color: #ff4d4f; background: #fff1f0; }
+
+        /* 图表容器 */
+        .chart-row { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 24px; }
+        .chart-box { background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .chart-title { font-size: 15px; font-weight: 600; color: #333; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
+        .chart-period { display: flex; gap: 8px; }
+        .chart-period-btn { padding: 4px 12px; border: 1px solid #d9d9d9; border-radius: 4px; background: #fff; font-size: 12px; cursor: pointer; }
+        .chart-period-btn.active { background: #1890ff; color: #fff; border-color: #1890ff; }
+
+        /* 柱状图 */
+        .bar-chart { display: flex; align-items: flex-end; gap: 12px; height: 200px; padding-top: 20px; border-bottom: 1px solid #f0f0f0; }
+        .bar-group { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .bar { width: 32px; border-radius: 4px 4px 0 0; transition: height 0.5s; position: relative; }
+        .bar:hover { opacity: 0.8; }
+        .bar.blue { background: linear-gradient(180deg, #1890ff, #69c0ff); }
+        .bar.green { background: linear-gradient(180deg, #52c41a, #95de64); }
+        .bar.orange { background: linear-gradient(180deg, #fa8c16, #ffc069); }
+        .bar.purple { background: linear-gradient(180deg, #722ed1, #b37feb); }
+        .bar-label { font-size: 11px; color: #999; white-space: nowrap; }
+
+        /* 饼图 (CSS) */
+        .pie-chart-wrapper { display: flex; align-items: center; gap: 24px; }
+        .pie-chart { width: 160px; height: 160px; border-radius: 50%; position: relative; }
+        .pie-legend { display: flex; flex-direction: column; gap: 10px; }
+        .pie-legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #666; }
+        .pie-legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+        .pie-legend-value { margin-left: auto; font-weight: 600; color: #333; }
+
+        /* 迷你折线 */
+        .mini-line-chart { height: 60px; display: flex; align-items: flex-end; gap: 3px; }
+        .mini-bar { flex: 1; background: #e6f7ff; border-radius: 2px 2px 0 0; transition: background 0.2s; }
+        .mini-bar:hover { background: #1890ff; }
+
+        /* 表格增强 */
+        .table-header-actions { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid #f0f0f0; }
+        .table-search { display: flex; gap: 8px; align-items: center; }
+        .table-search input { height: 32px; padding: 0 12px; border: 1px solid #d9d9d9; border-radius: 4px; font-size: 13px; width: 200px; }
+        .table-search input:focus { outline: none; border-color: #1890ff; }
+
+        /* 套餐卡片 */
+        .plan-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+        .plan-card { background: #fff; border-radius: 8px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 2px solid transparent; cursor: pointer; transition: all 0.2s; }
+        .plan-card:hover { border-color: #1890ff; transform: translateY(-2px); }
+        .plan-card.active { border-color: #1890ff; }
+        .plan-card-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 16px; }
+        .plan-name { font-size: 18px; font-weight: 600; color: #333; }
+        .plan-price { font-size: 24px; font-weight: 700; color: #1890ff; }
+        .plan-price span { font-size: 14px; font-weight: 400; color: #999; }
+        .plan-features { list-style: none; margin: 16px 0; }
+        .plan-features li { padding: 6px 0; font-size: 13px; color: #666; display: flex; align-items: center; gap: 8px; }
+        .plan-features li::before { content: '✓'; color: #52c41a; font-weight: 600; }
+        .plan-subscribers { font-size: 12px; color: #999; margin-top: 12px; padding-top: 12px; border-top: 1px solid #f0f0f0; }
+
+        /* 积分使用 */
+        .points-overview { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
+        .points-card { background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); text-align: center; }
+        .points-value { font-size: 32px; font-weight: 700; color: #333; margin: 8px 0; }
+        .points-label { font-size: 13px; color: #999; }
+        .points-bar { height: 8px; background: #f0f0f0; border-radius: 4px; margin-top: 12px; overflow: hidden; }
+        .points-bar-fill { height: 100%; border-radius: 4px; transition: width 0.5s; }
+
+        /* 模型管理 */
+        .model-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        .model-card { background: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); display: flex; align-items: center; gap: 16px; transition: all 0.2s; border: 2px solid transparent; }
+        .model-card:hover { border-color: #e6f7ff; }
+        .model-card.active { border-color: #1890ff; background: #f6fffe; }
+        .model-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+        .model-icon.claude { background: #f9f0ff; }
+        .model-icon.gpt { background: #e6f7ff; }
+        .model-icon.qwen { background: #fff7e6; }
+        .model-icon.deepseek { background: #f6ffed; }
+        .model-info { flex: 1; }
+        .model-name { font-size: 15px; font-weight: 600; color: #333; margin-bottom: 4px; }
+        .model-desc { font-size: 12px; color: #999; }
+        .model-meta { display: flex; gap: 16px; margin-top: 8px; }
+        .model-meta-item { font-size: 11px; color: #666; }
+        .model-switch { width: 44px; height: 24px; background: #d9d9d9; border-radius: 12px; position: relative; cursor: pointer; transition: background 0.2s; }
+        .model-switch.on { background: #1890ff; }
+        .model-switch::after { content: ''; width: 20px; height: 20px; background: #fff; border-radius: 50%; position: absolute; top: 2px; left: 2px; transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+        .model-switch.on::after { transform: translateX(20px); }
+
+        /* 订阅用户 */
+        .sub-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .sub-stats { display: flex; gap: 24px; }
+        .sub-stat { text-align: center; }
+        .sub-stat-value { font-size: 20px; font-weight: 600; color: #333; }
+        .sub-stat-label { font-size: 12px; color: #999; }
     </style>
 </head>
 <body>
@@ -269,6 +378,14 @@
                 <div class="sidebar-menu-item" onclick="switchPage('users', this)">角色权限</div>
                 <div class="sidebar-menu-item" onclick="switchPage('users', this)">企业设置</div>
                 <div class="sidebar-menu-item" onclick="switchPage('profile', this)">个人中心</div>
+                <div class="sidebar-group-label">平台后台</div>
+                <div class="sidebar-menu-item" onclick="switchPage('dashboard', this)">统计看板</div>
+                <div class="sidebar-menu-item" onclick="switchPage('platform-users', this)">用户管理</div>
+                <div class="sidebar-menu-item" onclick="switchPage('platform-enterprises', this)">企业管理</div>
+                <div class="sidebar-menu-item" onclick="switchPage('platform-plans', this)">套餐管理</div>
+                <div class="sidebar-menu-item" onclick="switchPage('platform-points', this)">积分管理</div>
+                <div class="sidebar-menu-item" onclick="switchPage('platform-models', this)">模型管理</div>
+                <div class="sidebar-menu-item" onclick="switchPage('platform-subscriptions', this)">订阅管理</div>
             </nav>
         </aside>
 
@@ -378,6 +495,455 @@
                         <div class="status-overview-title"><span class="status-overview-dot"></span> 失效</div>
                         <div class="status-overview-count" id="countInvalid">0</div>
                         <div class="status-overview-desc">拒绝邀请/审核被拒/超时/离开企业</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==================== 平台后台页面 ==================== -->
+
+            <!-- 统计看板 -->
+            <div class="page-content" id="page-dashboard">
+                <div class="stat-cards">
+                    <div class="stat-card blue">
+                        <div class="stat-card-icon">👤</div>
+                        <div class="stat-card-value">12,846</div>
+                        <div class="stat-card-label">总用户数</div>
+                        <div class="stat-card-trend up">↑ 12.5%</div>
+                    </div>
+                    <div class="stat-card green">
+                        <div class="stat-card-icon">🏢</div>
+                        <div class="stat-card-value">328</div>
+                        <div class="stat-card-label">入驻企业</div>
+                        <div class="stat-card-trend up">↑ 8.2%</div>
+                    </div>
+                    <div class="stat-card orange">
+                        <div class="stat-card-icon">🪙</div>
+                        <div class="stat-card-value">5.6M</div>
+                        <div class="stat-card-label">总Token消耗</div>
+                        <div class="stat-card-trend up">↑ 23.1%</div>
+                    </div>
+                    <div class="stat-card purple">
+                        <div class="stat-card-icon">💎</div>
+                        <div class="stat-card-value">892</div>
+                        <div class="stat-card-label">订阅用户</div>
+                        <div class="stat-card-trend up">↑ 15.7%</div>
+                    </div>
+                </div>
+
+                <div class="chart-row">
+                    <div class="chart-box">
+                        <div class="chart-title">
+                            <span>Token消耗趋势</span>
+                            <div class="chart-period">
+                                <button class="chart-period-btn" onclick="this.parentNode.querySelectorAll('.chart-period-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">7天</button>
+                                <button class="chart-period-btn active" onclick="this.parentNode.querySelectorAll('.chart-period-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">30天</button>
+                                <button class="chart-period-btn" onclick="this.parentNode.querySelectorAll('.chart-period-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">90天</button>
+                            </div>
+                        </div>
+                        <div class="bar-chart" id="tokenChart"></div>
+                    </div>
+                    <div class="chart-box">
+                        <div class="chart-title">套餐分布</div>
+                        <div class="pie-chart-wrapper">
+                            <div class="pie-chart" id="planPie" style="background: conic-gradient(#1890ff 0% 42%, #52c41a 42% 68%, #fa8c16 68% 85%, #d9d9d9 85% 100%);"></div>
+                            <div class="pie-legend">
+                                <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#1890ff"></span>专业版<span class="pie-legend-value">42%</span></div>
+                                <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#52c41a"></span>企业版<span class="pie-legend-value">26%</span></div>
+                                <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#fa8c16"></span>旗舰版<span class="pie-legend-value">17%</span></div>
+                                <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#d9d9d9"></span>免费版<span class="pie-legend-value">15%</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-row">
+                    <div class="chart-box">
+                        <div class="chart-title">
+                            <span>新增订阅用户</span>
+                            <span style="font-size:13px;color:#52c41a;font-weight:400">本月 +156</span>
+                        </div>
+                        <div class="bar-chart" id="subChart"></div>
+                    </div>
+                    <div class="chart-box">
+                        <div class="chart-title">模型调用占比</div>
+                        <div class="pie-chart-wrapper">
+                            <div class="pie-chart" id="modelPie" style="background: conic-gradient(#722ed1 0% 35%, #1890ff 35% 62%, #fa8c16 62% 82%, #52c41a 82% 100%);"></div>
+                            <div class="pie-legend">
+                                <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#722ed1"></span>Claude<span class="pie-legend-value">35%</span></div>
+                                <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#1890ff"></span>GPT-4<span class="pie-legend-value">27%</span></div>
+                                <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#fa8c16"></span>Qwen<span class="pie-legend-value">20%</span></div>
+                                <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#52c41a"></span>DeepSeek<span class="pie-legend-value">18%</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 平台用户管理 -->
+            <div class="page-content" id="page-platform-users">
+                <div class="table-section">
+                    <div class="table-header-actions">
+                        <div class="table-search">
+                            <input type="text" placeholder="搜索用户名/手机号/邮箱">
+                            <button class="btn btn-primary btn-sm">搜索</button>
+                        </div>
+                        <div style="display:flex;gap:8px;">
+                            <button class="btn btn-sm">导出</button>
+                            <button class="btn btn-primary btn-sm">+ 新增用户</button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" class="checkbox"></th>
+                                    <th>ID</th>
+                                    <th>用户名</th>
+                                    <th>手机号</th>
+                                    <th>邮箱</th>
+                                    <th>所属企业</th>
+                                    <th>套餐</th>
+                                    <th>积分余额</th>
+                                    <th>状态</th>
+                                    <th>注册时间</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="platformUserTableBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="pagination">
+                        <span style="font-size:13px;color:#999;">共 12,846 条</span>
+                        <button class="page-btn">‹</button>
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn">2</button>
+                        <button class="page-btn">3</button>
+                        <button class="page-btn">...</button>
+                        <button class="page-btn">1285</button>
+                        <button class="page-btn">›</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 平台企业管理 -->
+            <div class="page-content" id="page-platform-enterprises">
+                <div class="table-section">
+                    <div class="table-header-actions">
+                        <div class="table-search">
+                            <input type="text" placeholder="搜索企业名称/管理员">
+                            <select class="filter-select" style="width:120px;height:32px;">
+                                <option>全部状态</option>
+                                <option>正常</option>
+                                <option>已过期</option>
+                                <option>已冻结</option>
+                            </select>
+                            <button class="btn btn-primary btn-sm">搜索</button>
+                        </div>
+                        <div style="display:flex;gap:8px;">
+                            <button class="btn btn-sm">导出</button>
+                            <button class="btn btn-primary btn-sm">+ 新增企业</button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" class="checkbox"></th>
+                                    <th>企业ID</th>
+                                    <th>企业名称</th>
+                                    <th>管理员</th>
+                                    <th>成员数</th>
+                                    <th>套餐</th>
+                                    <th>Token余额</th>
+                                    <th>到期时间</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="enterpriseTableBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="pagination">
+                        <span style="font-size:13px;color:#999;">共 328 家企业</span>
+                        <button class="page-btn">‹</button>
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn">2</button>
+                        <button class="page-btn">3</button>
+                        <button class="page-btn">...</button>
+                        <button class="page-btn">33</button>
+                        <button class="page-btn">›</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 套餐管理 -->
+            <div class="page-content" id="page-platform-plans">
+                <div class="plan-cards">
+                    <div class="plan-card">
+                        <div class="plan-card-header">
+                            <div>
+                                <div class="plan-name">免费版</div>
+                                <div style="font-size:12px;color:#999;margin-top:4px;">适合个人体验</div>
+                            </div>
+                            <div class="plan-price">¥0<span>/月</span></div>
+                        </div>
+                        <ul class="plan-features">
+                            <li>每月 1,000 Token</li>
+                            <li>基础合同模板</li>
+                            <li>单人使用</li>
+                            <li>社区支持</li>
+                        </ul>
+                        <div class="plan-subscribers">当前订阅：<strong>1,927</strong> 用户</div>
+                    </div>
+                    <div class="plan-card active">
+                        <div class="plan-card-header">
+                            <div>
+                                <div class="plan-name">专业版</div>
+                                <div style="font-size:12px;color:#999;margin-top:4px;">适合小型团队</div>
+                            </div>
+                            <div class="plan-price">¥299<span>/月</span></div>
+                        </div>
+                        <ul class="plan-features">
+                            <li>每月 50,000 Token</li>
+                            <li>全部合同模板</li>
+                            <li>最多 10 人</li>
+                            <li>优先客服</li>
+                            <li>API 接入</li>
+                        </ul>
+                        <div class="plan-subscribers">当前订阅：<strong>5,396</strong> 用户</div>
+                    </div>
+                    <div class="plan-card">
+                        <div class="plan-card-header">
+                            <div>
+                                <div class="plan-name">企业版</div>
+                                <div style="font-size:12px;color:#999;margin-top:4px;">适合中大型企业</div>
+                            </div>
+                            <div class="plan-price">¥899<span>/月</span></div>
+                        </div>
+                        <ul class="plan-features">
+                            <li>每月 200,000 Token</li>
+                            <li>全部模板 + 自定义</li>
+                            <li>最多 50 人</li>
+                            <li>专属客服经理</li>
+                            <li>API + Webhook</li>
+                            <li>数据报表</li>
+                        </ul>
+                        <div class="plan-subscribers">当前订阅：<strong>3,342</strong> 用户</div>
+                    </div>
+                </div>
+                <div class="plan-cards">
+                    <div class="plan-card">
+                        <div class="plan-card-header">
+                            <div>
+                                <div class="plan-name">旗舰版</div>
+                                <div style="font-size:12px;color:#999;margin-top:4px;">适合集团用户</div>
+                            </div>
+                            <div class="plan-price">¥2,999<span>/月</span></div>
+                        </div>
+                        <ul class="plan-features">
+                            <li>无限 Token</li>
+                            <li>私有化部署</li>
+                            <li>无限成员</li>
+                            <li>7×24 专线支持</li>
+                            <li>定制开发</li>
+                            <li>SLA 保障</li>
+                        </ul>
+                        <div class="plan-subscribers">当前订阅：<strong>2,181</strong> 用户</div>
+                    </div>
+                    <div class="plan-card" style="border:2px dashed #d9d9d9;display:flex;align-items:center;justify-content:center;min-height:260px;cursor:pointer;">
+                        <div style="text-align:center;color:#999;">
+                            <div style="font-size:32px;margin-bottom:8px;">+</div>
+                            <div>自定义套餐</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-section" style="margin-top:24px;">
+                    <div class="table-header-actions">
+                        <span style="font-size:15px;font-weight:600;color:#333;">套餐变更记录</span>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr><th>时间</th><th>用户/企业</th><th>变更类型</th><th>原套餐</th><th>新套餐</th><th>操作人</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>2026-06-24 14:30</td><td>通友科技</td><td><span style="color:#52c41a">升级</span></td><td>专业版</td><td>企业版</td><td>系统自动</td></tr>
+                                <tr><td>2026-06-24 11:15</td><td>张三</td><td><span style="color:#1890ff">续费</span></td><td>专业版</td><td>专业版</td><td>用户自助</td></tr>
+                                <tr><td>2026-06-23 16:42</td><td>创新工场</td><td><span style="color:#fa8c16">降级</span></td><td>旗舰版</td><td>企业版</td><td>管理员</td></tr>
+                                <tr><td>2026-06-23 09:00</td><td>李四</td><td><span style="color:#ff4d4f">退订</span></td><td>免费版</td><td>-</td><td>用户自助</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 积分管理 -->
+            <div class="page-content" id="page-platform-points">
+                <div class="points-overview">
+                    <div class="points-card">
+                        <div class="points-label">总发放积分</div>
+                        <div class="points-value" style="color:#1890ff;">2,580,000</div>
+                        <div class="points-bar"><div class="points-bar-fill" style="width:100%;background:#1890ff;"></div></div>
+                    </div>
+                    <div class="points-card">
+                        <div class="points-label">已消耗积分</div>
+                        <div class="points-value" style="color:#fa8c16;">1,876,400</div>
+                        <div class="points-bar"><div class="points-bar-fill" style="width:72.7%;background:#fa8c16;"></div></div>
+                    </div>
+                    <div class="points-card">
+                        <div class="points-label">剩余积分</div>
+                        <div class="points-value" style="color:#52c41a;">703,600</div>
+                        <div class="points-bar"><div class="points-bar-fill" style="width:27.3%;background:#52c41a;"></div></div>
+                    </div>
+                </div>
+
+                <div class="chart-row">
+                    <div class="chart-box">
+                        <div class="chart-title">积分消耗趋势（近30天）</div>
+                        <div class="bar-chart" id="pointsChart"></div>
+                    </div>
+                    <div class="chart-box">
+                        <div class="chart-title">消耗类型分布</div>
+                        <div class="pie-chart-wrapper">
+                            <div class="pie-chart" style="background: conic-gradient(#1890ff 0% 45%, #722ed1 45% 70%, #fa8c16 70% 88%, #52c41a 88% 100%);"></div>
+                            <div class="pie-legend">
+                                <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#1890ff"></span>合同生成<span class="pie-legend-value">45%</span></div>
+                                <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#722ed1"></span>合同审查<span class="pie-legend-value">25%</span></div>
+                                <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#fa8c16"></span>合同对比<span class="pie-legend-value">18%</span></div>
+                                <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#52c41a"></span>其他<span class="pie-legend-value">12%</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-section">
+                    <div class="table-header-actions">
+                        <span style="font-size:15px;font-weight:600;color:#333;">积分明细</span>
+                        <div class="table-search">
+                            <input type="text" placeholder="搜索用户">
+                            <select class="filter-select" style="width:100px;height:32px;">
+                                <option>全部类型</option>
+                                <option>消耗</option>
+                                <option>充值</option>
+                                <option>赠送</option>
+                            </select>
+                            <button class="btn btn-primary btn-sm">查询</button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr><th>时间</th><th>用户</th><th>类型</th><th>变动</th><th>余额</th><th>说明</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>2026-06-24 15:20</td><td>张三</td><td><span style="color:#ff4d4f">消耗</span></td><td style="color:#ff4d4f">-120</td><td>4,880</td><td>合同生成 - 采购合同</td></tr>
+                                <tr><td>2026-06-24 14:05</td><td>通友科技</td><td><span style="color:#52c41a">充值</span></td><td style="color:#52c41a">+10,000</td><td>50,000</td><td>企业套餐月度充值</td></tr>
+                                <tr><td>2026-06-24 11:30</td><td>李四</td><td><span style="color:#ff4d4f">消耗</span></td><td style="color:#ff4d4f">-80</td><td>2,320</td><td>合同审查 - 劳动合同</td></tr>
+                                <tr><td>2026-06-23 16:00</td><td>王五</td><td><span style="color:#1890ff">赠送</span></td><td style="color:#1890ff">+500</td><td>3,500</td><td>新用户注册赠送</td></tr>
+                                <tr><td>2026-06-23 10:15</td><td>赵六</td><td><span style="color:#ff4d4f">消耗</span></td><td style="color:#ff4d4f">-200</td><td>1,800</td><td>合同对比 - 3份合同</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模型管理 -->
+            <div class="page-content" id="page-platform-models">
+                <div class="chart-box" style="margin-bottom:24px;">
+                    <div class="chart-title">模型配置</div>
+                    <p style="font-size:13px;color:#999;margin-bottom:16px;">开启/关闭平台可用的AI模型，调整默认模型和调用优先级</p>
+                    <div class="model-grid" id="modelGrid"></div>
+                </div>
+                <div class="chart-row">
+                    <div class="chart-box">
+                        <div class="chart-title">模型调用量（近7天）</div>
+                        <div class="bar-chart" id="modelCallChart"></div>
+                    </div>
+                    <div class="chart-box">
+                        <div class="chart-title">模型响应时间</div>
+                        <div style="display:flex;flex-direction:column;gap:16px;padding:12px 0;">
+                            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>Claude Sonnet</span><span style="font-weight:600;">1.2s</span></div><div class="points-bar"><div class="points-bar-fill" style="width:30%;background:#722ed1;"></div></div></div>
+                            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>GPT-4o</span><span style="font-weight:600;">1.8s</span></div><div class="points-bar"><div class="points-bar-fill" style="width:45%;background:#1890ff;"></div></div></div>
+                            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>Qwen-Max</span><span style="font-weight:600;">0.9s</span></div><div class="points-bar"><div class="points-bar-fill" style="width:22%;background:#fa8c16;"></div></div></div>
+                            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>DeepSeek-V3</span><span style="font-weight:600;">1.5s</span></div><div class="points-bar"><div class="points-bar-fill" style="width:37%;background:#52c41a;"></div></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 订阅管理 -->
+            <div class="page-content" id="page-platform-subscriptions">
+                <div class="sub-header">
+                    <div class="sub-stats">
+                        <div class="sub-stat"><div class="sub-stat-value">892</div><div class="sub-stat-label">当月新增订阅</div></div>
+                        <div class="sub-stat"><div class="sub-stat-value">7,642</div><div class="sub-stat-label">活跃订阅用户</div></div>
+                        <div class="sub-stat"><div class="sub-stat-value">96.8%</div><div class="sub-stat-label">续费率</div></div>
+                        <div class="sub-stat"><div class="sub-stat-value">¥2.68M</div><div class="sub-stat-label">当月营收</div></div>
+                    </div>
+                    <button class="btn btn-sm">导出报表</button>
+                </div>
+
+                <div class="chart-row">
+                    <div class="chart-box">
+                        <div class="chart-title">
+                            <span>新增订阅趋势</span>
+                            <div class="chart-period">
+                                <button class="chart-period-btn" onclick="this.parentNode.querySelectorAll('.chart-period-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">7天</button>
+                                <button class="chart-period-btn active" onclick="this.parentNode.querySelectorAll('.chart-period-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')">30天</button>
+                            </div>
+                        </div>
+                        <div class="bar-chart" id="subTrendChart"></div>
+                    </div>
+                    <div class="chart-box">
+                        <div class="chart-title">订阅来源</div>
+                        <div class="pie-chart-wrapper">
+                            <div class="pie-chart" style="background: conic-gradient(#1890ff 0% 38%, #52c41a 38% 62%, #fa8c16 62% 80%, #722ed1 80% 100%);"></div>
+                            <div class="pie-legend">
+                                <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#1890ff"></span>官网注册<span class="pie-legend-value">38%</span></div>
+                                <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#52c41a"></span>邀请链接<span class="pie-legend-value">24%</span></div>
+                                <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#fa8c16"></span>API接入<span class="pie-legend-value">18%</span></div>
+                                <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#722ed1"></span>渠道合作<span class="pie-legend-value">20%</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-section">
+                    <div class="table-header-actions">
+                        <span style="font-size:15px;font-weight:600;color:#333;">最近订阅</span>
+                        <div class="table-search">
+                            <input type="text" placeholder="搜索用户/企业">
+                            <select class="filter-select" style="width:100px;height:32px;">
+                                <option>全部套餐</option>
+                                <option>专业版</option>
+                                <option>企业版</option>
+                                <option>旗舰版</option>
+                            </select>
+                            <button class="btn btn-primary btn-sm">查询</button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr><th>订阅时间</th><th>用户</th><th>企业</th><th>套餐</th><th>金额</th><th>支付方式</th><th>到期时间</th><th>状态</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>2026-06-24 15:30</td><td>张三</td><td>通友科技</td><td>企业版</td><td>¥899</td><td>支付宝</td><td>2026-07-24</td><td><span class="status-badge normal"><span class="status-dot"></span>生效中</span></td></tr>
+                                <tr><td>2026-06-24 14:10</td><td>王芳</td><td>创新工场</td><td>专业版</td><td>¥299</td><td>微信支付</td><td>2026-07-24</td><td><span class="status-badge normal"><span class="status-dot"></span>生效中</span></td></tr>
+                                <tr><td>2026-06-24 11:45</td><td>李明</td><td>-</td><td>专业版</td><td>¥299</td><td>支付宝</td><td>2026-07-24</td><td><span class="status-badge normal"><span class="status-dot"></span>生效中</span></td></tr>
+                                <tr><td>2026-06-23 17:20</td><td>赵强</td><td>未来科技</td><td>旗舰版</td><td>¥2,999</td><td>对公转账</td><td>2026-07-23</td><td><span class="status-badge normal"><span class="status-dot"></span>生效中</span></td></tr>
+                                <tr><td>2026-06-23 10:00</td><td>陈丽</td><td>-</td><td>免费版</td><td>¥0</td><td>-</td><td>-</td><td><span style="color:#999">免费</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination">
+                        <span style="font-size:13px;color:#999;">共 892 条</span>
+                        <button class="page-btn">‹</button>
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn">2</button>
+                        <button class="page-btn">3</button>
+                        <button class="page-btn">›</button>
                     </div>
                 </div>
             </div>
@@ -754,6 +1320,146 @@
             const now = new Date();
             const diff = Math.ceil((end - now) / (1000 * 60 * 60 * 24));
             return diff;
+        }
+
+        // ==================== 平台后台数据 ====================
+        const platformUsers = [
+            { id: 10001, name: 'admin', phone: '13666666666', email: 'admin@tongyou.com', enterprise: '通友科技', plan: '企业版', points: 50000, status: 'normal', regTime: '2024-01-15' },
+            { id: 10002, name: '张三', phone: '13888888888', email: 'zhangsan@qq.com', enterprise: '通友科技', plan: '专业版', points: 4880, status: 'normal', regTime: '2024-02-20' },
+            { id: 10003, name: '李四', phone: '13999999999', email: 'lisi@163.com', enterprise: '创新工场', plan: '旗舰版', points: 12000, status: 'normal', regTime: '2024-03-10' },
+            { id: 10004, name: '王五', phone: '13777777777', email: 'wangwu@gmail.com', enterprise: '-', plan: '免费版', points: 500, status: 'normal', regTime: '2024-05-08' },
+            { id: 10005, name: '赵六', phone: '13555555555', email: 'zhaoliu@outlook.com', enterprise: '未来科技', plan: '专业版', points: 1800, status: 'disabled', regTime: '2024-06-12' },
+            { id: 10006, name: '孙七', phone: '13444444444', email: 'sunqi@qq.com', enterprise: '通友科技', plan: '企业版', points: 8600, status: 'normal', regTime: '2024-07-20' },
+        ];
+
+        const enterprises = [
+            { id: 'E001', name: '通友科技', admin: 'xxx', members: 28, plan: '企业版', tokens: '1,250,000', expire: '2027-01-15', status: 'normal' },
+            { id: 'E002', name: '创新工场', admin: '李四', members: 52, plan: '旗舰版', tokens: '3,800,000', expire: '2026-12-31', status: 'normal' },
+            { id: 'E003', name: '未来科技', admin: '赵六', members: 15, plan: '专业版', tokens: '420,000', expire: '2026-08-15', status: 'normal' },
+            { id: 'E004', name: '星辰互联', admin: '周八', members: 8, plan: '免费版', tokens: '8,000', expire: '-', status: 'expired' },
+            { id: 'E005', name: '蓝海集团', admin: '吴九', members: 120, plan: '旗舰版', tokens: '5,200,000', expire: '2027-06-30', status: 'normal' },
+            { id: 'E006', name: '极简软件', admin: '郑十', members: 5, plan: '专业版', tokens: '180,000', expire: '2026-03-01', status: 'frozen' },
+        ];
+
+        const models = [
+            { id: 'claude', name: 'Claude Sonnet 4', desc: 'Anthropic 最新模型，擅长长文本和复杂推理', icon: '🧠', cost: '¥0.03/1K tokens', speed: '1.2s', enabled: true },
+            { id: 'gpt4', name: 'GPT-4o', desc: 'OpenAI 多模态模型，综合能力强', icon: '🤖', cost: '¥0.05/1K tokens', speed: '1.8s', enabled: true },
+            { id: 'qwen', name: 'Qwen-Max', desc: '阿里通义千问旗舰模型，中文优秀', icon: '🔮', cost: '¥0.02/1K tokens', speed: '0.9s', enabled: true },
+            { id: 'deepseek', name: 'DeepSeek-V3', desc: '深度求索最新模型，性价比极高', icon: '🔍', cost: '¥0.01/1K tokens', speed: '1.5s', enabled: true },
+        ];
+
+        // ==================== 平台后台渲染 ====================
+        function renderPlatformUsers() {
+            const tbody = document.getElementById('platformUserTableBody');
+            if (!tbody) return;
+            const statusMap = { 'normal': ['正常', 'normal'], 'disabled': ['禁用', 'invalid'] };
+            tbody.innerHTML = platformUsers.map(u => {
+                const [sText, sClass] = statusMap[u.status] || ['未知', ''];
+                return `<tr>
+                    <td><input type="checkbox" class="checkbox"></td>
+                    <td>${u.id}</td>
+                    <td>${u.name}</td>
+                    <td>${u.phone}</td>
+                    <td>${u.email}</td>
+                    <td>${u.enterprise}</td>
+                    <td><span style="padding:2px 8px;border-radius:4px;font-size:12px;background:#e6f7ff;color:#1890ff;">${u.plan}</span></td>
+                    <td>${u.points.toLocaleString()}</td>
+                    <td><span class="status-badge ${sClass}"><span class="status-dot"></span>${sText}</span></td>
+                    <td>${u.regTime}</td>
+                    <td><div class="table-actions"><button class="table-action-btn">编辑</button><button class="table-action-btn danger">禁用</button></div></td>
+                </tr>`;
+            }).join('');
+        }
+
+        function renderEnterprises() {
+            const tbody = document.getElementById('enterpriseTableBody');
+            if (!tbody) return;
+            const statusMap = { 'normal': ['正常', 'normal'], 'expired': ['已过期', 'invalid'], 'frozen': ['已冻结', 'pending-review'] };
+            tbody.innerHTML = enterprises.map(e => {
+                const [sText, sClass] = statusMap[e.status] || ['未知', ''];
+                return `<tr>
+                    <td><input type="checkbox" class="checkbox"></td>
+                    <td>${e.id}</td>
+                    <td><strong>${e.name}</strong></td>
+                    <td>${e.admin}</td>
+                    <td>${e.members}</td>
+                    <td><span style="padding:2px 8px;border-radius:4px;font-size:12px;background:#e6f7ff;color:#1890ff;">${e.plan}</span></td>
+                    <td>${e.tokens}</td>
+                    <td>${e.expire}</td>
+                    <td><span class="status-badge ${sClass}"><span class="status-dot"></span>${sText}</span></td>
+                    <td><div class="table-actions"><button class="table-action-btn">详情</button><button class="table-action-btn">编辑</button></div></td>
+                </tr>`;
+            }).join('');
+        }
+
+        function renderModels() {
+            const grid = document.getElementById('modelGrid');
+            if (!grid) return;
+            grid.innerHTML = models.map(m => `
+                <div class="model-card ${m.enabled ? 'active' : ''}" id="model-${m.id}">
+                    <div class="model-icon ${m.id}">${m.icon}</div>
+                    <div class="model-info">
+                        <div class="model-name">${m.name}</div>
+                        <div class="model-desc">${m.desc}</div>
+                        <div class="model-meta">
+                            <span class="model-meta-item">费用: ${m.cost}</span>
+                            <span class="model-meta-item">均响应: ${m.speed}</span>
+                        </div>
+                    </div>
+                    <div class="model-switch ${m.enabled ? 'on' : ''}" onclick="toggleModel('${m.id}', this)"></div>
+                </div>
+            `).join('');
+        }
+
+        function toggleModel(modelId, el) {
+            const m = models.find(x => x.id === modelId);
+            if (m) { m.enabled = !m.enabled; }
+            el.classList.toggle('on');
+            el.closest('.model-card').classList.toggle('active');
+        }
+
+        function renderBarChart(containerId, data, colors) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            const max = Math.max(...data.map(d => d.value));
+            container.innerHTML = data.map((d, i) => {
+                const h = (d.value / max) * 160;
+                const color = colors ? colors[i % colors.length] : 'blue';
+                return `<div class="bar-group"><div class="bar ${color}" style="height:${h}px;" title="${d.value}"></div><div class="bar-label">${d.label}</div></div>`;
+            }).join('');
+        }
+
+        // ==================== 初始化图表 ====================
+        function initPlatformCharts() {
+            // Token消耗趋势
+            renderBarChart('tokenChart', [
+                { label: '6/18', value: 180000 }, { label: '6/19', value: 220000 }, { label: '6/20', value: 195000 },
+                { label: '6/21', value: 240000 }, { label: '6/22', value: 210000 }, { label: '6/23', value: 260000 },
+                { label: '6/24', value: 285000 },
+            ]);
+            // 新增订阅
+            renderBarChart('subChart', [
+                { label: '6/18', value: 28 }, { label: '6/19', value: 35 }, { label: '6/20', value: 22 },
+                { label: '6/21', value: 42 }, { label: '6/22', value: 38 }, { label: '6/23', value: 45 },
+                { label: '6/24', value: 52 },
+            ], ['green']);
+            // 积分消耗
+            renderBarChart('pointsChart', [
+                { label: '6/18', value: 52000 }, { label: '6/19', value: 68000 }, { label: '6/20', value: 45000 },
+                { label: '6/21', value: 72000 }, { label: '6/22', value: 61000 }, { label: '6/23', value: 78000 },
+                { label: '6/24', value: 85000 },
+            ], ['orange']);
+            // 模型调用
+            renderBarChart('modelCallChart', [
+                { label: 'Claude', value: 42000 }, { label: 'GPT-4', value: 33000 },
+                { label: 'Qwen', value: 25000 }, { label: 'DeepSeek', value: 22000 },
+            ], ['purple', 'blue', 'orange', 'green']);
+            // 订阅趋势
+            renderBarChart('subTrendChart', [
+                { label: '6/18', value: 28 }, { label: '6/19', value: 35 }, { label: '6/20', value: 22 },
+                { label: '6/21', value: 42 }, { label: '6/22', value: 38 }, { label: '6/23', value: 45 },
+                { label: '6/24', value: 52 },
+            ]);
         }
 
         // ==================== 页面切换 ====================
@@ -1357,6 +2063,10 @@
 
         // ==================== 初始化 ====================
         renderUserTable();
+        renderPlatformUsers();
+        renderEnterprises();
+        renderModels();
+        initPlatformCharts();
     </script>
 </body>
 </html>
