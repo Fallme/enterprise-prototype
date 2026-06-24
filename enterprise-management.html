@@ -502,9 +502,8 @@
                 <div class="sidebar-menu-item" onclick="switchPage('dashboard', this)">统计看板</div>
                 <div class="sidebar-menu-item" onclick="switchPage('platform-users', this)">用户管理</div>
                 <div class="sidebar-menu-item" onclick="switchPage('platform-enterprises', this)">企业管理</div>
-                <div class="sidebar-menu-item" onclick="switchPage('platform-plans', this)">套餐管理</div>
-                <div class="sidebar-menu-item" onclick="switchPage('platform-points', this)">积分管理</div>
-                <div class="sidebar-menu-item" onclick="switchPage('platform-models', this)">模型管理</div>
+                <div class="sidebar-menu-item" onclick="switchPage('platform-plans', this)">积分与订单</div>
+                <div class="sidebar-menu-item" onclick="switchPage('platform-models', this)">模型配置</div>
             </nav>
         </aside>
 
@@ -651,10 +650,26 @@
                     </div>
                 </div>
 
+                <!-- 积分总览 -->
+                <div class="points-overview" style="margin-bottom:24px;">
+                    <div class="points-card">
+                        <div class="points-label">总发放积分</div>
+                        <div class="points-value" style="color:#1890ff;">2,580,000</div>
+                        <div class="points-bar"><div class="points-bar-fill" style="width:100%;background:#1890ff;"></div></div>
+                    </div>
+                    <div class="points-card">
+                        <div class="points-label">已消耗积分</div>
+                        <div class="points-value" style="color:#fa8c16;">1,876,400</div>
+                        <div class="points-bar"><div class="points-bar-fill" style="width:72.7%;background:#fa8c16;"></div></div>
+                    </div>
+                    <div class="points-card">
+                        <div class="points-label">剩余积分</div>
+                        <div class="points-value" style="color:#52c41a;">703,600</div>
+                        <div class="points-bar"><div class="points-bar-fill" style="width:27.3%;background:#52c41a;"></div></div>
+                    </div>
+                </div>
+
                 <div class="chart-row">
-                    <div class="chart-box">
-                        <div class="chart-title">
-                            <span>Token消耗趋势</span>
                             <div class="chart-period">
                                 <button class="chart-period-btn" onclick="switchTokenChart('24h', this)">近24小时</button>
                                 <button class="chart-period-btn active" onclick="switchTokenChart('7d', this)">近7天</button>
@@ -956,6 +971,59 @@
                     </div>
                 </div>
 
+                <!-- 积分消耗 -->
+                <div style="margin-top:32px;">
+                    <h3 style="font-size:16px;font-weight:600;color:#333;margin-bottom:16px;">积分消耗</h3>
+                    <div class="chart-row">
+                        <div class="chart-box">
+                            <div class="chart-title">积分消耗趋势（近30天）</div>
+                            <div class="bar-chart" id="pointsChart"></div>
+                        </div>
+                        <div class="chart-box">
+                            <div class="chart-title">消耗类型分布</div>
+                            <div class="pie-chart-wrapper">
+                                <div class="pie-chart" style="background: conic-gradient(#1890ff 0% 45%, #722ed1 45% 70%, #fa8c16 70% 88%, #52c41a 88% 100%);"></div>
+                                <div class="pie-legend">
+                                    <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#1890ff"></span>合同生成<span class="pie-legend-value">45%</span></div>
+                                    <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#722ed1"></span>合同审查<span class="pie-legend-value">25%</span></div>
+                                    <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#fa8c16"></span>合同对比<span class="pie-legend-value">18%</span></div>
+                                    <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#52c41a"></span>其他<span class="pie-legend-value">12%</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-section">
+                        <div class="table-header-actions">
+                            <span style="font-size:15px;font-weight:600;color:#333;">积分明细</span>
+                            <div class="table-search">
+                                <input type="text" placeholder="搜索用户">
+                                <select class="filter-select" style="width:100px;height:32px;">
+                                    <option>全部类型</option>
+                                    <option>消耗</option>
+                                    <option>充值</option>
+                                    <option>赠送</option>
+                                </select>
+                                <button class="btn btn-primary btn-sm">查询</button>
+                            </div>
+                        </div>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr><th>时间</th><th>用户</th><th>类型</th><th>变动</th><th>余额</th><th>说明</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>2026-06-24 15:20</td><td>张三</td><td><span style="color:#ff4d4f">消耗</span></td><td style="color:#ff4d4f">-120</td><td>4,880</td><td>合同生成 - 采购合同</td></tr>
+                                    <tr><td>2026-06-24 14:05</td><td>通友科技</td><td><span style="color:#52c41a">充值</span></td><td style="color:#52c41a">+10,000</td><td>50,000</td><td>企业套餐月度充值</td></tr>
+                                    <tr><td>2026-06-24 11:30</td><td>李四</td><td><span style="color:#ff4d4f">消耗</span></td><td style="color:#ff4d4f">-80</td><td>2,320</td><td>合同审查 - 劳动合同</td></tr>
+                                    <tr><td>2026-06-23 16:00</td><td>王五</td><td><span style="color:#1890ff">赠送</span></td><td style="color:#1890ff">+500</td><td>3,500</td><td>新用户注册赠送</td></tr>
+                                    <tr><td>2026-06-23 10:15</td><td>赵六</td><td><span style="color:#ff4d4f">消耗</span></td><td style="color:#ff4d4f">-200</td><td>1,800</td><td>合同对比 - 3份合同</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- 订阅统计 -->
                 <div style="margin-top:32px;">
                     <div class="sub-header">
@@ -991,76 +1059,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 积分管理 -->
-            <div class="page-content" id="page-platform-points">
-                <div class="points-overview">
-                    <div class="points-card">
-                        <div class="points-label">总发放积分</div>
-                        <div class="points-value" style="color:#1890ff;">2,580,000</div>
-                        <div class="points-bar"><div class="points-bar-fill" style="width:100%;background:#1890ff;"></div></div>
-                    </div>
-                    <div class="points-card">
-                        <div class="points-label">已消耗积分</div>
-                        <div class="points-value" style="color:#fa8c16;">1,876,400</div>
-                        <div class="points-bar"><div class="points-bar-fill" style="width:72.7%;background:#fa8c16;"></div></div>
-                    </div>
-                    <div class="points-card">
-                        <div class="points-label">剩余积分</div>
-                        <div class="points-value" style="color:#52c41a;">703,600</div>
-                        <div class="points-bar"><div class="points-bar-fill" style="width:27.3%;background:#52c41a;"></div></div>
-                    </div>
-                </div>
-
-                <div class="chart-row">
-                    <div class="chart-box">
-                        <div class="chart-title">积分消耗趋势（近30天）</div>
-                        <div class="bar-chart" id="pointsChart"></div>
-                    </div>
-                    <div class="chart-box">
-                        <div class="chart-title">消耗类型分布</div>
-                        <div class="pie-chart-wrapper">
-                            <div class="pie-chart" style="background: conic-gradient(#1890ff 0% 45%, #722ed1 45% 70%, #fa8c16 70% 88%, #52c41a 88% 100%);"></div>
-                            <div class="pie-legend">
-                                <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#1890ff"></span>合同生成<span class="pie-legend-value">45%</span></div>
-                                <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#722ed1"></span>合同审查<span class="pie-legend-value">25%</span></div>
-                                <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#fa8c16"></span>合同对比<span class="pie-legend-value">18%</span></div>
-                                <div class="pie-legend-item"><span class="pie-legend-dot" style="background:#52c41a"></span>其他<span class="pie-legend-value">12%</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="table-section">
-                    <div class="table-header-actions">
-                        <span style="font-size:15px;font-weight:600;color:#333;">积分明细</span>
-                        <div class="table-search">
-                            <input type="text" placeholder="搜索用户">
-                            <select class="filter-select" style="width:100px;height:32px;">
-                                <option>全部类型</option>
-                                <option>消耗</option>
-                                <option>充值</option>
-                                <option>赠送</option>
-                            </select>
-                            <button class="btn btn-primary btn-sm">查询</button>
-                        </div>
-                    </div>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr><th>时间</th><th>用户</th><th>类型</th><th>变动</th><th>余额</th><th>说明</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr><td>2026-06-24 15:20</td><td>张三</td><td><span style="color:#ff4d4f">消耗</span></td><td style="color:#ff4d4f">-120</td><td>4,880</td><td>合同生成 - 采购合同</td></tr>
-                                <tr><td>2026-06-24 14:05</td><td>通友科技</td><td><span style="color:#52c41a">充值</span></td><td style="color:#52c41a">+10,000</td><td>50,000</td><td>企业套餐月度充值</td></tr>
-                                <tr><td>2026-06-24 11:30</td><td>李四</td><td><span style="color:#ff4d4f">消耗</span></td><td style="color:#ff4d4f">-80</td><td>2,320</td><td>合同审查 - 劳动合同</td></tr>
-                                <tr><td>2026-06-23 16:00</td><td>王五</td><td><span style="color:#1890ff">赠送</span></td><td style="color:#1890ff">+500</td><td>3,500</td><td>新用户注册赠送</td></tr>
-                                <tr><td>2026-06-23 10:15</td><td>赵六</td><td><span style="color:#ff4d4f">消耗</span></td><td style="color:#ff4d4f">-200</td><td>1,800</td><td>合同对比 - 3份合同</td></tr>
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>
