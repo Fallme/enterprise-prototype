@@ -296,24 +296,62 @@ tr:hover { background: #fafafa; }
   <!-- ==================== MAIN CONTENT ==================== -->
   <div class="main-content">
 
-    <!-- ========== Enterprise Info ========== -->
+    <!-- ========== Enterprise Info Dashboard ========== -->
     <div class="page-content active" id="page-ent-info">
-      <div class="page-header"><h2>企业信息</h2><p>管理企业基本信息和部门结构</p></div>
-      <div class="detail-section">
-        <h4>基本信息</h4>
-        <div class="form-row">
-          <div class="form-group"><label>企业名称</label><input type="text" id="entNameInput" value="通友科技"></div>
-          <div class="form-group"><label>认证状态</label><div style="padding:6px 0"><span class="verified-badge">V</span> 已认证</div></div>
+      <!-- Hero: Enterprise Header -->
+      <div style="background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);border-radius:12px;padding:28px 32px;color:#fff;margin-bottom:20px;display:flex;align-items:center;gap:20px;box-shadow:0 4px 20px rgba(102,126,234,0.35)">
+        <div onclick="editEntName()" style="cursor:pointer" title="点击修改企业名称">
+          <div style="width:64px;height:64px;background:rgba(255,255,255,0.2);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;border:2px solid rgba(255,255,255,0.3)" id="entAvatar">通</div>
         </div>
-        <div class="form-row">
-          <div class="form-group"><label>企业状态</label><div style="padding:6px 0"><span class="status-dot normal"></span> 运营中</div></div>
-          <div class="form-group"><label>到期时间</label><input type="date" value="2027-01-15"></div>
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;gap:10px">
+            <h2 id="entTitleText" style="font-size:22px;font-weight:700;cursor:pointer" onclick="editEntName()" title="点击修改">通友科技</h2>
+            <span id="entAuthBadge" style="display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,0.2);padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid rgba(255,255,255,0.3)">✓ 已认证</span>
+          </div>
+          <p style="opacity:0.85;margin-top:4px;font-size:13px">企业版 · 12 位成员 · 运营中</p>
         </div>
-        <button class="btn btn-primary" onclick="alert('企业信息已保存')">保存</button>
+        <div style="display:flex;gap:10px">
+          <button onclick="openModal('deptManagerModal')" style="background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);padding:8px 18px;border-radius:8px;cursor:pointer;font-size:13px;backdrop-filter:blur(4px)">📁 部门管理</button>
+          <button onclick="document.getElementById('licenseUpload').click()" style="background:#fff;color:#667eea;border:none;padding:8px 18px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600">📜 上传营业执照认证</button>
+          <input type="file" id="licenseUpload" accept="image/*,.pdf" style="display:none" onchange="handleLicenseUpload(this)">
+        </div>
       </div>
-      <div class="detail-section" style="margin-top:20px">
-        <h4>部门管理 <button class="btn btn-sm btn-primary" style="float:right" onclick="openModal('deptManagerModal')">部门管理</button></h4>
-        <div id="deptPreview" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+
+      <!-- Stats Row -->
+      <div class="stat-cards" style="grid-template-columns:repeat(5,1fr);margin-bottom:20px">
+        <div class="stat-card" style="border-left:3px solid #1890ff"><div class="label">总成员</div><div class="value" style="color:#1890ff">12</div><div class="sub">技术部 4 · 销售部 3 · 人事部 2 · 财务部 3</div></div>
+        <div class="stat-card" style="border-left:3px solid #52c41a"><div class="label">剩余积分</div><div class="value" style="color:#52c41a">38,560</div><div class="sub">套餐额度 50,000</div><div class="progress-bar" style="margin-top:8px;height:4px;background:#f0f0f0;border-radius:2px"><div style="width:77%;height:100%;background:#52c41a;border-radius:2px"></div></div></div>
+        <div class="stat-card" style="border-left:3px solid #fa8c16"><div class="label">已消耗</div><div class="value" style="color:#fa8c16">11,440</div><div class="sub">本月消耗 3,280</div></div>
+        <div class="stat-card" style="border-left:3px solid #722ed1"><div class="label">本月生成</div><div class="value" style="color:#722ed1">186</div><div class="sub">合同生成 142 · 审查 44</div></div>
+        <div class="stat-card" style="border-left:3px solid #eb2f96"><div class="label">日均消耗</div><div class="value" style="color:#eb2f96">381</div><div class="sub">较上月 ↑12.5%</div></div>
+      </div>
+
+      <!-- Two-column Layout -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+        <!-- Left: Organization Structure -->
+        <div class="chart-box">
+          <h3>组织架构</h3>
+          <div id="entOrgTree"></div>
+        </div>
+        <!-- Right: Activity Feed -->
+        <div class="chart-box">
+          <h3>活跃信息 <span style="font-size:12px;color:#999;font-weight:400">最近24小时</span></h3>
+          <div id="entActivityFeed"></div>
+        </div>
+      </div>
+
+      <!-- Two-column Rankings -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <!-- Points Consumption Ranking -->
+        <div class="chart-box">
+          <h3>积分消耗排名 <span style="font-size:12px;color:#999;font-weight:400">本月</span></h3>
+          <div id="entPointsRank"></div>
+        </div>
+        <!-- Feature Usage Ranking -->
+        <div class="chart-box">
+          <h3>功能使用排名 <span style="font-size:12px;color:#999;font-weight:400">本月</span></h3>
+          <div id="entFeatureRank"></div>
+        </div>
       </div>
     </div>
 
@@ -928,9 +966,107 @@ function checkInvitePhone() {
     result.style.display = 'block';
 }
 
-function renderDeptPreview() {
-    const el = document.getElementById('deptPreview');
-    if (el) el.innerHTML = departments.map(d => `<span style="display:inline-flex;align-items:center;gap:4px;background:#f5f5f5;padding:4px 12px;border-radius:4px;font-size:13px">${d.icon} ${d.name} <span style="color:#999">(${employees.filter(e=>e.dept===d.name).length}人)</span></span>`).join('');
+/* ==================== ENTERPRISE DASHBOARD ==================== */
+function editEntName() {
+    const name = prompt('请输入企业名称', '通友科技');
+    if (name && name.trim()) {
+        document.getElementById('entTitleText').textContent = name.trim();
+        document.getElementById('entAvatar').textContent = name.trim()[0];
+    }
+}
+function handleLicenseUpload(input) {
+    if (input.files && input.files[0]) {
+        const f = input.files[0];
+        document.getElementById('entAuthBadge').innerHTML = '⏳ 审核中';
+        document.getElementById('entAuthBadge').style.background = 'rgba(255,255,255,0.35)';
+        alert('营业执照已提交审核：' + f.name + '\n审核通过后将获得认证蓝V标识');
+        setTimeout(() => { document.getElementById('entAuthBadge').innerHTML = '✓ 已认证'; document.getElementById('entAuthBadge').style.background = 'rgba(255,255,255,0.2)'; }, 2000);
+    }
+}
+function renderEntOrgTree() {
+    const el = document.getElementById('entOrgTree');
+    if (!el) return;
+    el.innerHTML = departments.map(d => {
+        const members = employees.filter(e => e.dept === d.name);
+        return `<div style="margin-bottom:14px">
+            <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f8f9fa;border-radius:8px;cursor:pointer" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
+                <span style="font-size:18px">${d.icon}</span>
+                <strong style="font-size:14px">${d.name}</strong>
+                <span style="background:#e6f7ff;color:#1890ff;padding:2px 8px;border-radius:10px;font-size:11px;margin-left:auto">${members.length}人</span>
+                <span style="color:#bbb;font-size:12px">▼</span>
+            </div>
+            <div style="padding-left:20px;margin-top:4px">
+                ${members.map(m => `<div style="display:flex;align-items:center;gap:8px;padding:6px 10px;border-left:2px solid #e8e8e8;margin-left:8px;font-size:13px">
+                    <div style="width:26px;height:26px;border-radius:50%;background:${m.role==='admin'?'#722ed1':'#1890ff'};color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600">${m.name[0]}</div>
+                    <span>${m.name}</span>
+                    ${m.role==='admin'?'<span style="background:#f6ffed;color:#52c41a;padding:1px 6px;border-radius:4px;font-size:10px">管理员</span>':''}
+                    <span style="color:#999;font-size:11px;margin-left:auto">${m.phone}</span>
+                </div>`).join('')}
+            </div>
+        </div>`;
+    }).join('');
+}
+function renderEntActivityFeed() {
+    const el = document.getElementById('entActivityFeed');
+    if (!el) return;
+    const activities = [
+        { user: '张三', dept: '销售部', action: '生成了合同', target: '《销售服务协议-V3》', time: '5 分钟前', icon: '📝', color: '#1890ff' },
+        { user: '李四', dept: '人事部', action: '审查了合同', target: '《劳动合同补充条款》', time: '18 分钟前', icon: '🔍', color: '#52c41a' },
+        { user: 'xxx', dept: '技术部', action: '消耗了积分', target: '320 积分（合同生成）', time: '35 分钟前', icon: '⚡', color: '#fa8c16' },
+        { user: '王五', dept: '财务部', action: '下载了合同', target: '《采购合同-2026Q2》', time: '1 小时前', icon: '📥', color: '#722ed1' },
+        { user: '张三', dept: '销售部', action: '生成了合同', target: '《合作框架协议》', time: '1.5 小时前', icon: '📝', color: '#1890ff' },
+        { user: '赵六', dept: '技术部', action: '审查了合同', target: '《API服务协议》', time: '2 小时前', icon: '🔍', color: '#52c41a' },
+        { user: 'xxx', dept: '技术部', action: '消耗了积分', target: '180 积分（合同审查）', time: '3 小时前', icon: '⚡', color: '#fa8c16' },
+        { user: '李四', dept: '人事部', action: '生成了合同', target: '《保密协议模板》', time: '4 小时前', icon: '📝', color: '#1890ff' }
+    ];
+    el.innerHTML = activities.map(a => `<div style="display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid #f5f5f5">
+        <div style="width:30px;height:30px;border-radius:50%;background:${a.color}15;color:${a.color};display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">${a.icon}</div>
+        <div style="flex:1;min-width:0">
+            <div style="font-size:13px"><strong>${a.user}</strong> <span style="color:#999">(${a.dept})</span> ${a.action}</div>
+            <div style="font-size:12px;color:#666;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${a.target}</div>
+        </div>
+        <span style="font-size:11px;color:#bbb;white-space:nowrap">${a.time}</span>
+    </div>`).join('');
+}
+function renderEntPointsRank() {
+    const el = document.getElementById('entPointsRank');
+    if (!el) return;
+    const rankData = [
+        { name: 'xxx', dept: '技术部', used: 3280, color: '#1890ff' },
+        { name: '张三', dept: '销售部', used: 2850, color: '#52c41a' },
+        { name: '李四', dept: '人事部', used: 1960, color: '#722ed1' },
+        { name: '王五', dept: '财务部', used: 1520, color: '#fa8c16' },
+        { name: '赵六', dept: '技术部', used: 1180, color: '#eb2f96' },
+        { name: '孙七', dept: '销售部', used: 650, color: '#999' }
+    ];
+    const maxUsed = rankData[0].used;
+    el.innerHTML = rankData.map((r, i) => `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;${i<rankData.length-1?'border-bottom:1px solid #f5f5f5':''}">
+        <span style="width:22px;height:22px;border-radius:50%;background:${i<3?['#ffd700','#c0c0c0','#cd7f32'][i]:'#f0f0f0'};color:${i<3?'#fff':'#999'};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">${i+1}</span>
+        <div style="width:28px;height:28px;border-radius:50%;background:${r.color}15;color:${r.color};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0">${r.name[0]}</div>
+        <div style="flex:1;min-width:0">
+            <div style="display:flex;justify-content:space-between;font-size:13px"><span><strong>${r.name}</strong> <span style="color:#999;font-size:11px">${r.dept}</span></span><span style="color:${r.color};font-weight:600">${r.used.toLocaleString()}</span></div>
+            <div style="height:4px;background:#f0f0f0;border-radius:2px;margin-top:4px"><div style="height:100%;width:${(r.used/maxUsed)*100}%;background:${r.color};border-radius:2px"></div></div>
+        </div>
+    </div>`).join('');
+}
+function renderEntFeatureRank() {
+    const el = document.getElementById('entFeatureRank');
+    if (!el) return;
+    const features = [
+        { name: '合同生成', count: 142, icon: '📝', color: '#1890ff' },
+        { name: '合同审查', count: 44, icon: '🔍', color: '#52c41a' },
+        { name: '合同对比', count: 23, icon: '📊', color: '#722ed1' },
+        { name: '模板使用', count: 18, icon: '📋', color: '#fa8c16' },
+        { name: '批量生成', count: 8, icon: '⚡', color: '#eb2f96' }
+    ];
+    const maxCount = features[0].count;
+    el.innerHTML = features.map((f, i) => `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;${i<features.length-1?'border-bottom:1px solid #f5f5f5':''}">
+        <span style="font-size:18px;flex-shrink:0">${f.icon}</span>
+        <div style="flex:1;min-width:0">
+            <div style="display:flex;justify-content:space-between;font-size:13px"><span><strong>${f.name}</strong></span><span style="color:${f.color};font-weight:600">${f.count} 次</span></div>
+            <div style="height:4px;background:#f0f0f0;border-radius:2px;margin-top:4px"><div style="height:100%;width:${(f.count/maxCount)*100}%;background:${f.color};border-radius:2px"></div></div>
+        </div>
+    </div>`).join('');
 }
 
 /* ==================== DEPARTMENT MANAGEMENT ==================== */
@@ -957,7 +1093,7 @@ function selectDept(deptId, containerId) {
 
 function addDept() {
     const name = prompt('请输入部门名称');
-    if (name) { departments.push({ id: departments.length+1, name, icon:'📁' }); renderDeptList('modalDeptList'); renderDeptPreview(); }
+    if (name) { departments.push({ id: departments.length+1, name, icon:'📁' }); renderDeptList('modalDeptList'); renderEntOrgTree(); }
 }
 
 function removeFromDept(userId) {
@@ -1242,8 +1378,8 @@ function renderResponseTimeBars() {
 
 /* ==================== INIT ==================== */
 function init() {
-    // Enterprise info
-    renderDeptPreview();
+    // Enterprise dashboard
+    renderEntOrgTree(); renderEntActivityFeed(); renderEntPointsRank(); renderEntFeatureRank();
     // Enterprise user management
     renderStatusCards(); populateDeptFilter(); renderUserTable();
     // Department modal
