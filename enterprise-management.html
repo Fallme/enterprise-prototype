@@ -900,7 +900,7 @@ function renderUserTable(data) {
         return `<tr>
             <td><input type="checkbox" class="user-check" value="${e.id}"></td>
             <td>${i+1}</td><td>${e.account}</td><td>${e.name}</td><td>${e.phone}</td><td>${e.dept}</td>
-            <td><span class="status-badge ${e.status}">${getStatusLabel(e.status)}</span></td>
+            <td>${e.status==='pending-review'?`<span class="status-badge ${e.status}" style="cursor:pointer" onclick="confirmAccept(${e.id})" title="点击接受加入">${getStatusLabel(e.status)}</span>`:`<span class="status-badge ${e.status}">${getStatusLabel(e.status)}</span>`}</td>
             <td>${roleLabel}</td><td>${e.joinTime}</td>
             <td>${e.status==='pending-review'?`<button class="btn btn-sm" onclick="openReviewModal(${e.id})">审核</button>`:''}<button class="btn btn-sm" onclick="openEditModal(${e.id})">编辑</button></td>
         </tr>`;
@@ -937,6 +937,15 @@ function reviewAction(action) {
     const user = employees.find(e => e.id === userId);
     if (user) user.status = action === 'accept' ? 'normal' : 'invalid';
     closeModal('reviewModal'); renderStatusCards(); renderUserTable();
+}
+function confirmAccept(userId) {
+    const user = employees.find(e => e.id === userId);
+    if (!user) return;
+    if (confirm(`确认接受 ${user.name}（${user.phone}）加入企业？\n\n来源：${user.source==='invite-link'?'邀请链接':'管理员添加'}`)) {
+        user.status = 'normal';
+        renderStatusCards(); renderUserTable();
+        alert(`已接受 ${user.name} 加入企业`);
+    }
 }
 function openEditModal(userId) {
     const user = employees.find(e => e.id === userId);
