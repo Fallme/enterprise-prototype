@@ -687,6 +687,40 @@ tr:hover { background: #fafafa; }
   <div class="modal-footer"><button class="btn" onclick="closeModal('editUserModal')">取消</button><button class="btn btn-primary" onclick="closeModal('editUserModal');alert('已保存')">保存</button></div>
 </div>
 
+<!-- Edit Enterprise Member Modal -->
+<div class="modal-mask" id="entMemberEditModalMask" onclick="closeModal('entMemberEditModal')"></div>
+<div class="modal modal-md" id="entMemberEditModal">
+  <div class="modal-header"><h3 class="modal-title">编辑企业成员</h3><button class="modal-close" onclick="closeModal('entMemberEditModal')">&times;</button></div>
+  <div class="modal-body">
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:#f6f8fa;border-radius:8px;margin-bottom:14px">
+      <div class="detail-avatar" style="width:36px;height:36px;font-size:16px" id="entMemberAvatar">-</div>
+      <div><strong id="entMemberTitle">-</strong><div style="font-size:12px;color:#999" id="entMemberPhone">-</div></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>账号</label><input type="text" id="entMemberAccount"></div>
+      <div class="form-group"><label>昵称</label><input type="text" id="entMemberNickname"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>手机号</label><input type="text" id="entMemberPhone2"></div>
+      <div class="form-group"><label>密码</label><input type="password" id="entMemberPassword" placeholder="留空不修改"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>权限</label>
+        <select id="entMemberRole">
+          <option value="admin">管理员</option>
+          <option value="user">普通用户</option>
+          <option value="viewer">只读成员</option>
+        </select>
+      </div>
+      <div class="form-group"><label>套餐</label>
+        <select id="entMemberPlan"><option value="免费版">免费版</option><option value="个人版">个人版</option><option value="企业版">企业版</option><option value="旗舰版">旗舰版</option></select>
+      </div>
+    </div>
+    <div class="form-group"><label>积分数量</label><input type="number" id="entMemberPoints" placeholder="积分额度"></div>
+  </div>
+  <div class="modal-footer"><button class="btn" onclick="closeModal('entMemberEditModal')">取消</button><button class="btn btn-primary" onclick="saveEntMemberEdit()">保存</button></div>
+</div>
+
 <!-- Exit Enterprise Modal -->
 <div class="modal-mask" id="exitModalMask" onclick="closeModal('exitModal')"></div>
 <div class="modal modal-sm" id="exitModal">
@@ -1313,14 +1347,75 @@ function openEntDetail(entId) {
               </tbody>
             </table>
         </div>
-        <div class="detail-section"><h4>成员列表 (${entMembers.length}人) <button class="btn btn-sm" style="float:right">+ 添加成员</button></h4>
-            ${entMembers.map(m=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f5f5f5"><div style="display:flex;align-items:center;gap:8px"><div class="detail-avatar" style="width:28px;height:28px;font-size:12px">${m.avatar}</div><span>${m.nickname} <span style="color:#999;font-size:12px">${m.phone}</span></span></div><button class="btn btn-sm btn-danger">移除</button></div>`).join('')||'<p style="color:#999;text-align:center;padding:20px">暂无成员</p>'}
+        <div class="detail-section"><h4>成员列表 (${entMembers.length}人) <button class="btn btn-sm" style="float:right" onclick="openAddMemberModal()">+ 添加成员</button></h4>
+            ${entMembers.map(m=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f5f5f5;gap:12px">
+              <div style="display:flex;align-items:center;gap:10px;flex:1;min-width:0">
+                <div class="detail-avatar" style="width:32px;height:32px;font-size:14px">${m.avatar}</div>
+                <div style="flex:1;min-width:0">
+                  <div style="display:flex;align-items:center;gap:6px">
+                    <strong>${m.nickname}</strong>
+                    <span style="background:${m.plan==='企业版'||m.plan==='旗舰版'?'#e6f7ff':'#f0f0f0'};color:${m.plan==='企业版'||m.plan==='旗舰版'?'#1890ff':'#999'};padding:1px 6px;border-radius:4px;font-size:11px">${m.plan}</span>
+                  </div>
+                  <div style="font-size:12px;color:#999">${m.phone} · ${m.account}</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:8px">
+                <button class="btn btn-sm" onclick="openEntMemberEditModal('${m.id}')">编辑</button>
+                <button class="btn btn-sm btn-danger" onclick="confirmRemoveEntMember('${m.id}')">移除</button>
+              </div>
+            </div>`).join('')||'<p style="color:#999;text-align:center;padding:20px">暂无成员</p>'}
         </div>`;
     document.getElementById('entDetailOverlay').classList.add('show');
     document.getElementById('entDetailPanel').classList.add('show');
 }
 
 function closeEntDetail() { document.getElementById('entDetailOverlay').classList.remove('show'); document.getElementById('entDetailPanel').classList.remove('show'); }
+
+let editingEntMemberId = null;
+function openEntMemberEditModal(userId) {
+    const user = allPlatformUsers.find(u => u.id == userId);
+    if (!user) return;
+    editingEntMemberId = userId;
+    document.getElementById('entMemberAvatar').textContent = user.avatar;
+    document.getElementById('entMemberTitle').textContent = user.nickname;
+    document.getElementById('entMemberPhone').textContent = user.phone;
+    document.getElementById('entMemberAccount').value = user.account;
+    document.getElementById('entMemberNickname').value = user.nickname;
+    document.getElementById('entMemberPhone2').value = user.phone;
+    document.getElementById('entMemberPassword').value = '';
+    document.getElementById('entMemberPlan').value = user.plan;
+    document.getElementById('entMemberPoints').value = user.planPoints;
+    openModal('entMemberEditModal');
+}
+function saveEntMemberEdit() {
+    if (!editingEntMemberId) return;
+    const user = allPlatformUsers.find(u => u.id == editingEntMemberId);
+    if (!user) return;
+    user.account = document.getElementById('entMemberAccount').value;
+    user.nickname = document.getElementById('entMemberNickname').value;
+    user.phone = document.getElementById('entMemberPhone2').value;
+    user.plan = document.getElementById('entMemberPlan').value;
+    user.planPoints = parseInt(document.getElementById('entMemberPoints').value) || 0;
+    closeModal('entMemberEditModal');
+    // Refresh detail panel with updated data
+    const entId = user.enterprise ? enterprises.find(e => e.name === user.enterprise)?.id : null;
+    if (entId) openEntDetail(entId);
+}
+function confirmRemoveEntMember(userId) {
+    const user = allPlatformUsers.find(u => u.id == userId);
+    if (!user) return;
+    if (confirm(`确定将 ${user.nickname}（${user.phone}）从该企业移除？\n\n移除后该成员将无法以企业身份使用平台资源。`)) {
+        user.enterprise = '';
+        user.isStandalone = true;
+        const ent = document.querySelector('#entDetailPanel .detail-profile-card h4');
+        if (ent) {
+            const entName = ent.textContent.trim().replace('V','').trim();
+            const entObj = enterprises.find(e => e.name === entName);
+            if (entObj) { entObj.members--; openEntDetail(entObj.id); }
+        }
+    }
+}
+function openAddMemberModal() { alert('添加成员功能（原型演示）'); }
 
 /* ==================== PLANS PAGE: BAR CHARTS ==================== */
 function renderBarChart(containerId, data, color) {
