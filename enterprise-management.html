@@ -1263,6 +1263,33 @@ function openEntDetail(entId) {
             <div class="form-row"><div class="form-group"><label>套餐积分</label><input type="number" value="${ent.planPoints}"></div><div class="form-group"><label>赠送积分</label><input type="number" value="${ent.freePoints}"></div></div>
             <button class="btn btn-primary btn-sm">保存</button>
         </div>
+        <div class="detail-section"><h4>模型与倍率</h4>
+            <p style="color:#999;font-size:12px;margin-bottom:12px">配置该企业使用的AI模型和积分消耗倍率（1.0 = 标准消耗，2.0 = 双倍消耗，0.5 = 半倍消耗）</p>
+            <div style="background:#f6f8fa;border-radius:8px;padding:14px;margin-bottom:10px">
+              <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #e8e8e8;margin-bottom:8px">
+                <span style="width:60px;font-weight:600;font-size:13px">📝 起草</span>
+                <div style="flex:1">
+                  <select style="width:100%;padding:6px 10px;border:1px solid #d9d9d9;border-radius:6px">${models.map(m=>`<option value="${m.id}">${m.name}</option>`).join('')}</select>
+                </div>
+                <div style="width:100px;display:flex;align-items:center;gap:4px"><input type="number" value="1.0" step="0.1" min="0.1" style="width:65px;padding:6px 8px;border:1px solid #d9d9d9;border-radius:6px;text-align:center">x</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #e8e8e8;margin-bottom:8px">
+                <span style="width:60px;font-weight:600;font-size:13px">🔍 审查</span>
+                <div style="flex:1">
+                  <select style="width:100%;padding:6px 10px;border:1px solid #d9d9d9;border-radius:6px">${models.map(m=>`<option value="${m.id}" ${m.id==='claude'?'selected':''}>${m.name}</option>`).join('')}</select>
+                </div>
+                <div style="width:100px;display:flex;align-items:center;gap:4px"><input type="number" value="1.0" step="0.1" min="0.1" style="width:65px;padding:6px 8px;border:1px solid #d9d9d9;border-radius:6px;text-align:center">x</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;padding:8px 0">
+                <span style="width:60px;font-weight:600;font-size:13px">📄 解析</span>
+                <div style="flex:1">
+                  <select style="width:100%;padding:6px 10px;border:1px solid #d9d9d9;border-radius:6px">${models.map(m=>`<option value="${m.id}" ${m.id==='qwen'?'selected':''}>${m.name}</option>`).join('')}</select>
+                </div>
+                <div style="width:100px;display:flex;align-items:center;gap:4px"><input type="number" value="0.8" step="0.1" min="0.1" style="width:65px;padding:6px 8px;border:1px solid #d9d9d9;border-radius:6px;text-align:center">x</div>
+              </div>
+            </div>
+            <button class="btn btn-primary btn-sm">保存配置</button>
+        </div>
         <div class="detail-section"><h4>修改剩余积分</h4>
             <div style="background:#f6f8fa;border-radius:6px;padding:12px;margin-bottom:12px">
               <div style="display:flex;justify-content:space-between;margin-bottom:8px"><span style="font-size:13px;color:#666">当前剩余积分</span><span style="font-size:18px;font-weight:700;color:#1890ff">${formatNum(ent.planPoints + ent.freePoints - ent.usedPoints)}</span></div>
