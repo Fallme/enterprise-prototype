@@ -403,157 +403,82 @@ tr:hover { background: #fafafa; }
     <div class="page-content" id="page-knowledge">
       <!-- Header -->
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
-        <div><h2 style="font-size:20px;font-weight:600">知识库管理</h2><p style="color:#666;margin-top:2px;font-size:13px">管理企业知识资产、配置访问权限和审批流程</p></div>
+        <div>
+          <h2 style="font-size:20px;font-weight:600">知识库管理</h2>
+          <p style="color:#666;margin-top:2px;font-size:13px">管理企业知识文档，为文件/文件夹分配权限</p>
+        </div>
         <div style="display:flex;gap:8px">
-          <button class="btn btn-primary" onclick="openModal('kbUploadModal')">📤 上传知识</button>
-          <button class="btn" onclick="openModal('kbPermModal')">⚙️ 权限配置</button>
+          <button class="btn btn-primary" onclick="openKbNewFolderModal()">📁 新建文件夹</button>
+          <button class="btn btn-primary" onclick="openModal('kbUploadModal')">📤 上传文件</button>
         </div>
       </div>
 
-      <!-- Knowledge Space Overview -->
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px">
-        <div class="stat-card" style="border-left:3px solid #1890ff"><div class="label">知识空间</div><div class="value" style="color:#1890ff">5</div><div class="sub">1个公共 + 4个部门</div></div>
-        <div class="stat-card" style="border-left:3px solid #52c41a"><div class="label">知识文档</div><div class="value" style="color:#52c41a">128</div><div class="sub">本月新增 12 份</div></div>
-        <div class="stat-card" style="border-left:3px solid #722ed1"><div class="label">规则库</div><div class="value" style="color:#722ed1">86</div><div class="sub">待审批 3 条</div></div>
-        <div class="stat-card" style="border-left:3px solid #fa8c16"><div class="label">活跃成员</div><div class="value" style="color:#fa8c16">9</div><div class="sub">近7天有访问记录</div></div>
-      </div>
-
-      <!-- Tab Navigation -->
-      <div style="display:flex;gap:0;border-bottom:2px solid #e8e8e8;margin-bottom:20px">
-        <div class="kb-tab active" onclick="switchKbTab(this,'kbSpaces')">知识空间</div>
-        <div class="kb-tab" onclick="switchKbTab(this,'kbPermMatrix')">权限矩阵</div>
-        <div class="kb-tab" onclick="switchKbTab(this,'kbApproval')">规则审批</div>
-        <div class="kb-tab" onclick="switchKbTab(this,'kbAudit')">操作审计</div>
-      </div>
-
-      <!-- Tab 1: Knowledge Spaces -->
-      <div class="kb-panel" id="kbSpaces">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-          <!-- Public Space -->
-          <div class="chart-box" style="border-top:3px solid #1890ff">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-              <div><strong style="font-size:15px">🌐 企业公共知识库</strong><div style="font-size:12px;color:#999;margin-top:2px">全员可访问 · 管理员可编辑</div></div>
-              <button class="btn btn-sm" onclick="alert('查看公共空间文档列表')">查看</button>
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:12px">
-              <div style="background:#f0f5ff;padding:8px;border-radius:6px;text-align:center"><div style="font-weight:600;color:#1890ff">45</div><div style="color:#666">文档</div></div>
-              <div style="background:#f0f5ff;padding:8px;border-radius:6px;text-align:center"><div style="font-weight:600;color:#1890ff">32</div><div style="color:#666">规则</div></div>
-              <div style="background:#f0f5ff;padding:8px;border-radius:6px;text-align:center"><div style="font-weight:600;color:#1890ff">12</div><div style="color:#666">成员</div></div>
-            </div>
-          </div>
-          <!-- Department Spaces -->
-          <div class="chart-box">
-            <div style="margin-bottom:14px"><strong style="font-size:15px">📁 部门私有空间</strong><div style="font-size:12px;color:#999;margin-top:2px">仅对应部门成员可见</div></div>
-            <div id="kbDeptSpaces"></div>
-          </div>
+      <!-- Breadcrumb + Space Switcher -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div style="display:flex;align-items:center;gap:8px;font-size:14px">
+          <span style="color:#1890ff;cursor:pointer" onclick="navigateKbFolder('root')">📚 企业公共知识库</span>
+          <span style="color:#ccc">/</span>
+          <span id="kbBreadcrumbCurrent" style="color:#666">合同模板</span>
         </div>
-        <!-- Confidentiality Levels -->
-        <div class="chart-box" style="margin-top:16px">
-          <h3>保密级别与访问控制</h3>
-          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px" id="kbConfidentiality"></div>
+        <div style="display:flex;align-items:center;gap:12px">
+          <select id="kbSpaceSwitcher" onchange="switchKbSpace()" style="padding:6px 12px;border:1px solid #d9d9d9;border-radius:6px">
+            <option>🌐 企业公共知识库</option>
+            <option>💻 技术部</option>
+            <option>📊 销售部</option>
+            <option>👥 人事部</option>
+            <option>💰 财务部</option>
+          </select>
+          <input type="text" id="kbSearchInput" placeholder="搜索文件..." oninput="filterKbList()" style="padding:6px 12px;border:1px solid #d9d9d9;border-radius:6px;width:200px">
         </div>
       </div>
 
-      <!-- Tab 2: Permission Matrix -->
-      <div class="kb-panel" id="kbPermMatrix" style="display:none">
-        <div class="chart-box">
-          <h3>角色权限配置</h3>
-          <p style="color:#999;font-size:12px;margin-bottom:14px">设置不同角色在各知识类别上的操作权限</p>
-          <table style="width:100%;font-size:13px" id="kbPermTable">
-            <thead>
-              <tr style="background:#f8f9fa">
-                <th style="text-align:left;padding:10px">知识类别</th>
-                <th style="text-align:center;padding:10px">管理员</th>
-                <th style="text-align:center;padding:10px">部门主管</th>
-                <th style="text-align:center;padding:10px">普通用户</th>
-                <th style="text-align:center;padding:10px">只读成员</th>
-              </tr>
-            </thead>
-            <tbody id="kbPermBody"></tbody>
-          </table>
-        </div>
-        <!-- Role Description -->
-        <div class="chart-box" style="margin-top:16px">
-          <h3>角色说明</h3>
-          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
-            <div style="padding:12px;background:#f6f8fa;border-radius:8px;border-left:3px solid #722ed1">
-              <strong style="color:#722ed1">管理员</strong>
-              <div style="font-size:12px;color:#666;margin-top:4px">全部权限，可审批规则，配置权限，管理空间</div>
-            </div>
-            <div style="padding:12px;background:#f6f8fa;border-radius:8px;border-left:3px solid #1890ff">
-              <strong style="color:#1890ff">部门主管</strong>
-              <div style="font-size:12px;color:#666;margin-top:4px">本部门空间编辑权，本部门规则审批权</div>
-            </div>
-            <div style="padding:12px;background:#f6f8fa;border-radius:8px;border-left:3px solid #52c41a">
-              <strong style="color:#52c41a">普通用户</strong>
-              <div style="font-size:12px;color:#666;margin-top:4px">公共+本部门查看，可上传本部门文档</div>
-            </div>
-            <div style="padding:12px;background:#f6f8fa;border-radius:8px;border-left:3px solid #999">
-              <strong style="color:#999">只读成员</strong>
-              <div style="font-size:12px;color:#666;margin-top:4px">仅查看公共空间，不可下载和编辑</div>
-            </div>
+      <!-- File/Folder List -->
+      <div class="chart-box">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #e8e8e8">
+          <div style="display:flex;align-items:center;gap:12px">
+            <input type="checkbox" id="kbCheckAll" onchange="toggleKbCheckAll()">
+            <button class="btn btn-sm" onclick="openKbBatchPermModal()">⚙️ 批量权限</button>
+            <button class="btn btn-sm btn-danger" onclick="deleteSelectedKbItems()">🗑️ 删除</button>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-sm" onclick="setKbViewMode('list')" id="kbViewListBtn" title="列表视图">☰</button>
+            <button class="btn btn-sm" onclick="setKbViewMode('grid')" id="kbViewGridBtn" title="网格视图">▦</button>
           </div>
         </div>
+        <!-- List Header -->
+        <div style="display:grid;grid-template-columns:40px 1fr 100px 120px 100px 140px;gap:12px;padding:10px 12px;background:#f8f9fa;border-radius:6px;font-size:12px;color:#666;font-weight:600">
+          <div><input type="checkbox" id="kbHeaderCheck" onchange="toggleKbCheckAll()"></div>
+          <div>名称</div>
+          <div>保密级别</div>
+          <div>所属部门</div>
+          <div>更新时间</div>
+          <div style="text-align:right">操作</div>
+        </div>
+        <!-- List Content -->
+        <div id="kbFileList" style="margin-top:8px"></div>
       </div>
 
-      <!-- Tab 3: Rule Approval -->
-      <div class="kb-panel" id="kbApproval" style="display:none">
-        <div style="display:grid;grid-template-columns:2fr 1fr;gap:16px">
-          <!-- Pending Approvals -->
-          <div class="chart-box">
-            <h3>待审批规则 <span style="font-size:12px;color:#999;font-weight:400;margin-left:8px">3 条待处理</span></h3>
-            <div id="kbPendingRules"></div>
+      <!-- Permission Summary Panel -->
+      <div class="chart-box" style="margin-top:16px">
+        <h3 style="margin-bottom:12px">📋 权限快速查看</h3>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+          <div style="padding:12px;background:#f6f8fa;border-radius:8px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">👤</span><strong>我的权限</strong></div>
+            <div style="font-size:12px;color:#666">当前空间：<strong>可编辑</strong></div>
+            <div style="font-size:12px;color:#666">可操作：<span style="color:#52c41a">查看/编辑/上传</span></div>
           </div>
-          <!-- Approval History -->
-          <div class="chart-box">
-            <h3>审批历史</h3>
-            <div id="kbApprovalHistory"></div>
+          <div style="padding:12px;background:#f6f8fa;border-radius:8px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">👥</span><strong>有权限的成员</strong></div>
+            <div style="font-size:12px;color:#666">12 人可访问此空间</div>
           </div>
-        </div>
-        <!-- Approval Flow -->
-        <div class="chart-box" style="margin-top:16px">
-          <h3>审批流程配置</h3>
-          <div style="display:flex;align-items:center;gap:16px;padding:16px;background:#f6f8fa;border-radius:8px">
-            <div style="text-align:center">
-              <div style="width:40px;height:40px;border-radius:50%;background:#1890ff;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;margin:0 auto 6px">1</div>
-              <div style="font-size:13px;font-weight:600">提交规则</div>
-              <div style="font-size:11px;color:#999">普通用户/部门主管</div>
-            </div>
-            <div style="color:#bbb;font-size:18px">→</div>
-            <div style="text-align:center">
-              <div style="width:40px;height:40px;border-radius:50%;background:#722ed1;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;margin:0 auto 6px">2</div>
-              <div style="font-size:13px;font-weight:600">部门主管审批</div>
-              <div style="font-size:11px;color:#999">审核规则合理性</div>
-            </div>
-            <div style="color:#bbb;font-size:18px">→</div>
-            <div style="text-align:center">
-              <div style="width:40px;height:40px;border-radius:50%;background:#52c41a;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;margin:0 auto 6px">3</div>
-              <div style="font-size:13px;font-weight:600">管理员终审</div>
-              <div style="font-size:11px;color:#999">生效 / 驳回</div>
-            </div>
-            <div style="color:#bbb;font-size:18px">→</div>
-            <div style="text-align:center">
-              <div style="width:40px;height:40px;border-radius:50%;background:#fa8c16;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;margin:0 auto 6px">✓</div>
-              <div style="font-size:13px;font-weight:600">规则生效</div>
-              <div style="font-size:11px;color:#999">自动应用到知识库</div>
-            </div>
+          <div style="padding:12px;background:#f6f8fa;border-radius:8px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">🔒</span><strong>受限内容</strong></div>
+            <div style="font-size:12px;color:#666">3 份文档需要特殊权限</div>
           </div>
-        </div>
-      </div>
-
-      <!-- Tab 4: Audit Log -->
-      <div class="kb-panel" id="kbAudit" style="display:none">
-        <div class="chart-box">
-          <h3>操作审计日志 <span style="font-size:12px;color:#999;font-weight:400;margin-left:8px">近7天</span></h3>
-          <div class="filter-row" style="margin-bottom:12px">
-            <div class="filter-item"><label>操作人</label><select><option>全部</option><option>xxx</option><option>张三</option><option>李四</option></select></div>
-            <div class="filter-item"><label>操作类型</label><select><option>全部</option><option>上传文档</option><option>删除文档</option><option>查看文档</option><option>审批规则</option><option>修改权限</option></select></div>
-            <button class="btn btn-sm btn-primary">查询</button>
+          <div style="padding:12px;background:#f6f8fa;border-radius:8px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">📊</span><strong>空间统计</strong></div>
+            <div style="font-size:12px;color:#666">共 28 个文件，4 个文件夹</div>
           </div>
-          <table style="width:100%;font-size:12px">
-            <thead><tr style="background:#f8f9fa"><th style="padding:8px">时间</th><th style="padding:8px">操作人</th><th style="padding:8px">操作类型</th><th style="padding:8px">目标</th><th style="padding:8px">详情</th><th style="padding:8px">IP</th></tr></thead>
-            <tbody id="kbAuditBody"></tbody>
-          </table>
         </div>
       </div>
     </div>
@@ -890,31 +815,64 @@ tr:hover { background: #fafafa; }
 <!-- KB Upload Modal -->
 <div class="modal-mask" id="kbUploadModalMask" onclick="closeModal('kbUploadModal')"></div>
 <div class="modal modal-md" id="kbUploadModal">
-  <div class="modal-header"><h3 class="modal-title">上传知识文档</h3><button class="modal-close" onclick="closeModal('kbUploadModal')">&times;</button></div>
+  <div class="modal-header"><h3 class="modal-title">上传文件</h3><button class="modal-close" onclick="closeModal('kbUploadModal')">&times;</button></div>
   <div class="modal-body">
-    <div class="form-group"><label>所属空间</label>
-      <select><option>企业公共知识库</option><option>💻 技术部</option><option>📊 销售部</option><option>👥 人事部</option><option>💰 财务部</option></select>
+    <div class="form-group"><label>上传到</label>
+      <select><option>当前目录</option><option>合同模板</option><option>规章制度</option><option>法律法规</option></select>
     </div>
     <div class="form-row">
-      <div class="form-group"><label>文档类型</label><select><option>法律法规</option><option>规章制度</option><option>合同模板</option><option>历史合同</option><option>交易习惯</option><option>其他资料</option></select></div>
       <div class="form-group"><label>保密级别</label>
         <select><option value="public">🟢 公开</option><option value="internal" selected>🔵 内部</option><option value="sensitive">🟡 敏感</option><option value="legal">🔴 仅法务可见</option></select>
       </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>业务领域</label><select><option>采购</option><option>销售</option><option>人事</option><option>软件外包</option></select></div>
-      <div class="form-group"><label>查看权限</label>
-        <select><option>全部成员</option><option>本部门</option><option>指定角色</option><option>指定人员</option></select>
+      <div class="form-group"><label>所属部门</label>
+        <select><option>技术部</option><option>销售部</option><option>人事部</option><option>财务部</option></select>
       </div>
     </div>
-    <div class="form-group"><label>上传文件</label>
+    <div class="form-group"><label>初始权限</label>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+        <label style="display:flex;align-items:center;gap:4px;padding:6px;background:#f6f8fa;border-radius:4px;cursor:pointer;font-size:12px"><input type="checkbox" checked> 管理员</label>
+        <label style="display:flex;align-items:center;gap:4px;padding:6px;background:#f6f8fa;border-radius:4px;cursor:pointer;font-size:12px"><input type="checkbox" checked> 部门主管</label>
+        <label style="display:flex;align-items:center;gap:4px;padding:6px;background:#f6f8fa;border-radius:4px;cursor:pointer;font-size:12px"><input type="checkbox" checked> 普通用户</label>
+        <label style="display:flex;align-items:center;gap:4px;padding:6px;background:#f6f8fa;border-radius:4px;cursor:pointer;font-size:12px"><input type="checkbox"> 只读成员</label>
+      </div>
+    </div>
+    <div class="form-group"><label>选择文件</label>
       <div style="border:2px dashed #d9d9d9;border-radius:8px;padding:24px;text-align:center;cursor:pointer" onclick="alert('选择文件（原型演示）')">
         <div style="font-size:28px;margin-bottom:6px">📄</div>
-        <div style="color:#666;font-size:13px">点击或拖拽上传（支持 PDF、Word、Excel、TXT）</div>
+        <div style="color:#666;font-size:13px">点击或拖拽上传（PDF/Word/Excel/TXT）</div>
       </div>
     </div>
   </div>
-  <div class="modal-footer"><button class="btn" onclick="closeModal('kbUploadModal')">取消</button><button class="btn btn-primary" onclick="closeModal('kbUploadModal');alert('文档已提交，将自动解析')">上传</button></div>
+  <div class="modal-footer"><button class="btn" onclick="closeModal('kbUploadModal')">取消</button><button class="btn btn-primary" onclick="closeModal('kbUploadModal');alert('上传成功')">上传</button></div>
+</div>
+
+<!-- KB Item Permission Modal -->
+<div class="modal-mask" id="kbItemPermModalMask" onclick="closeModal('kbItemPermModal')"></div>
+<div class="modal modal-lg" id="kbItemPermModal">
+  <div class="modal-header"><h3 class="modal-title">分配权限</h3><button class="modal-close" onclick="closeModal('kbItemPermModal')">&times;</button></div>
+  <div class="modal-body">
+    <div style="padding:10px 14px;background:#e6f7ff;border:1px solid #91d5ff;border-radius:8px;margin-bottom:16px;display:flex;align-items:center;gap:10px">
+      <span style="font-size:20px" id="kbPermItemIcon">📁</span>
+      <div><strong id="kbPermItemName">合同模板</strong><div style="font-size:12px;color:#666" id="kbPermItemType">文件夹 · 内部级别</div></div>
+    </div>
+    <h4 style="font-size:13px;font-weight:600;margin-bottom:10px">按角色分配权限</h4>
+    <table style="width:100%;font-size:12px;border:1px solid #e8e8e8;border-radius:6px;overflow:hidden">
+      <thead><tr style="background:#f8f9fa"><th style="padding:8px">角色</th><th style="text-align:center;padding:8px">查看</th><th style="text-align:center;padding:8px">下载</th><th style="text-align:center;padding:8px">修改</th><th style="text-align:center;padding:8px">删除</th></tr></thead>
+      <tbody id="kbItemPermRoleBody"></tbody>
+    </table>
+    <h4 style="font-size:13px;font-weight:600;margin:16px 0 10px">按人员/部门分配权限</h4>
+    <div style="display:flex;gap:8px;margin-bottom:10px">
+      <select id="kbPermTargetSelect" style="flex:1;padding:6px 10px;border:1px solid #d9d9d9;border-radius:4px">
+        <option>💻 技术部（全部成员）</option>
+        <option>📊 销售部（全部成员）</option>
+        <option>xxx（管理员）</option>
+        <option>张三（普通用户）</option>
+      </select>
+      <button class="btn btn-sm btn-primary" onclick="addKbPermTarget()">+ 添加</button>
+    </div>
+    <div id="kbPermTargetList" style="max-height:200px;overflow-y:auto"></div>
+  </div>
+  <div class="modal-footer"><button class="btn" onclick="closeModal('kbItemPermModal')">取消</button><button class="btn btn-primary" onclick="closeModal('kbItemPermModal');alert('权限已保存')">保存权限</button></div>
 </div>
 
 <!-- KB Permission Config Modal -->
@@ -1644,102 +1602,140 @@ function confirmRemoveEntMember(userId) {
 }
 function openAddMemberModal() { alert('添加成员功能（原型演示）'); }
 
-/* ==================== KNOWLEDGE BASE ==================== */
-function switchKbTab(el, panelId) {
-    document.querySelectorAll('.kb-tab').forEach(t=>t.classList.remove('active'));
-    document.querySelectorAll('.kb-panel').forEach(p=>p.style.display='none');
-    el.classList.add('active');
-    document.getElementById(panelId).style.display='block';
-}
-function renderKbDeptSpaces() {
-    const el = document.getElementById('kbDeptSpaces');
+/* ==================== KNOWLEDGE BASE - FILE LIST ==================== */
+let kbCurrentView = 'list';
+let kbSelectedItems = [];
+
+// Sample KB file list data
+const kbFileData = [
+    { id:'f1', type:'folder', name:'销售合同', parent:'root', confidentiality:'internal', dept:'销售部', updated:'2026-06-29', perms:{admin:['view','edit','delete'],manager:['view','edit'],user:['view'],viewer:[]} },
+    { id:'f2', type:'folder', name:'采购合同', parent:'root', confidentiality:'internal', dept:'技术部', updated:'2026-06-28', perms:{admin:['view','edit','delete'],manager:['view','edit'],user:['view'],viewer:[]} },
+    { id:'f3', type:'folder', name:'劳动合同', parent:'root', confidentiality:'sensitive', dept:'人事部', updated:'2026-06-27', perms:{admin:['view','edit','delete'],manager:['view','edit'],user:['view'],viewer:[]} },
+    { id:'f4', type:'file', name:'采购合同模板 -2026 版.docx', parent:'root', confidentiality:'internal', dept:'技术部', updated:'2026-06-30', size:'256 KB', perms:{admin:['view','edit','delete','download'],manager:['view','edit','download'],user:['view','download'],viewer:[]} },
+    { id:'f5', type:'file', name:'销售服务协议范本.docx', parent:'root', confidentiality:'internal', dept:'销售部', updated:'2026-06-28', size:'189 KB', perms:{admin:['view','edit','delete','download'],manager:['view','edit','download'],user:['view','download'],viewer:[]} },
+    { id:'f6', type:'file', name:'保密协议标准版.pdf', parent:'root', confidentiality:'legal', dept:'人事部', updated:'2026-06-25', size:'420 KB', perms:{admin:['view','edit','delete','download'],manager:['view','download'],user:['view'],viewer:[]} },
+    { id:'f7', type:'file', name:'供应商准入审核规范.xlsx', parent:'root', confidentiality:'internal', dept:'技术部', updated:'2026-06-24', size:'88 KB', perms:{admin:['view','edit','delete','download'],manager:['view','edit','download'],user:['view','download'],viewer:[]} },
+    { id:'f8', type:'file', name:'软件外包验收标准.pdf', parent:'root', confidentiality:'internal', dept:'技术部', updated:'2026-06-23', size:'1.2 MB', perms:{admin:['view','edit','delete','download'],manager:['view','edit','download'],user:['view','download'],viewer:[]} },
+];
+
+function renderKbFileList() {
+    const el = document.getElementById('kbFileList');
     if (!el) return;
-    const deptSpaces = departments.map(d => ({
-        name: d.name, icon: d.icon, docs: Math.floor(Math.random()*20)+5, rules: Math.floor(Math.random()*10)+2, members: employees.filter(e=>e.dept===d.name).length
-    }));
-    el.innerHTML = deptSpaces.map(ds =>
-        `<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:#f8f9fa;border-radius:8px;margin-bottom:8px;cursor:pointer" onclick="alert('查看 ${ds.name} 空间')">
-            <div style="display:flex;align-items:center;gap:10px">
-                <span style="font-size:18px">${ds.icon}</span>
-                <div><div style="font-size:13px;font-weight:600">${ds.name}</div><div style="font-size:11px;color:#999">仅部门成员可见</div></div>
+    el.innerHTML = kbFileData.map(f => {
+        const confColors = { public:'#52c41a', internal:'#1890ff', sensitive:'#fa8c16', legal:'#ff4d4f' };
+        const confLabels = { public:'公开', internal:'内部', sensitive:'敏感', legal:'法务' };
+        const icon = f.type === 'folder' ? '📁' : '📄';
+        const checked = kbSelectedItems.includes(f.id) ? 'checked' : '';
+        return `<div style="display:grid;grid-template-columns:40px 1fr 100px 120px 100px 140px;gap:12px;padding:10px 12px;align-items:center;border-bottom:1px solid #f0f0f0;${kbCurrentView==='grid'?'display:none':''}" class="kb-list-item" data-id="${f.id}">
+            <div><input type="checkbox" class="kb-item-check" value="${f.id}" ${checked} onchange="toggleKbItem('${f.id}')"></div>
+            <div style="display:flex;align-items:center;gap:8px">
+                <span style="font-size:18px">${icon}</span>
+                <span style="${f.type==='folder'?'font-weight:600':''}">${f.name}</span>
             </div>
-            <div style="display:flex;gap:12px;font-size:12px;color:#666">
-                <span>${ds.docs} 文档</span><span>${ds.rules} 规则</span><span>${ds.members} 人</span>
+            <div><span style="background:${confColors[f.confidentiality]}20;color:${confColors[f.confidentiality]};padding:2px 8px;border-radius:4px;font-size:11px">${confLabels[f.confidentiality]}</span></div>
+            <div style="color:#666;font-size:12px">${f.dept}</div>
+            <div style="color:#999;font-size:12px">${f.updated}</div>
+            <div style="text-align:right;display:flex;gap:6px;justify-content:flex-end">
+                <button class="btn btn-sm" onclick="openKbItemPermModal('${f.id}')" title="权限">⚙️</button>
+                <button class="btn btn-sm" onclick="alert('下载：${f.name}')" ${f.type==='folder'?'disabled':''} title="下载">📥</button>
+                <button class="btn btn-sm btn-danger" onclick="deleteKbItem('${f.id}')" title="删除">🗑️</button>
             </div>
-        </div>`
-    ).join('');
+        </div>`;
+    }).join('') || '<div style="padding:40px;text-align:center;color:#999">暂无文件</div>';
 }
-function renderKbConfidentiality() {
-    const el = document.getElementById('kbConfidentiality');
-    if (!el) return;
-    const levels = [
-        { label:'🟢 公开', desc:'全员可见', docs:28, color:'#52c41a', bg:'#f6ffed' },
-        { label:'🔵 内部', desc:'企业成员可见', docs:67, color:'#1890ff', bg:'#e6f7ff' },
-        { label:'🟡 敏感', desc:'指定部门/角色', docs:24, color:'#fa8c16', bg:'#fff7e6' },
-        { label:'🔴 仅法务', desc:'法务角色专属', docs:9, color:'#ff4d4f', bg:'#fff1f0' }
-    ];
-    el.innerHTML = levels.map(l =>
-        `<div style="background:${l.bg};border:1px solid ${l.color}40;border-radius:8px;padding:12px">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-                <strong style="color:#333;font-size:13px">${l.label}</strong>
-                <span style="background:${l.color};color:#fff;padding:2px 8px;border-radius:10px;font-size:11px">${l.docs}份</span>
-            </div>
-            <div style="font-size:12px;color:#666">${l.desc}</div>
-        </div>`
-    ).join('');
+
+function navigateKbFolder(folderId) {
+    document.getElementById('kbBreadcrumbCurrent').textContent = folderId === 'root' ? '根目录' : folderId;
+    renderKbFileList();
 }
-function renderKbPermTable() {
-    const el = document.getElementById('kbPermBody');
-    if (!el) return;
-    const categories = [
-        { name:'法律法规', icon:'⚖️' }, { name:'规章制度', icon:'📋' }, { name:'合同模板', icon:'📄' },
-        { name:'历史合同', icon:'🗂️' }, { name:'交易习惯', icon:'💼' }, { name:'行业知识', icon:'🏭' }
-    ];
-    const rolePerms = {
-        admin: { view:true, edit:true, delete:true, upload:true, approve:true, download:true },
-        manager: { view:true, edit:true, delete:false, upload:true, approve:true, download:true },
-        user: { view:true, edit:false, delete:false, upload:true, approve:false, download:true },
-        viewer: { view:true, edit:false, delete:false, upload:false, approve:false, download:false }
-    };
-    const permIcons = { view:'👁️', edit:'✏️', delete:'🗑️', upload:'📤', approve:'✅', download:'📥' };
-    el.innerHTML = categories.map(cat => {
-        const adminPerms = Object.entries(rolePerms.admin).filter(([k,v])=>v).map(([k])=>permIcons[k]).join(' ');
-        const mgrPerms = Object.entries(rolePerms.manager).filter(([k,v])=>v).map(([k])=>permIcons[k]).join(' ');
-        const usrPerms = Object.entries(rolePerms.user).filter(([k,v])=>v).map(([k])=>permIcons[k]).join(' ');
-        const viewerPerms = Object.entries(rolePerms.viewer).filter(([k,v])=>v).map(([k])=>permIcons[k]).join(' ');
+function filterKbList() {
+    const q = document.getElementById('kbSearchInput').value.toLowerCase();
+    document.querySelectorAll('.kb-list-item').forEach(item => {
+        const name = item.textContent.toLowerCase();
+        item.style.display = name.includes(q) ? '' : 'none';
+    });
+}
+function toggleKbCheckAll() {
+    const checked = document.getElementById('kbHeaderCheck').checked;
+    document.querySelectorAll('.kb-item-check').forEach(cb => {
+        cb.checked = checked;
+        toggleKbItem(cb.value);
+    });
+}
+function toggleKbItem(id) {
+    if (kbSelectedItems.includes(id)) {
+        kbSelectedItems = kbSelectedItems.filter(i => i !== id);
+    } else {
+        kbSelectedItems.push(id);
+    }
+}
+function setKbViewMode(mode) {
+    kbCurrentView = mode;
+    document.getElementById('kbViewListBtn').style.background = mode==='list'?'#e6f7ff':'';
+    document.getElementById('kbViewGridBtn').style.background = mode==='grid'?'#e6f7ff':'';
+    renderKbFileList();
+}
+function openKbItemPermModal(itemId) {
+    const item = kbFileData.find(f => f.id === itemId);
+    if (!item) return;
+    document.getElementById('kbPermItemIcon').textContent = item.type==='folder'?'📁':'📄';
+    document.getElementById('kbPermItemName').textContent = item.name;
+    document.getElementById('kbPermItemType').textContent = `${item.type==='folder'?'文件夹':'文件'} · ${item.confidentiality}级别`;
+
+    // Render role permission table
+    const roleLabels = { admin:'管理员', manager:'部门主管', user:'普通用户', viewer:'只读成员' };
+    document.getElementById('kbItemPermRoleBody').innerHTML = Object.entries(roleLabels).map(([role, label]) => {
+        const perms = item.perms[role] || [];
         return `<tr style="border-bottom:1px solid #f0f0f0">
-            <td style="padding:12px 10px">${cat.icon} ${cat.name}</td>
-            <td style="text-align:center;padding:12px 10px"><span style="font-size:16px">${adminPerms}</span></td>
-            <td style="text-align:center;padding:12px 10px"><span style="font-size:16px">${mgrPerms}</span></td>
-            <td style="text-align:center;padding:12px 10px"><span style="font-size:16px">${usrPerms}</span></td>
-            <td style="text-align:center;padding:12px 10px"><span style="font-size:16px">${viewerPerms}</span></td>
+            <td style="padding:8px"><strong>${label}</strong></td>
+            <td style="text-align:center;padding:8px"><input type="checkbox" ${perms.includes('view')?'checked':''} onchange="updateKbItemPerm('${itemId}','${role}','view',this.checked)"></td>
+            <td style="text-align:center;padding:8px"><input type="checkbox" ${perms.includes('download')?'checked':''} onchange="updateKbItemPerm('${itemId}','${role}','download',this.checked)"></td>
+            <td style="text-align:center;padding:8px"><input type="checkbox" ${perms.includes('edit')?'checked':''} onchange="updateKbItemPerm('${itemId}','${role}','edit',this.checked)"></td>
+            <td style="text-align:center;padding:8px"><input type="checkbox" ${perms.includes('delete')?'checked':''} onchange="updateKbItemPerm('${itemId}','${role}','delete',this.checked)"></td>
         </tr>`;
     }).join('');
+
+    openModal('kbItemPermModal');
 }
-function renderKbPendingRules() {
-    const el = document.getElementById('kbPendingRules');
-    if (!el) return;
-    const pending = [
-        { id:1, name:'采购合同付款条款审查规则', submitter:'张三', dept:'技术部', time:'2 小时前', type:'新增' },
-        { id:2, name:'软件外包验收标准强制条款', submitter:'李四', dept:'人事部', time:'5 小时前', type:'修改' },
-        { id:3, name:'保密协议违约金上限提醒', submitter:'王五', dept:'财务部', time:'1 天前', type:'新增' }
-    ];
-    el.innerHTML = pending.map(r =>
-        `<div style="padding:12px;border:1px solid #e8e8e8;border-radius:8px;margin-bottom:10px">
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
-                <div><strong style="font-size:13px">${r.name}</strong><div style="font-size:12px;color:#999;margin-top:2px">${r.submitter}（${r.dept}）· ${r.time} · <span style="background:#e6f7ff;color:#1890ff;padding:1px 6px;border-radius:4px">${r.type}</span></div></div>
-            </div>
-            <div style="display:flex;gap:8px">
-                <button class="btn btn-sm btn-primary" onclick="alert('通过规则：${r.name}')">✅ 通过</button>
-                <button class="btn btn-sm" onclick="alert('驳回规则：${r.name}')">❌ 驳回</button>
-                <button class="btn btn-sm" onclick="alert('查看详情')">📄 详情</button>
-            </div>
-        </div>`
-    ).join('');
+function updateKbItemPerm(itemId, role, perm, checked) {
+    const item = kbFileData.find(f => f.id === itemId);
+    if (!item) return;
+    if (checked) {
+        if (!item.perms[role]) item.perms[role] = [];
+        if (!item.perms[role].includes(perm)) item.perms[role].push(perm);
+    } else {
+        item.perms[role] = item.perms[role].filter(p => p !== perm);
+    }
 }
-function renderKbApprovalHistory() {
-    const el = document.getElementById('kbApprovalHistory');
-    if (!el) return;
+function addKbPermTarget() {
+    const select = document.getElementById('kbPermTargetSelect');
+    const val = select.value;
+    const label = select.options[select.selectedIndex].text;
+    const list = document.getElementById('kbPermTargetList');
+    list.innerHTML += `<div style="display:flex;align-items:center;justify-content:space-between;padding:8px;background:#f6f8fa;border-radius:4px;margin-bottom:6px"><span>${label}</span><button class="btn btn-sm" onclick="this.parentElement.remove()">移除</button></div>`;
+}
+function openKbBatchPermModal() {
+    if (kbSelectedItems.length === 0) { alert('请先选择文件/文件夹'); return; }
+    alert(`批量设置 ${kbSelectedItems.length} 项的权限（原型演示）`);
+}
+function deleteSelectedKbItems() {
+    if (kbSelectedItems.length === 0) { alert('请先选择要删除的项目'); return; }
+    if (confirm(`确定删除选中的 ${kbSelectedItems.length} 项？`)) {
+        alert('已删除选中项（原型演示）');
+        kbSelectedItems = [];
+        renderKbFileList();
+    }
+}
+function deleteKbItem(itemId) {
+    const item = kbFileData.find(f => f.id === itemId);
+    if (!item) return;
+    if (confirm(`确定删除"${item.name}"？`)) {
+        alert('已删除（原型演示）');
+        renderKbFileList();
+    }
+}
+function openKbNewFolderModal() { alert('新建文件夹（原型演示）'); }
+function switchKbSpace() { alert('切换空间：'+document.getElementById('kbSpaceSwitcher').value); renderKbFileList(); }
     const history = [
         { rule:'劳动合同模板 V2.3', approver:'xxx', action:'通过', time:'06-28' },
         { rule:'销售合同价格条款', approver:'xxx', action:'通过', time:'06-27' },
@@ -1899,7 +1895,7 @@ function init() {
     ], '#1890ff');
     renderResponseTimeBars();
     // Knowledge base
-    renderKbDeptSpaces(); renderKbConfidentiality(); renderKbPermTable(); renderKbPendingRules(); renderKbApprovalHistory(); renderKbAuditLog();
+    renderKbFileList();
 }
 
 /* ==================== PLAN/PACK ROW ADD ==================== */
