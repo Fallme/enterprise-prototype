@@ -405,7 +405,7 @@ tr:hover { background: #fafafa; }
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
         <div>
           <h2 style="font-size:20px;font-weight:600">知识库管理</h2>
-          <p style="color:#666;margin-top:2px;font-size:13px">管理企业知识文档，为文件/文件夹分配权限</p>
+          <p style="color:#666;margin-top:2px;font-size:13px">管理企业知识文档，文件夹权限优先于文件权限，支持拖拽整理</p>
         </div>
         <div style="display:flex;gap:8px">
           <button class="btn btn-primary" onclick="openKbNewFolderModal()">📁 新建文件夹</button>
@@ -415,10 +415,8 @@ tr:hover { background: #fafafa; }
 
       <!-- Breadcrumb + Space Switcher -->
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-        <div style="display:flex;align-items:center;gap:8px;font-size:14px">
-          <span style="color:#1890ff;cursor:pointer" onclick="navigateKbFolder('root')">📚 企业公共知识库</span>
-          <span style="color:#ccc">/</span>
-          <span id="kbBreadcrumbCurrent" style="color:#666">合同模板</span>
+        <div style="display:flex;align-items:center;gap:6px;font-size:14px" id="kbBreadcrumb">
+          <span style="color:#1890ff;cursor:pointer;font-weight:600" onclick="navigateKbFolder('root')">📚 企业公共知识库</span>
         </div>
         <div style="display:flex;align-items:center;gap:12px">
           <select id="kbSpaceSwitcher" onchange="switchKbSpace()" style="padding:6px 12px;border:1px solid #d9d9d9;border-radius:6px">
@@ -432,15 +430,22 @@ tr:hover { background: #fafafa; }
         </div>
       </div>
 
+      <!-- Permission Inheritance Banner -->
+      <div id="kbPermBanner" style="display:none;background:linear-gradient(135deg,#fff7e6,#fffbe6);border:1px solid #ffe58f;border-radius:8px;padding:10px 16px;margin-bottom:12px;display:flex;align-items:center;gap:10px;font-size:13px">
+        <span style="font-size:16px">🔒</span>
+        <span>当前在文件夹 <strong id="kbPermBannerFolder"></strong> 内，文件将<strong style="color:#fa8c16">自动继承</strong>文件夹权限。可为单个文件单独设置覆盖权限。</span>
+      </div>
+
       <!-- File/Folder List -->
-      <div class="chart-box">
+      <div class="chart-box" id="kbFileListBox">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #e8e8e8">
           <div style="display:flex;align-items:center;gap:12px">
             <input type="checkbox" id="kbCheckAll" onchange="toggleKbCheckAll()">
             <button class="btn btn-sm" onclick="openKbBatchPermModal()">⚙️ 批量权限</button>
             <button class="btn btn-sm btn-danger" onclick="deleteSelectedKbItems()">🗑️ 删除</button>
           </div>
-          <div style="display:flex;gap:8px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <span id="kbItemCount" style="font-size:12px;color:#999"></span>
             <button class="btn btn-sm" onclick="setKbViewMode('list')" id="kbViewListBtn" title="列表视图">☰</button>
             <button class="btn btn-sm" onclick="setKbViewMode('grid')" id="kbViewGridBtn" title="网格视图">▦</button>
           </div>
@@ -455,29 +460,34 @@ tr:hover { background: #fafafa; }
           <div style="text-align:right">操作</div>
         </div>
         <!-- List Content -->
-        <div id="kbFileList" style="margin-top:8px"></div>
+        <div id="kbFileList" style="margin-top:8px;min-height:200px"></div>
+        <!-- Drop Zone Indicator -->
+        <div id="kbDropZone" style="display:none;border:2px dashed #1890ff;border-radius:8px;padding:40px;text-align:center;color:#1890ff;background:#e6f7ff;margin-top:8px">
+          <div style="font-size:24px;margin-bottom:8px">📥</div>
+          <div style="font-size:14px;font-weight:500">释放文件到此文件夹</div>
+          <div style="font-size:12px;color:#999;margin-top:4px">文件将自动继承当前文件夹权限</div>
+        </div>
       </div>
 
       <!-- Permission Summary Panel -->
       <div class="chart-box" style="margin-top:16px">
-        <h3 style="margin-bottom:12px">📋 权限快速查看</h3>
+        <h3 style="margin-bottom:12px">📋 权限规则说明</h3>
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
           <div style="padding:12px;background:#f6f8fa;border-radius:8px">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">👤</span><strong>我的权限</strong></div>
-            <div style="font-size:12px;color:#666">当前空间：<strong>可编辑</strong></div>
-            <div style="font-size:12px;color:#666">可操作：<span style="color:#52c41a">查看/编辑/上传</span></div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">🔒</span><strong>文件夹优先</strong></div>
+            <div style="font-size:12px;color:#666">文件夹权限自动继承给内部所有文件</div>
           </div>
           <div style="padding:12px;background:#f6f8fa;border-radius:8px">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">👥</span><strong>有权限的成员</strong></div>
-            <div style="font-size:12px;color:#666">12 人可访问此空间</div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">⚡</span><strong>可单独覆盖</strong></div>
+            <div style="font-size:12px;color:#666">文件可设置独立权限覆盖继承值</div>
           </div>
           <div style="padding:12px;background:#f6f8fa;border-radius:8px">
-            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">🔒</span><strong>受限内容</strong></div>
-            <div style="font-size:12px;color:#666">3 份文档需要特殊权限</div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">📥</span><strong>拖拽移动</strong></div>
+            <div style="font-size:12px;color:#666">拖拽文件到文件夹即可归类整理</div>
           </div>
           <div style="padding:12px;background:#f6f8fa;border-radius:8px">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">📊</span><strong>空间统计</strong></div>
-            <div style="font-size:12px;color:#666">共 28 个文件，4 个文件夹</div>
+            <div style="font-size:12px;color:#666" id="kbStatsSummary">加载中...</div>
           </div>
         </div>
       </div>
@@ -976,11 +986,17 @@ tr:hover { background: #fafafa; }
       <span style="font-size:20px" id="kbPermItemIcon">📁</span>
       <div><strong id="kbPermItemName">合同模板</strong><div style="font-size:12px;color:#666" id="kbPermItemType">文件夹 · 内部级别</div></div>
     </div>
-    <h4 style="font-size:13px;font-weight:600;margin-bottom:10px">按角色分配权限</h4>
+    <!-- Inheritance Info (shown for files inside folders) -->
+    <div id="kbPermInheritInfo" style="display:none;margin-bottom:12px"></div>
+    <h4 style="font-size:13px;font-weight:600;margin-bottom:10px">按角色分配权限 <span style="font-weight:400;color:#999;font-size:12px">（文件夹权限优先，文件可单独覆盖）</span></h4>
     <table style="width:100%;font-size:12px;border:1px solid #e8e8e8;border-radius:6px;overflow:hidden">
       <thead><tr style="background:#f8f9fa"><th style="padding:8px">角色</th><th style="text-align:center;padding:8px">查看</th><th style="text-align:center;padding:8px">下载</th><th style="text-align:center;padding:8px">修改</th><th style="text-align:center;padding:8px">删除</th></tr></thead>
       <tbody id="kbItemPermRoleBody"></tbody>
     </table>
+    <!-- Reset to inherit button (for files with overrides) -->
+    <div id="kbPermResetBtn" style="display:none;margin-top:12px">
+      <button class="btn" style="color:#fa8c16;border-color:#fa8c16" onclick="resetKbItemToInherit(currentKbPermItemId)">🔄 恢复为文件夹继承权限</button>
+    </div>
     <h4 style="font-size:13px;font-weight:600;margin:16px 0 10px">按人员/部门分配权限</h4>
     <div style="display:flex;gap:8px;margin-bottom:10px">
       <select id="kbPermTargetSelect" style="flex:1;padding:6px 10px;border:1px solid #d9d9d9;border-radius:4px">
@@ -993,7 +1009,7 @@ tr:hover { background: #fafafa; }
     </div>
     <div id="kbPermTargetList" style="max-height:200px;overflow-y:auto"></div>
   </div>
-  <div class="modal-footer"><button class="btn" onclick="closeModal('kbItemPermModal')">取消</button><button class="btn btn-primary" onclick="closeModal('kbItemPermModal');alert('权限已保存')">保存权限</button></div>
+  <div class="modal-footer"><button class="btn" onclick="closeModal('kbItemPermModal')">取消</button><button class="btn btn-primary" onclick="closeModal('kbItemPermModal');renderKbFileList()">保存权限</button></div>
 </div>
 
 <!-- KB Permission Config Modal -->
@@ -1726,56 +1742,193 @@ function openAddMemberModal() { alert('添加成员功能（原型演示）'); }
 /* ==================== KNOWLEDGE BASE - FILE LIST ==================== */
 let kbCurrentView = 'list';
 let kbSelectedItems = [];
+let kbCurrentFolder = 'root';  // current folder id being viewed
+let kbBreadcrumbPath = [];     // [{id, name}]
+let currentKbPermItemId = null; // currently open perm modal item
 
-// Sample KB file list data
+// Sample KB data — files inside folders have parent = folder id
 const kbFileData = [
+    // Root-level folders
     { id:'f1', type:'folder', name:'销售合同', parent:'root', confidentiality:'internal', dept:'销售部', updated:'2026-06-29', perms:{admin:['view','edit','delete'],manager:['view','edit'],user:['view'],viewer:[]} },
     { id:'f2', type:'folder', name:'采购合同', parent:'root', confidentiality:'internal', dept:'技术部', updated:'2026-06-28', perms:{admin:['view','edit','delete'],manager:['view','edit'],user:['view'],viewer:[]} },
     { id:'f3', type:'folder', name:'劳动合同', parent:'root', confidentiality:'sensitive', dept:'人事部', updated:'2026-06-27', perms:{admin:['view','edit','delete'],manager:['view','edit'],user:['view'],viewer:[]} },
+    // Root-level files
     { id:'f4', type:'file', name:'采购合同模板 -2026 版.docx', parent:'root', confidentiality:'internal', dept:'技术部', updated:'2026-06-30', size:'256 KB', perms:{admin:['view','edit','delete','download'],manager:['view','edit','download'],user:['view','download'],viewer:[]} },
     { id:'f5', type:'file', name:'销售服务协议范本.docx', parent:'root', confidentiality:'internal', dept:'销售部', updated:'2026-06-28', size:'189 KB', perms:{admin:['view','edit','delete','download'],manager:['view','edit','download'],user:['view','download'],viewer:[]} },
-    { id:'f6', type:'file', name:'保密协议标准版.pdf', parent:'root', confidentiality:'legal', dept:'人事部', updated:'2026-06-25', size:'420 KB', perms:{admin:['view','edit','delete','download'],manager:['view','download'],user:['view'],viewer:[]} },
-    { id:'f7', type:'file', name:'供应商准入审核规范.xlsx', parent:'root', confidentiality:'internal', dept:'技术部', updated:'2026-06-24', size:'88 KB', perms:{admin:['view','edit','delete','download'],manager:['view','edit','download'],user:['view','download'],viewer:[]} },
-    { id:'f8', type:'file', name:'软件外包验收标准.pdf', parent:'root', confidentiality:'internal', dept:'技术部', updated:'2026-06-23', size:'1.2 MB', perms:{admin:['view','edit','delete','download'],manager:['view','edit','download'],user:['view','download'],viewer:[]} },
+    // Files inside 销售合同 folder
+    { id:'f10', type:'file', name:'销售合同模板 - 标准版.docx', parent:'f1', confidentiality:'internal', dept:'销售部', updated:'2026-06-29', size:'312 KB', perms:{}, inherit:true },
+    { id:'f11', type:'file', name:'销售合同模板 - 加急版.docx', parent:'f1', confidentiality:'internal', dept:'销售部', updated:'2026-06-28', size:'298 KB', perms:{}, inherit:true },
+    { id:'f12', type:'file', name:'客户报价单模板.xlsx', parent:'f1', confidentiality:'internal', dept:'销售部', updated:'2026-06-27', size:'156 KB', perms:{admin:['view','edit','delete','download'],manager:['view','edit','download'],user:['view'],viewer:[]}, inherit:false },
+    // Files inside 采购合同 folder
+    { id:'f20', type:'file', name:'采购框架协议.docx', parent:'f2', confidentiality:'internal', dept:'技术部', updated:'2026-06-30', size:'245 KB', perms:{}, inherit:true },
+    { id:'f21', type:'file', name:'设备采购合同范本.docx', parent:'f2', confidentiality:'internal', dept:'技术部', updated:'2026-06-29', size:'380 KB', perms:{}, inherit:true },
+    { id:'f22', type:'file', name:'供应商资质清单.xlsx', parent:'f2', confidentiality:'sensitive', dept:'技术部', updated:'2026-06-25', size:'92 KB', perms:{admin:['view','edit','delete','download'],manager:['view','download'],user:['view'],viewer:[]}, inherit:false },
+    // Files inside 劳动合同 folder
+    { id:'f30', type:'file', name:'劳动合同范本 - 正式版.docx', parent:'f3', confidentiality:'sensitive', dept:'人事部', updated:'2026-06-27', size:'520 KB', perms:{}, inherit:true },
+    { id:'f31', type:'file', name:'保密协议标准版.pdf', parent:'f3', confidentiality:'legal', dept:'人事部', updated:'2026-06-25', size:'420 KB', perms:{admin:['view','edit','delete','download'],manager:['view','download'],user:['view'],viewer:[]}, inherit:false },
+    { id:'f32', type:'file', name:'竞业禁止协议.pdf', parent:'f3', confidentiality:'legal', dept:'人事部', updated:'2026-06-24', size:'380 KB', perms:{}, inherit:true },
 ];
 
 function renderKbFileList() {
     const el = document.getElementById('kbFileList');
     if (!el) return;
-    el.innerHTML = kbFileData.map(f => {
-        const confColors = { public:'#52c41a', internal:'#1890ff', sensitive:'#fa8c16', legal:'#ff4d4f' };
-        const confLabels = { public:'公开', internal:'内部', sensitive:'敏感', legal:'法务' };
+    const confColors = { public:'#52c41a', internal:'#1890ff', sensitive:'#fa8c16', legal:'#ff4d4f' };
+    const confLabels = { public:'公开', internal:'内部', sensitive:'敏感', legal:'法务' };
+
+    // Get items in current folder
+    const items = kbFileData.filter(f => f.parent === kbCurrentFolder);
+    const folders = items.filter(f => f.type === 'folder');
+    const files = items.filter(f => f.type === 'file');
+    const sorted = [...folders, ...files]; // folders first
+
+    // Update count
+    const countEl = document.getElementById('kbItemCount');
+    if (countEl) countEl.textContent = `${folders.length} 个文件夹，${files.length} 个文件`;
+
+    // Update stats
+    const totalFolders = kbFileData.filter(f => f.type === 'folder').length;
+    const totalFiles = kbFileData.filter(f => f.type === 'file').length;
+    const statsEl = document.getElementById('kbStatsSummary');
+    if (statsEl) statsEl.textContent = `共 ${totalFiles} 个文件，${totalFolders} 个文件夹`;
+
+    // Update permission banner
+    const banner = document.getElementById('kbPermBanner');
+    const bannerFolder = document.getElementById('kbPermBannerFolder');
+    if (kbCurrentFolder !== 'root' && banner && bannerFolder) {
+        const folder = kbFileData.find(f => f.id === kbCurrentFolder);
+        if (folder) {
+            bannerFolder.textContent = folder.name;
+            banner.style.display = 'flex';
+        }
+    } else if (banner) {
+        banner.style.display = 'none';
+    }
+
+    el.innerHTML = sorted.map(f => {
         const icon = f.type === 'folder' ? '📁' : '📄';
         const checked = kbSelectedItems.includes(f.id) ? 'checked' : '';
-        return `<div style="display:grid;grid-template-columns:40px 1fr 100px 120px 100px 140px;gap:12px;padding:10px 12px;align-items:center;border-bottom:1px solid #f0f0f0;${kbCurrentView==='grid'?'display:none':''}" class="kb-list-item" data-id="${f.id}">
-            <div><input type="checkbox" class="kb-item-check" value="${f.id}" ${checked} onchange="toggleKbItem('${f.id}')"></div>
-            <div style="display:flex;align-items:center;gap:8px">
+        const isFolder = f.type === 'folder';
+        const folderItemCount = isFolder ? kbFileData.filter(x => x.parent === f.id).length : 0;
+        const isOverriding = !f.inherit && f.type === 'file' && f.parent !== 'root';
+        const inheritFrom = !f.inherit && f.type === 'file' && f.parent !== 'root'
+            ? kbFileData.find(x => x.id === f.parent) : null;
+
+        return `<div style="display:grid;grid-template-columns:40px 1fr 100px 120px 100px 140px;gap:12px;padding:10px 12px;align-items:center;border-bottom:1px solid #f0f0f0;${isFolder?'cursor:pointer':''}" class="kb-list-item" data-id="${f.id}"
+            ${isFolder?`draggable="false" ondragover="event.preventDefault();this.style.background='#e6f7ff'" ondragleave="this.style.background=''" ondrop="handleKbDrop(event,'${f.id}');this.style.background=''"`:`draggable="true" ondragstart="handleKbDragStart(event,'${f.id}')"`}>
+            <div><input type="checkbox" class="kb-item-check" value="${f.id}" ${checked} onchange="toggleKbItem('${f.id}')" onclick="event.stopPropagation()"></div>
+            <div style="display:flex;align-items:center;gap:8px" ${isFolder?`onclick="navigateKbFolder('${f.id}')"`:''}>
+                <span style="font-size:18px;${isFolder?'':'cursor:default'}">${icon}</span>
+                <div>
+                    <div style="${isFolder?'font-weight:600;color:#1890ff':''};${isFolder?'':''}display:flex;align-items:center;gap:6px">
+                        <span>${f.name}</span>
+                        ${isFolder?`<span style="font-size:11px;color:#999;font-weight:400;background:#f0f0f0;padding:1px 6px;border-radius:10px">${folderItemCount} 项</span>`:''}
+                        ${isOverriding?`<span style="font-size:10px;color:#722ed1;background:#f9f0ff;padding:1px 6px;border-radius:10px" title="此文件权限覆盖了文件夹继承值">已覆盖</span>`:''}
+                    </div>
+                    ${isOverriding&&inheritFrom?`<div style="font-size:11px;color:#999;margin-top:2px">继承自：${inheritFrom.name} <span style="color:#fa8c16">（已修改）</span></div>`:''}
+                    ${f.type==='file'?`<div style="font-size:11px;color:#999;margin-top:2px">${f.size||''}</div>`:''}
+                </div>
+            </div>
+            <div><span style="background:${confColors[f.confidentiality]}20;color:${confColors[f.confidentiality]};padding:2px 8px;border-radius:4px;font-size:11px">${confLabels[f.confidentiality]}</span></div>
+            <div style="color:#666;font-size:12px">${f.dept}</div>
+            <div style="color:#999;font-size:12px">${f.updated}</div>
+            <div style="text-align:right;display:flex;gap:6px;justify-content:flex-end">
+                <button class="btn btn-sm" onclick="event.stopPropagation();openKbItemPermModal('${f.id}')" title="权限">⚙️</button>
+                <button class="btn btn-sm" onclick="event.stopPropagation();alert('下载：${f.name}')" ${isFolder?'disabled':''} title="下载">📥</button>
+                <button class="btn btn-sm btn-danger" onclick="event.stopPropagation();deleteKbItem('${f.id}')" title="删除">🗑️</button>
+            </div>
+        </div>`;
+    }).join('') || '<div style="padding:40px;text-align:center;color:#999">📁 空文件夹，拖拽文件到此处</div>';
+}
+
+function navigateKbFolder(folderId) {
+    if (folderId === 'root') {
+        kbCurrentFolder = 'root';
+        kbBreadcrumbPath = [];
+    } else {
+        const folder = kbFileData.find(f => f.id === folderId);
+        if (!folder) return;
+        kbCurrentFolder = folderId;
+        kbBreadcrumbPath = [folder];
+    }
+    kbSelectedItems = [];
+    document.getElementById('kbHeaderCheck').checked = false;
+    renderKbBreadcrumb();
+    renderKbFileList();
+}
+
+function renderKbBreadcrumb() {
+    const el = document.getElementById('kbBreadcrumb');
+    if (!el) return;
+    let html = `<span style="color:#1890ff;cursor:pointer;font-weight:600" onclick="navigateKbFolder('root')">📚 企业公共知识库</span>`;
+    kbBreadcrumbPath.forEach((folder, i) => {
+        html += `<span style="color:#ccc;margin:0 4px">/</span>`;
+        const isLast = i === kbBreadcrumbPath.length - 1;
+        html += `<span style="color:${isLast?'#333':'#1890ff'};cursor:${isLast?'default':'pointer'};${isLast?'font-weight:500':''}" ${isLast?'':`onclick="navigateKbFolder('${folder.id}')"`}>${folder.name}</span>`;
+    });
+    el.innerHTML = html;
+}
+
+// Drag & Drop
+function handleKbDragStart(e, fileId) {
+    e.dataTransfer.setData('text/plain', fileId);
+    e.dataTransfer.effectAllowed = 'move';
+    setTimeout(() => { e.target.style.opacity = '0.4'; }, 0);
+    setTimeout(() => { e.target.style.opacity = ''; }, 200);
+}
+
+function handleKbDrop(e, folderId) {
+    e.preventDefault();
+    e.stopPropagation();
+    const fileId = e.dataTransfer.getData('text/plain');
+    if (!fileId || fileId === folderId) return;
+    const file = kbFileData.find(f => f.id === fileId);
+    const folder = kbFileData.find(f => f.id === folderId);
+    if (!file || !folder || folder.type !== 'folder') return;
+    if (file.parent === folderId) return; // already in this folder
+
+    const oldParentName = file.parent === 'root' ? '根目录' : (kbFileData.find(f => f.id === file.parent)?.name || '根目录');
+    file.parent = folderId;
+    file.dept = folder.dept;
+    // Inherit folder permissions by default when moved
+    file.inherit = true;
+    file.perms = {};
+
+    alert(`✅ 已将 "${file.name}" 从 ${oldParentName} 移入 "${folder.name}"\n\n文件已自动继承文件夹权限。如需单独覆盖，请点击 ⚙️ 手动设置。`);
+    kbSelectedItems = kbSelectedItems.filter(id => id !== fileId);
+    renderKbFileList();
+}
+
+function filterKbList() {
+    const q = document.getElementById('kbSearchInput').value.toLowerCase();
+    if (!q) { renderKbFileList(); return; }
+    // Search across ALL items, not just current folder
+    const el = document.getElementById('kbFileList');
+    const items = kbFileData.filter(f => f.name.toLowerCase().includes(q));
+    const confColors = { public:'#52c41a', internal:'#1890ff', sensitive:'#fa8c16', legal:'#ff4d4f' };
+    const confLabels = { public:'公开', internal:'内部', sensitive:'敏感', legal:'法务' };
+    el.innerHTML = items.map(f => {
+        const icon = f.type === 'folder' ? '📁' : '📄';
+        const parentName = f.parent === 'root' ? '根目录' : (kbFileData.find(x => x.id === f.parent)?.name || '');
+        return `<div style="display:grid;grid-template-columns:40px 1fr 100px 120px 100px 140px;gap:12px;padding:10px 12px;align-items:center;border-bottom:1px solid #f0f0f0" class="kb-list-item" data-id="${f.id}">
+            <div></div>
+            <div style="display:flex;align-items:center;gap:8px;${f.type==='folder'?'cursor:pointer':''}" ${f.type==='folder'?`onclick="navigateKbFolder('${f.id}')"`:''}>
                 <span style="font-size:18px">${icon}</span>
-                <span style="${f.type==='folder'?'font-weight:600':''}">${f.name}</span>
+                <div>
+                    <div style="${f.type==='folder'?'font-weight:600;color:#1890ff':''}">${f.name}</div>
+                    ${parentName?`<div style="font-size:11px;color:#999;margin-top:2px">📁 ${parentName}</div>`:''}
+                </div>
             </div>
             <div><span style="background:${confColors[f.confidentiality]}20;color:${confColors[f.confidentiality]};padding:2px 8px;border-radius:4px;font-size:11px">${confLabels[f.confidentiality]}</span></div>
             <div style="color:#666;font-size:12px">${f.dept}</div>
             <div style="color:#999;font-size:12px">${f.updated}</div>
             <div style="text-align:right;display:flex;gap:6px;justify-content:flex-end">
                 <button class="btn btn-sm" onclick="openKbItemPermModal('${f.id}')" title="权限">⚙️</button>
-                <button class="btn btn-sm" onclick="alert('下载：${f.name}')" ${f.type==='folder'?'disabled':''} title="下载">📥</button>
                 <button class="btn btn-sm btn-danger" onclick="deleteKbItem('${f.id}')" title="删除">🗑️</button>
             </div>
         </div>`;
-    }).join('') || '<div style="padding:40px;text-align:center;color:#999">暂无文件</div>';
+    }).join('') || '<div style="padding:40px;text-align:center;color:#999">🔍 没有找到匹配的文件</div>';
 }
 
-function navigateKbFolder(folderId) {
-    document.getElementById('kbBreadcrumbCurrent').textContent = folderId === 'root' ? '根目录' : folderId;
-    renderKbFileList();
-}
-function filterKbList() {
-    const q = document.getElementById('kbSearchInput').value.toLowerCase();
-    document.querySelectorAll('.kb-list-item').forEach(item => {
-        const name = item.textContent.toLowerCase();
-        item.style.display = name.includes(q) ? '' : 'none';
-    });
-}
 function toggleKbCheckAll() {
     const checked = document.getElementById('kbHeaderCheck').checked;
     document.querySelectorAll('.kb-item-check').forEach(cb => {
@@ -1796,38 +1949,122 @@ function setKbViewMode(mode) {
     document.getElementById('kbViewGridBtn').style.background = mode==='grid'?'#e6f7ff':'';
     renderKbFileList();
 }
+
+// Get effective permissions for a file (folder priority)
+function getEffectivePerms(item) {
+    if (!item.inherit && item.type === 'file' && Object.keys(item.perms).length > 0) {
+        // File has its own overrides
+        return { perms: item.perms, source: 'override' };
+    }
+    if (item.parent !== 'root') {
+        const folder = kbFileData.find(f => f.id === item.parent);
+        if (folder) return { perms: folder.perms, source: 'inherited', folderName: folder.name };
+    }
+    return { perms: item.perms, source: 'direct' };
+}
+
 function openKbItemPermModal(itemId) {
     const item = kbFileData.find(f => f.id === itemId);
     if (!item) return;
+    currentKbPermItemId = itemId;
     document.getElementById('kbPermItemIcon').textContent = item.type==='folder'?'📁':'📄';
     document.getElementById('kbPermItemName').textContent = item.name;
-    document.getElementById('kbPermItemType').textContent = `${item.type==='folder'?'文件夹':'文件'} · ${item.confidentiality}级别`;
+    const eff = getEffectivePerms(item);
+    const sourceText = eff.source === 'inherited'
+        ? `继承自文件夹「${eff.folderName}」`
+        : eff.source === 'override'
+            ? '⚠️ 已覆盖文件夹权限（独立设置）'
+            : '直接设置';
 
-    // Render role permission table
+    document.getElementById('kbPermItemType').innerHTML = `${item.type==='folder'?'文件夹':'文件'} · ${item.confidentiality}级别 · <span style="color:${eff.source==='inherited'?'#52c41a':eff.source==='override'?'#fa8c16':'#1890ff'}">${sourceText}</span>`;
+
+    // Show inheritance info for files
+    const inheritBanner = document.getElementById('kbPermInheritInfo');
+    if (inheritBanner) {
+        if (item.type === 'file' && item.parent !== 'root') {
+            const folder = kbFileData.find(f => f.id === item.parent);
+            if (folder) {
+                const folderPerms = folder.perms;
+                inheritBanner.style.display = 'block';
+                inheritBanner.innerHTML = `<div style="background:#f6ffed;border:1px solid #b7eb8f;border-radius:6px;padding:10px 14px;font-size:12px">
+                    <div style="font-weight:600;color:#52c41a;margin-bottom:6px">📁 文件夹权限（优先级最高）</div>
+                    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px;color:#666">
+                        ${Object.entries({admin:'管理员',manager:'主管',user:'用户',viewer:'只读'}).map(([r,l]) => {
+                            const p = folderPerms[r] || [];
+                            return `<div>${l}：${p.length?p.join(', '):'无'}</div>`;
+                        }).join('')}
+                    </div>
+                    <div style="margin-top:6px;color:#999">文件默认继承以上权限，可在下方勾选中覆盖</div>
+                </div>`;
+            }
+        } else {
+            inheritBanner.style.display = 'none';
+        }
+    }
+
+    // Render role permission table using effective perms
     const roleLabels = { admin:'管理员', manager:'部门主管', user:'普通用户', viewer:'只读成员' };
+    const effectivePerms = eff.perms;
     document.getElementById('kbItemPermRoleBody').innerHTML = Object.entries(roleLabels).map(([role, label]) => {
-        const perms = item.perms[role] || [];
+        const filePerms = item.perms[role] || [];
+        const folderPerms = item.parent !== 'root' ? (kbFileData.find(f => f.id === item.parent)?.perms[role] || []) : [];
+        const effective = (item.type === 'file' && !item.inherit && Object.keys(item.perms).length > 0) ? filePerms : (item.parent !== 'root' ? folderPerms : filePerms);
+        const isOverridden = item.type === 'file' && !item.inherit && Object.keys(item.perms).length > 0;
+
         return `<tr style="border-bottom:1px solid #f0f0f0">
             <td style="padding:8px"><strong>${label}</strong></td>
-            <td style="text-align:center;padding:8px"><input type="checkbox" ${perms.includes('view')?'checked':''} onchange="updateKbItemPerm('${itemId}','${role}','view',this.checked)"></td>
-            <td style="text-align:center;padding:8px"><input type="checkbox" ${perms.includes('download')?'checked':''} onchange="updateKbItemPerm('${itemId}','${role}','download',this.checked)"></td>
-            <td style="text-align:center;padding:8px"><input type="checkbox" ${perms.includes('edit')?'checked':''} onchange="updateKbItemPerm('${itemId}','${role}','edit',this.checked)"></td>
-            <td style="text-align:center;padding:8px"><input type="checkbox" ${perms.includes('delete')?'checked':''} onchange="updateKbItemPerm('${itemId}','${role}','delete',this.checked)"></td>
+            <td style="text-align:center;padding:8px"><input type="checkbox" ${effective.includes('view')?'checked':''} onchange="updateKbItemPerm('${itemId}','${role}','view',this.checked)"></td>
+            <td style="text-align:center;padding:8px"><input type="checkbox" ${effective.includes('download')?'checked':''} onchange="updateKbItemPerm('${itemId}','${role}','download',this.checked)"></td>
+            <td style="text-align:center;padding:8px"><input type="checkbox" ${effective.includes('edit')?'checked':''} onchange="updateKbItemPerm('${itemId}','${role}','edit',this.checked)"></td>
+            <td style="text-align:center;padding:8px"><input type="checkbox" ${effective.includes('delete')?'checked':''} onchange="updateKbItemPerm('${itemId}','${role}','delete',this.checked)"></td>
         </tr>`;
     }).join('');
 
+    // Show "Reset to inherit" button for files with overrides
+    const resetBtn = document.getElementById('kbPermResetBtn');
+    if (resetBtn) {
+        if (item.type === 'file' && item.parent !== 'root' && !item.inherit && Object.keys(item.perms).length > 0) {
+            resetBtn.style.display = 'block';
+        } else {
+            resetBtn.style.display = 'none';
+        }
+    }
+
     openModal('kbItemPermModal');
 }
+
 function updateKbItemPerm(itemId, role, perm, checked) {
     const item = kbFileData.find(f => f.id === itemId);
     if (!item) return;
+    // When modifying file perms, break inheritance
+    if (item.type === 'file' && item.parent !== 'root') {
+        item.inherit = false;
+        if (Object.keys(item.perms).length === 0) {
+            // Copy current effective perms as starting point
+            const folder = kbFileData.find(f => f.id === item.parent);
+            if (folder) item.perms = JSON.parse(JSON.stringify(folder.perms));
+        }
+    }
     if (checked) {
         if (!item.perms[role]) item.perms[role] = [];
         if (!item.perms[role].includes(perm)) item.perms[role].push(perm);
     } else {
-        item.perms[role] = item.perms[role].filter(p => p !== perm);
+        if (item.perms[role]) item.perms[role] = item.perms[role].filter(p => p !== perm);
     }
 }
+
+function resetKbItemToInherit(itemId) {
+    const item = kbFileData.find(f => f.id === itemId);
+    if (!item || item.type !== 'file') return;
+    if (confirm('确定恢复为文件夹继承权限？当前独立权限设置将被清除。')) {
+        item.inherit = true;
+        item.perms = {};
+        alert('已恢复为继承文件夹权限');
+        openKbItemPermModal(itemId); // refresh modal
+        renderKbFileList();
+    }
+}
+
 function addKbPermTarget() {
     const select = document.getElementById('kbPermTargetSelect');
     const val = select.value;
@@ -1842,7 +2079,10 @@ function openKbBatchPermModal() {
 function deleteSelectedKbItems() {
     if (kbSelectedItems.length === 0) { alert('请先选择要删除的项目'); return; }
     if (confirm(`确定删除选中的 ${kbSelectedItems.length} 项？`)) {
-        alert('已删除选中项（原型演示）');
+        kbSelectedItems.forEach(id => {
+            const idx = kbFileData.findIndex(f => f.id === id);
+            if (idx !== -1) kbFileData.splice(idx, 1);
+        });
         kbSelectedItems = [];
         renderKbFileList();
     }
@@ -1850,13 +2090,39 @@ function deleteSelectedKbItems() {
 function deleteKbItem(itemId) {
     const item = kbFileData.find(f => f.id === itemId);
     if (!item) return;
-    if (confirm(`确定删除"${item.name}"？`)) {
-        alert('已删除（原型演示）');
+    const children = kbFileData.filter(f => f.parent === itemId);
+    const msg = children.length > 0
+        ? `确定删除"${item.name}"及其内部 ${children.length} 个文件？`
+        : `确定删除"${item.name}"？`;
+    if (confirm(msg)) {
+        // Delete children recursively
+        const toDelete = [itemId];
+        children.forEach(c => toDelete.push(c.id));
+        toDelete.forEach(id => {
+            const idx = kbFileData.findIndex(f => f.id === id);
+            if (idx !== -1) kbFileData.splice(idx, 1);
+        });
+        kbSelectedItems = kbSelectedItems.filter(id => !toDelete.includes(id));
         renderKbFileList();
     }
 }
-function openKbNewFolderModal() { alert('新建文件夹（原型演示）'); }
-function switchKbSpace() { alert('切换空间：'+document.getElementById('kbSpaceSwitcher').value); renderKbFileList(); }
+function openKbNewFolderModal() {
+    const name = prompt('请输入文件夹名称：');
+    if (!name) return;
+    kbFileData.push({
+        id: 'f' + (Date.now() % 100000),
+        type: 'folder', name: name, parent: kbCurrentFolder,
+        confidentiality: 'internal', dept: '技术部', updated: '2026-06-30',
+        perms: { admin:['view','edit','delete'], manager:['view','edit'], user:['view'], viewer:[] }
+    });
+    renderKbFileList();
+}
+function switchKbSpace() {
+    const space = document.getElementById('kbSpaceSwitcher').value;
+    alert('切换到：' + space);
+    kbCurrentFolder = 'root'; kbBreadcrumbPath = [];
+    renderKbBreadcrumb(); renderKbFileList();
+}
 function renderKbAuditLog() {
     const el = document.getElementById('kbAuditBody');
     if (!el) return;
@@ -2001,6 +2267,7 @@ function init() {
     ], '#1890ff');
     renderResponseTimeBars();
     // Knowledge base
+    renderKbBreadcrumb();
     renderKbFileList();
 }
 
