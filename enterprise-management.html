@@ -1736,21 +1736,6 @@ function deleteKbItem(itemId) {
 }
 function openKbNewFolderModal() { alert('新建文件夹（原型演示）'); }
 function switchKbSpace() { alert('切换空间：'+document.getElementById('kbSpaceSwitcher').value); renderKbFileList(); }
-    const history = [
-        { rule:'劳动合同模板 V2.3', approver:'xxx', action:'通过', time:'06-28' },
-        { rule:'销售合同价格条款', approver:'xxx', action:'通过', time:'06-27' },
-        { rule:'供应商准入审核规则', approver:'xxx', action:'驳回', time:'06-25' }
-    ];
-    el.innerHTML = history.map(h =>
-        `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f5f5f5">
-            <div style="flex:1;min-width:0">
-                <div style="font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${h.rule}</div>
-                <div style="font-size:11px;color:#999">${h.approver} · ${h.action}</div>
-            </div>
-            <span style="font-size:11px;color:#bbb;white-space:nowrap">${h.time}</span>
-        </div>`
-    ).join('');
-}
 function renderKbAuditLog() {
     const el = document.getElementById('kbAuditBody');
     if (!el) return;
