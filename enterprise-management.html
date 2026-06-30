@@ -276,6 +276,9 @@ tr:hover { background: #fafafa; }
       <div class="sidebar-menu-item" onclick="showPage('page-knowledge', this)">
         <span class="icon">📚</span>知识库
       </div>
+      <div class="sidebar-menu-item" onclick="showPage('page-rules', this)">
+        <span class="icon">📐</span>规则库
+      </div>
       <div class="sidebar-menu-item" onclick="showPage('page-profile', this)">
         <span class="icon">👤</span>个人中心
       </div>
@@ -488,6 +491,117 @@ tr:hover { background: #fafafa; }
           <div style="padding:12px;background:#f6f8fa;border-radius:8px">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">📊</span><strong>空间统计</strong></div>
             <div style="font-size:12px;color:#666" id="kbStatsSummary">加载中...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== PAGE: Rules Library ========== -->
+    <div class="page-content" id="page-rules">
+      <!-- Header -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+        <div>
+          <h2 style="font-size:20px;font-weight:600">规则库管理</h2>
+          <p style="color:#666;margin-top:2px;font-size:13px">管理企业业务规则，按分组组织，支持启用/停用控制</p>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-primary" onclick="openRuleGroupModal()">📁 新建分组</button>
+          <button class="btn btn-primary" onclick="openRuleEditModal()">+ 新建规则</button>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:20px" id="ruleStatsRow">
+        <div class="stat-card" style="border-left:3px solid #1890ff"><div class="label">规则总数</div><div class="value" style="color:#1890ff" id="ruleStatTotal">0</div></div>
+        <div class="stat-card" style="border-left:3px solid #52c41a"><div class="label">已启用</div><div class="value" style="color:#52c41a" id="ruleStatEnabled">0</div></div>
+        <div class="stat-card" style="border-left:3px solid #ff4d4f"><div class="label">已停用</div><div class="value" style="color:#ff4d4f" id="ruleStatDisabled">0</div></div>
+        <div class="stat-card" style="border-left:3px solid #fa8c16"><div class="label">高优先级</div><div class="value" style="color:#fa8c16" id="ruleStatHigh">0</div></div>
+        <div class="stat-card" style="border-left:3px solid #722ed1"><div class="label">分组数</div><div class="value" style="color:#722ed1" id="ruleStatGroups">0</div></div>
+      </div>
+
+      <!-- Filter & Actions Bar -->
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+        <!-- Group Tabs -->
+        <div style="display:flex;gap:0;border-bottom:2px solid #e8e8e8;flex:1;min-width:0;overflow-x:auto" id="ruleGroupTabs">
+          <div class="kb-tab active" onclick="switchRuleGroup('all', this)">全部规则</div>
+        </div>
+        <!-- Search -->
+        <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+          <input type="text" id="ruleSearchInput" placeholder="搜索规则..." oninput="filterRuleList()" style="padding:6px 12px;border:1px solid #d9d9d9;border-radius:6px;width:180px">
+          <select id="ruleTypeFilter" onchange="filterRuleList()" style="padding:6px 10px;border:1px solid #d9d9d9;border-radius:6px;font-size:13px">
+            <option value="">全部类型</option>
+            <option value="contract-gen">合同生成</option>
+            <option value="contract-review">合同审查</option>
+            <option value="approval">审批流程</option>
+            <option value="permission">权限控制</option>
+            <option value="notification">通知提醒</option>
+            <option value="security">安全策略</option>
+          </select>
+          <select id="rulePriorityFilter" onchange="filterRuleList()" style="padding:6px 10px;border:1px solid #d9d9d9;border-radius:6px;font-size:13px">
+            <option value="">全部优先级</option>
+            <option value="high">高</option>
+            <option value="medium">中</option>
+            <option value="low">低</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Rule List -->
+      <div class="chart-box" id="ruleListBox">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #e8e8e8">
+          <div style="display:flex;align-items:center;gap:12px">
+            <input type="checkbox" id="ruleCheckAll" onchange="toggleRuleCheckAll()">
+            <button class="btn btn-sm" onclick="batchToggleRules(true)">✅ 批量启用</button>
+            <button class="btn btn-sm" onclick="batchToggleRules(false)">⏸️ 批量停用</button>
+            <button class="btn btn-sm btn-danger" onclick="deleteSelectedRules()">🗑️ 删除</button>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <span id="ruleItemCount" style="font-size:12px;color:#999"></span>
+          </div>
+        </div>
+        <!-- List Header -->
+        <div style="display:grid;grid-template-columns:40px 44px 1fr 100px 90px 80px 120px 100px 140px;gap:10px;padding:10px 12px;background:#f8f9fa;border-radius:6px;font-size:12px;color:#666;font-weight:600">
+          <div><input type="checkbox" id="ruleHeaderCheck" onchange="toggleRuleCheckAll()"></div>
+          <div>状态</div>
+          <div>规则名称</div>
+          <div>类型</div>
+          <div>优先级</div>
+          <div>作用域</div>
+          <div>创建者</div>
+          <div>更新时间</div>
+          <div style="text-align:right">操作</div>
+        </div>
+        <!-- List Content -->
+        <div id="ruleList" style="margin-top:8px;min-height:200px"></div>
+      </div>
+
+      <!-- Rule Types Guide -->
+      <div class="chart-box" style="margin-top:16px">
+        <h3 style="margin-bottom:12px">📋 规则类型说明</h3>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+          <div style="padding:12px;background:#f6f8fa;border-radius:8px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">📝</span><strong>合同生成规则</strong></div>
+            <div style="font-size:12px;color:#666">控制合同生成时的模板选择、字段校验、格式要求等</div>
+          </div>
+          <div style="padding:12px;background:#f6f8fa;border-radius:8px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">🔍</span><strong>合同审查规则</strong></div>
+            <div style="font-size:12px;color:#666">定义审查维度、风险检测阈值、修改建议策略</div>
+          </div>
+          <div style="padding:12px;background:#f6f8fa;border-radius:8px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">✅</span><strong>审批流程规则</strong></div>
+            <div style="font-size:12px;color:#666">设置审批节点、审批人、超时处理和自动流转逻辑</div>
+          </div>
+          <div style="padding:12px;background:#f6f8fa;border-radius:8px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">🔐</span><strong>权限控制规则</strong></div>
+            <div style="font-size:12px;color:#666">管理文档访问、操作权限、数据隔离和脱敏策略</div>
+          </div>
+          <div style="padding:12px;background:#f6f8fa;border-radius:8px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">🔔</span><strong>通知提醒规则</strong></div>
+            <div style="font-size:12px;color:#666">配置消息推送渠道、触发条件、频率和免打扰时段</div>
+          </div>
+          <div style="padding:12px;background:#f6f8fa;border-radius:8px">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">🛡️</span><strong>安全策略规则</strong></div>
+            <div style="font-size:12px;color:#666">登录验证、操作审计、敏感数据保护和合规检测</div>
           </div>
         </div>
       </div>
@@ -1159,6 +1273,88 @@ tr:hover { background: #fafafa; }
 <div class="ent-detail-panel" id="entDetailPanel">
   <div class="detail-panel-header"><h3>企业详情</h3><button class="detail-panel-close" onclick="closeEntDetail()">&times;</button></div>
   <div class="detail-panel-body" id="entDetailBody"></div>
+</div>
+
+<!-- Rule Edit Modal -->
+<div class="modal-mask" id="ruleEditModalMask" onclick="closeModal('ruleEditModal')"></div>
+<div class="modal modal-md" id="ruleEditModal">
+  <div class="modal-header"><h3 class="modal-title" id="ruleEditModalTitle">新建规则</h3><button class="modal-close" onclick="closeModal('ruleEditModal')">&times;</button></div>
+  <div class="modal-body">
+    <div class="form-group"><label>规则名称 *</label><input type="text" id="ruleNameInput" placeholder="例如：合同金额超过50万需二级审批"></div>
+    <div class="form-row">
+      <div class="form-group"><label>所属分组 *</label><select id="ruleGroupInput"></select></div>
+      <div class="form-group"><label>规则类型 *</label>
+        <select id="ruleTypeInput">
+          <option value="contract-gen">📝 合同生成</option>
+          <option value="contract-review">🔍 合同审查</option>
+          <option value="approval">✅ 审批流程</option>
+          <option value="permission">🔐 权限控制</option>
+          <option value="notification">🔔 通知提醒</option>
+          <option value="security">🛡️ 安全策略</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>优先级</label>
+        <select id="rulePriorityInput">
+          <option value="high">🔴 高</option>
+          <option value="medium" selected>🟡 中</option>
+          <option value="low">🟢 低</option>
+        </select>
+      </div>
+      <div class="form-group"><label>作用域</label>
+        <select id="ruleScopeInput">
+          <option value="enterprise">🌐 企业全局</option>
+          <option value="department">🏢 部门</option>
+          <option value="personal">👤 个人</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><label>规则描述</label><textarea id="ruleDescInput" rows="3" placeholder="详细描述该规则的逻辑和生效条件..." style="width:100%;padding:8px 12px;border:1px solid #d9d9d9;border-radius:4px;font-size:13px;outline:none;font-family:inherit;resize:vertical"></textarea></div>
+    <div class="form-group"><label>规则内容（JSON / 自然语言）</label><textarea id="ruleContentInput" rows="4" placeholder='例如：{"condition":"金额>500000","action":"触发二级审批","notify":["法务部","财务部"]}' style="width:100%;padding:8px 12px;border:1px solid #d9d9d9;border-radius:4px;font-size:13px;outline:none;font-family:monospace;resize:vertical;background:#f8f9fa"></textarea></div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer">
+        <input type="checkbox" id="ruleEnabledInput" checked> 创建后立即启用
+      </label>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" onclick="closeModal('ruleEditModal')">取消</button>
+    <button class="btn btn-primary" onclick="saveRule()">保存规则</button>
+  </div>
+</div>
+
+<!-- Rule Group Modal -->
+<div class="modal-mask" id="ruleGroupModalMask" onclick="closeModal('ruleGroupModal')"></div>
+<div class="modal modal-sm" id="ruleGroupModal">
+  <div class="modal-header"><h3 class="modal-title" id="ruleGroupModalTitle">新建分组</h3><button class="modal-close" onclick="closeModal('ruleGroupModal')">&times;</button></div>
+  <div class="modal-body">
+    <div class="form-group"><label>分组名称 *</label><input type="text" id="ruleGroupNameInput" placeholder="例如：采购业务规则"></div>
+    <div class="form-group"><label>分组图标</label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap" id="ruleGroupIconPicker">
+        <span class="rule-icon-option selected" onclick="pickRuleGroupIcon(this,'📁')" style="cursor:pointer;font-size:20px;padding:4px 8px;border:2px solid #1890ff;border-radius:6px;background:#e6f7ff">📁</span>
+        <span class="rule-icon-option" onclick="pickRuleGroupIcon(this,'📋')" style="cursor:pointer;font-size:20px;padding:4px 8px;border:2px solid #f0f0f0;border-radius:6px">📋</span>
+        <span class="rule-icon-option" onclick="pickRuleGroupIcon(this,'⚡')" style="cursor:pointer;font-size:20px;padding:4px 8px;border:2px solid #f0f0f0;border-radius:6px">⚡</span>
+        <span class="rule-icon-option" onclick="pickRuleGroupIcon(this,'🔒')" style="cursor:pointer;font-size:20px;padding:4px 8px;border:2px solid #f0f0f0;border-radius:6px">🔒</span>
+        <span class="rule-icon-option" onclick="pickRuleGroupIcon(this,'📊')" style="cursor:pointer;font-size:20px;padding:4px 8px;border:2px solid #f0f0f0;border-radius:6px">📊</span>
+        <span class="rule-icon-option" onclick="pickRuleGroupIcon(this,'🎯')" style="cursor:pointer;font-size:20px;padding:4px 8px;border:2px solid #f0f0f0;border-radius:6px">🎯</span>
+        <span class="rule-icon-option" onclick="pickRuleGroupIcon(this,'💼')" style="cursor:pointer;font-size:20px;padding:4px 8px;border:2px solid #f0f0f0;border-radius:6px">💼</span>
+        <span class="rule-icon-option" onclick="pickRuleGroupIcon(this,'🏗️')" style="cursor:pointer;font-size:20px;padding:4px 8px;border:2px solid #f0f0f0;border-radius:6px">🏗️</span>
+      </div>
+    </div>
+    <div class="form-group"><label>分组描述</label><input type="text" id="ruleGroupDescInput" placeholder="简要描述分组用途"></div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" onclick="closeModal('ruleGroupModal')">取消</button>
+    <button class="btn btn-primary" onclick="saveRuleGroup()">保存</button>
+  </div>
+</div>
+
+<!-- Rule Detail Modal -->
+<div class="modal-mask" id="ruleDetailModalMask" onclick="closeModal('ruleDetailModal')"></div>
+<div class="modal modal-md" id="ruleDetailModal">
+  <div class="modal-header"><h3 class="modal-title">规则详情</h3><button class="modal-close" onclick="closeModal('ruleDetailModal')">&times;</button></div>
+  <div class="modal-body" id="ruleDetailBody"></div>
 </div>
 
 <!-- ==================== JAVASCRIPT ==================== -->
@@ -2257,6 +2453,368 @@ function renderResponseTimeBars() {
     }).join('');
 }
 
+/* ==================== RULES LIBRARY ==================== */
+let ruleGroups = [
+    { id: 'rg1', name: '合同生成规则', icon: '📝', desc: '控制合同生成时的模板选择、字段校验等' },
+    { id: 'rg2', name: '合同审查规则', icon: '🔍', desc: '定义审查维度、风险检测阈值' },
+    { id: 'rg3', name: '审批流程规则', icon: '✅', desc: '审批节点、审批人、超时处理' },
+    { id: 'rg4', name: '权限控制规则', icon: '🔐', desc: '文档访问、操作权限、数据隔离' },
+    { id: 'rg5', name: '通知提醒规则', icon: '🔔', desc: '消息推送渠道、触发条件' },
+];
+
+let ruleData = [
+    { id:'r1', name:'合同金额超50万需二级审批', group:'rg3', type:'approval', priority:'high', scope:'enterprise', enabled:true, desc:'当合同标的金额超过50万元人民币时，需经部门主管和法务总监双重审批后方可签署。', content:'{"condition":"合同金额>500000","action":"触发二级审批","approvers":["部门主管","法务总监"],"timeout":"72h","escalation":"自动转CEO"}', creator:'xxx', createdAt:'2026-06-01', updatedAt:'2026-06-28' },
+    { id:'r2', name:'劳动合同必须包含保密条款', group:'rg1', type:'contract-gen', priority:'high', scope:'enterprise', enabled:true, desc:'生成劳动合同时自动插入保密协议附件，确保每位员工签署保密承诺。', content:'{"template":"labor-contract","mandatory_attachments":["保密协议","竞业限制"],"check":"必填项完整性","auto_insert":true}', creator:'李四', createdAt:'2026-05-15', updatedAt:'2026-06-20' },
+    { id:'r3', name:'合同审查风险检测-违约金过高', group:'rg2', type:'contract-review', priority:'high', scope:'enterprise', enabled:true, desc:'当合同中违约金条款超过合同总金额30%时标记为高风险，建议法务复核。', content:'{"rule":"违约金/合同金额>0.3","risk_level":"high","action":"标记+通知法务","suggest":"建议降低至15%-25%"}', creator:'xxx', createdAt:'2026-05-20', updatedAt:'2026-06-25' },
+    { id:'r4', name:'销售部合同模板自动填充客户信息', group:'rg1', type:'contract-gen', priority:'medium', scope:'department', enabled:true, desc:'从CRM系统自动拉取客户信息填充到销售合同模板中，减少手动填写。', content:'{"source":"CRM","fields":["客户名称","统一社会信用代码","法人代表","联系方式"],"auto_fill":true,"fallback":"手动输入"}', creator:'张三', createdAt:'2026-06-05', updatedAt:'2026-06-29' },
+    { id:'r5', name:'合同到期前30天自动提醒', group:'rg5', type:'notification', priority:'medium', scope:'enterprise', enabled:true, desc:'合同到期前30天、15天、7天分别向相关负责人发送续签提醒通知。', content:'{"trigger":"合同到期前","remind_days":[30,15,7],"channels":["站内信","邮件","飞书"],"recipients":"合同负责人+部门主管"}', creator:'xxx', createdAt:'2026-04-10', updatedAt:'2026-06-18' },
+    { id:'r6', name:'敏感合同仅法务部可查看', group:'rg4', type:'permission', priority:'high', scope:'enterprise', enabled:true, desc:'保密级别为"敏感"的合同文档仅法务部成员可查看和编辑，其他人无访问权限。', content:'{"confidentiality":"sensitive","allowed_dept":["法务部"],"permissions":["view","edit","download"],"deny_others":true}', creator:'xxx', createdAt:'2026-05-01', updatedAt:'2026-06-22' },
+    { id:'r7', name:'采购合同金额阈值审批', group:'rg3', type:'approval', priority:'medium', scope:'enterprise', enabled:false, desc:'采购合同金额超过10万需财务部审批，超过50万需总经理审批。', content:'{"tiers":[{"threshold":100000,"approver":"财务部"},{"threshold":500000,"approver":"总经理"}]}', creator:'王五', createdAt:'2026-05-25', updatedAt:'2026-06-15' },
+    { id:'r8', name:'操作审计日志保留180天', group:'rg6', type:'security', priority:'medium', scope:'enterprise', enabled:true, desc:'所有用户的合同操作（生成、修改、删除、下载）记录保留180天，到期自动归档。', content:'{"audit_actions":["create","edit","delete","download","share"],"retention_days":180,"archive":"压缩存储","alert_on_delete":true}', creator:'xxx', createdAt:'2026-03-01', updatedAt:'2026-06-10' },
+    { id:'r9', name:'合同审查自动评分低于70分拒绝', group:'rg2', type:'contract-review', priority:'medium', scope:'enterprise', enabled:false, desc:'AI审查评分低于70分的合同自动标记为不通过，需修改后重新提交。', content:'{"min_score":70,"action":"auto_reject","notify":["提交人"],"resubmit":"修改后重新提交","exclude_clauses":["格式问题"]}', creator:'xxx', createdAt:'2026-06-10', updatedAt:'2026-06-28' },
+    { id:'r10', name:'个人合同模板仅自己可见', group:'rg4', type:'permission', priority:'low', scope:'personal', enabled:true, desc:'用户个人创建的合同模板默认仅自己可见，如需共享需手动设置权限。', content:'{"default_scope":"personal","share_requires":"手动设置","admin_override":true}', creator:'xxx', createdAt:'2026-06-15', updatedAt:'2026-06-15' },
+    { id:'r11', name:'登录异常检测-异地登录通知', group:'rg6', type:'security', priority:'high', scope:'enterprise', enabled:true, desc:'检测到非常用IP登录时立即通知用户和管理员，必要时冻结账号。', content:'{"check":"IP变化>200km","notify":["用户","管理员"],"action":"发送验证短信","threshold":"3次失败","freeze":true}', creator:'xxx', createdAt:'2026-04-20', updatedAt:'2026-06-29' },
+    { id:'r12', name:'合同生成后自动归档到知识库', group:'rg1', type:'contract-gen', priority:'low', scope:'enterprise', enabled:false, desc:'合同生成完成后自动创建PDF副本并上传到对应部门的知识库文件夹。', content:'{"auto_archive":true,"format":"pdf","destination":"知识库/{部门}/{年份}","notify":"生成完成通知"}', creator:'xxx', createdAt:'2026-06-20', updatedAt:'2026-06-30' },
+];
+
+let ruleCurrentGroup = 'all';
+let ruleSelectedItems = [];
+let editingRuleId = null;
+let selectedRuleGroupIcon = '📁';
+
+const ruleTypeLabels = { 'contract-gen':'合同生成', 'contract-review':'合同审查', 'approval':'审批流程', 'permission':'权限控制', 'notification':'通知提醒', 'security':'安全策略' };
+const ruleTypeIcons = { 'contract-gen':'📝', 'contract-review':'🔍', 'approval':'✅', 'permission':'🔐', 'notification':'🔔', 'security':'🛡️' };
+const rulePriorityLabels = { high:'高', medium:'中', low:'低' };
+const rulePriorityColors = { high:'#ff4d4f', medium:'#fa8c16', low:'#52c41a' };
+const ruleScopeLabels = { enterprise:'企业全局', department:'部门', personal:'个人' };
+
+function renderRuleStats() {
+    const total = ruleData.length;
+    const enabled = ruleData.filter(r => r.enabled).length;
+    const disabled = total - enabled;
+    const high = ruleData.filter(r => r.priority === 'high').length;
+    const el = (id) => document.getElementById(id);
+    if (el('ruleStatTotal')) el('ruleStatTotal').textContent = total;
+    if (el('ruleStatEnabled')) el('ruleStatEnabled').textContent = enabled;
+    if (el('ruleStatDisabled')) el('ruleStatDisabled').textContent = disabled;
+    if (el('ruleStatHigh')) el('ruleStatHigh').textContent = high;
+    if (el('ruleStatGroups')) el('ruleStatGroups').textContent = ruleGroups.length;
+}
+
+function renderRuleGroupTabs() {
+    const el = document.getElementById('ruleGroupTabs');
+    if (!el) return;
+    let html = `<div class="kb-tab ${ruleCurrentGroup==='all'?'active':''}" onclick="switchRuleGroup('all', this)">全部规则 <span style="font-size:11px;color:#999;margin-left:4px">${ruleData.length}</span></div>`;
+    ruleGroups.forEach(g => {
+        const count = ruleData.filter(r => r.group === g.id).length;
+        html += `<div class="kb-tab ${ruleCurrentGroup===g.id?'active':''}" onclick="switchRuleGroup('${g.id}', this)">${g.icon} ${g.name} <span style="font-size:11px;color:#999;margin-left:4px">${count}</span></div>`;
+    });
+    el.innerHTML = html;
+}
+
+function switchRuleGroup(groupId, tabEl) {
+    ruleCurrentGroup = groupId;
+    ruleSelectedItems = [];
+    document.getElementById('ruleCheckAll').checked = false;
+    renderRuleGroupTabs();
+    renderRuleList();
+}
+
+function renderRuleList() {
+    const el = document.getElementById('ruleList');
+    if (!el) return;
+    const q = (document.getElementById('ruleSearchInput')?.value || '').toLowerCase();
+    const typeFilter = document.getElementById('ruleTypeFilter')?.value || '';
+    const priorityFilter = document.getElementById('rulePriorityFilter')?.value || '';
+
+    let items = ruleData.filter(r => {
+        if (ruleCurrentGroup !== 'all' && r.group !== ruleCurrentGroup) return false;
+        if (q && !r.name.toLowerCase().includes(q) && !r.desc.toLowerCase().includes(q)) return false;
+        if (typeFilter && r.type !== typeFilter) return false;
+        if (priorityFilter && r.priority !== priorityFilter) return false;
+        return true;
+    });
+
+    const countEl = document.getElementById('ruleItemCount');
+    if (countEl) countEl.textContent = `共 ${items.length} 条规则`;
+
+    el.innerHTML = items.map(r => {
+        const group = ruleGroups.find(g => g.id === r.group);
+        const checked = ruleSelectedItems.includes(r.id) ? 'checked' : '';
+        return `<div style="display:grid;grid-template-columns:40px 44px 1fr 100px 90px 80px 120px 100px 140px;gap:10px;padding:12px;align-items:center;border-bottom:1px solid #f0f0f0;${r.enabled?'':'opacity:0.55'}" class="rule-list-item" data-id="${r.id}">
+            <div><input type="checkbox" class="rule-item-check" value="${r.id}" ${checked} onchange="toggleRuleItem('${r.id}')" onclick="event.stopPropagation()"></div>
+            <div onclick="event.stopPropagation();toggleRuleEnabled('${r.id}')" title="${r.enabled?'点击停用':'点击启用'}" style="cursor:pointer">
+                <div style="width:38px;height:20px;border-radius:10px;background:${r.enabled?'#52c41a':'#d9d9d9'};position:relative;transition:background 0.2s">
+                    <div style="width:16px;height:16px;border-radius:50%;background:#fff;position:absolute;top:2px;${r.enabled?'right:2px':'left:2px'};box-shadow:0 1px 3px rgba(0,0,0,0.2);transition:right 0.2s"></div>
+                </div>
+            </div>
+            <div style="cursor:pointer;min-width:0" onclick="openRuleDetail('${r.id}')">
+                <div style="font-weight:500;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${r.name}</div>
+                <div style="font-size:11px;color:#999;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${group?group.icon+' '+group.name:''}</div>
+            </div>
+            <div><span style="background:#f0f5ff;color:#2f54eb;padding:2px 8px;border-radius:4px;font-size:11px">${ruleTypeIcons[r.type]||''} ${ruleTypeLabels[r.type]||r.type}</span></div>
+            <div><span style="color:${rulePriorityColors[r.priority]};font-weight:600;font-size:12px">● ${rulePriorityLabels[r.priority]}</span></div>
+            <div style="font-size:12px;color:#666">${ruleScopeLabels[r.scope]}</div>
+            <div style="font-size:12px;color:#666">${r.creator}</div>
+            <div style="font-size:12px;color:#999">${r.updatedAt}</div>
+            <div style="text-align:right;display:flex;gap:6px;justify-content:flex-end">
+                <button class="btn btn-sm" onclick="event.stopPropagation();openRuleDetail('${r.id}')" title="详情">👁️</button>
+                <button class="btn btn-sm" onclick="event.stopPropagation();openRuleEditModal('${r.id}')" title="编辑">✏️</button>
+                <button class="btn btn-sm btn-danger" onclick="event.stopPropagation();deleteRule('${r.id}')" title="删除">🗑️</button>
+            </div>
+        </div>`;
+    }).join('') || '<div style="padding:40px;text-align:center;color:#999">📋 暂无规则，点击上方"新建规则"创建</div>';
+}
+
+function filterRuleList() { renderRuleList(); }
+
+function toggleRuleCheckAll() {
+    const c = document.getElementById('ruleCheckAll').checked;
+    document.querySelectorAll('.rule-item-check').forEach(cb => cb.checked = c);
+    if (c) {
+        const items = getFilteredRules();
+        ruleSelectedItems = items.map(r => r.id);
+    } else {
+        ruleSelectedItems = [];
+    }
+}
+
+function toggleRuleItem(ruleId) {
+    const idx = ruleSelectedItems.indexOf(ruleId);
+    if (idx === -1) ruleSelectedItems.push(ruleId);
+    else ruleSelectedItems.splice(idx, 1);
+}
+
+function getFilteredRules() {
+    const q = (document.getElementById('ruleSearchInput')?.value || '').toLowerCase();
+    const typeFilter = document.getElementById('ruleTypeFilter')?.value || '';
+    const priorityFilter = document.getElementById('rulePriorityFilter')?.value || '';
+    return ruleData.filter(r => {
+        if (ruleCurrentGroup !== 'all' && r.group !== ruleCurrentGroup) return false;
+        if (q && !r.name.toLowerCase().includes(q) && !r.desc.toLowerCase().includes(q)) return false;
+        if (typeFilter && r.type !== typeFilter) return false;
+        if (priorityFilter && r.priority !== priorityFilter) return false;
+        return true;
+    });
+}
+
+function toggleRuleEnabled(ruleId) {
+    const rule = ruleData.find(r => r.id === ruleId);
+    if (!rule) return;
+    rule.enabled = !rule.enabled;
+    renderRuleStats();
+    renderRuleList();
+}
+
+function batchToggleRules(enable) {
+    if (ruleSelectedItems.length === 0) { alert('请先选择规则'); return; }
+    ruleSelectedItems.forEach(id => {
+        const rule = ruleData.find(r => r.id === id);
+        if (rule) rule.enabled = enable;
+    });
+    ruleSelectedItems = [];
+    document.getElementById('ruleCheckAll').checked = false;
+    renderRuleStats();
+    renderRuleList();
+}
+
+function deleteSelectedRules() {
+    if (ruleSelectedItems.length === 0) { alert('请先选择要删除的规则'); return; }
+    if (confirm(`确定删除选中的 ${ruleSelectedItems.length} 条规则？`)) {
+        ruleSelectedItems.forEach(id => {
+            const idx = ruleData.findIndex(r => r.id === id);
+            if (idx !== -1) ruleData.splice(idx, 1);
+        });
+        ruleSelectedItems = [];
+        renderRuleStats();
+        renderRuleGroupTabs();
+        renderRuleList();
+    }
+}
+
+function deleteRule(ruleId) {
+    const rule = ruleData.find(r => r.id === ruleId);
+    if (!rule) return;
+    if (confirm(`确定删除规则"${rule.name}"？`)) {
+        const idx = ruleData.findIndex(r => r.id === ruleId);
+        if (idx !== -1) ruleData.splice(idx, 1);
+        renderRuleStats();
+        renderRuleGroupTabs();
+        renderRuleList();
+    }
+}
+
+function openRuleEditModal(ruleId) {
+    editingRuleId = ruleId || null;
+    const titleEl = document.getElementById('ruleEditModalTitle');
+    const groupSel = document.getElementById('ruleGroupInput');
+
+    // Populate group dropdown
+    groupSel.innerHTML = ruleGroups.map(g => `<option value="${g.id}">${g.icon} ${g.name}</option>`).join('');
+
+    if (ruleId) {
+        const r = ruleData.find(x => x.id === ruleId);
+        if (!r) return;
+        titleEl.textContent = '编辑规则';
+        document.getElementById('ruleNameInput').value = r.name;
+        groupSel.value = r.group;
+        document.getElementById('ruleTypeInput').value = r.type;
+        document.getElementById('rulePriorityInput').value = r.priority;
+        document.getElementById('ruleScopeInput').value = r.scope;
+        document.getElementById('ruleDescInput').value = r.desc;
+        document.getElementById('ruleContentInput').value = r.content;
+        document.getElementById('ruleEnabledInput').checked = r.enabled;
+    } else {
+        titleEl.textContent = '新建规则';
+        document.getElementById('ruleNameInput').value = '';
+        document.getElementById('ruleTypeInput').value = 'contract-gen';
+        document.getElementById('rulePriorityInput').value = 'medium';
+        document.getElementById('ruleScopeInput').value = 'enterprise';
+        document.getElementById('ruleDescInput').value = '';
+        document.getElementById('ruleContentInput').value = '';
+        document.getElementById('ruleEnabledInput').checked = true;
+    }
+    openModal('ruleEditModal');
+}
+
+function saveRule() {
+    const name = document.getElementById('ruleNameInput').value.trim();
+    const group = document.getElementById('ruleGroupInput').value;
+    const type = document.getElementById('ruleTypeInput').value;
+    const priority = document.getElementById('rulePriorityInput').value;
+    const scope = document.getElementById('ruleScopeInput').value;
+    const desc = document.getElementById('ruleDescInput').value.trim();
+    const content = document.getElementById('ruleContentInput').value.trim();
+    const enabled = document.getElementById('ruleEnabledInput').checked;
+
+    if (!name) { alert('请填写规则名称'); return; }
+    if (!group) { alert('请选择所属分组'); return; }
+
+    const today = new Date().toISOString().split('T')[0];
+
+    if (editingRuleId) {
+        const r = ruleData.find(x => x.id === editingRuleId);
+        if (r) {
+            r.name = name; r.group = group; r.type = type; r.priority = priority;
+            r.scope = scope; r.desc = desc; r.content = content; r.enabled = enabled;
+            r.updatedAt = today;
+        }
+    } else {
+        ruleData.push({
+            id: 'r' + (Date.now() % 100000),
+            name, group, type, priority, scope, enabled, desc, content,
+            creator: 'xxx', createdAt: today, updatedAt: today
+        });
+    }
+    closeModal('ruleEditModal');
+    renderRuleStats();
+    renderRuleGroupTabs();
+    renderRuleList();
+}
+
+function openRuleDetail(ruleId) {
+    const r = ruleData.find(x => x.id === ruleId);
+    if (!r) return;
+    const group = ruleGroups.find(g => g.id === r.group);
+    let contentDisplay = r.content;
+    try {
+        const obj = JSON.parse(r.content);
+        contentDisplay = JSON.stringify(obj, null, 2);
+    } catch(e) {}
+
+    document.getElementById('ruleDetailBody').innerHTML = `
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid #f0f0f0">
+            <div style="width:48px;height:48px;border-radius:12px;background:${r.enabled?'#f6ffed':'#f5f5f5'};display:flex;align-items:center;justify-content:center;font-size:24px">${ruleTypeIcons[r.type]||'📋'}</div>
+            <div style="flex:1">
+                <div style="font-size:16px;font-weight:600;display:flex;align-items:center;gap:8px">
+                    ${r.name}
+                    <span style="font-size:11px;padding:2px 8px;border-radius:4px;background:${r.enabled?'#f6ffed;color:#52c41a':'#f5f5f5;color:#999'}">${r.enabled?'✅ 已启用':'⏸️ 已停用'}</span>
+                </div>
+                <div style="font-size:12px;color:#999;margin-top:4px">${group?group.icon+' '+group.name:''} · ${ruleTypeLabels[r.type]} · ${ruleScopeLabels[r.scope]}</div>
+            </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px">
+            <div style="text-align:center;padding:12px;background:#f8f9fa;border-radius:8px">
+                <div style="font-size:11px;color:#999">优先级</div>
+                <div style="font-size:15px;font-weight:600;color:${rulePriorityColors[r.priority]};margin-top:4px">● ${rulePriorityLabels[r.priority]}</div>
+            </div>
+            <div style="text-align:center;padding:12px;background:#f8f9fa;border-radius:8px">
+                <div style="font-size:11px;color:#999">作用域</div>
+                <div style="font-size:15px;font-weight:600;margin-top:4px">${ruleScopeLabels[r.scope]}</div>
+            </div>
+            <div style="text-align:center;padding:12px;background:#f8f9fa;border-radius:8px">
+                <div style="font-size:11px;color:#999">创建者</div>
+                <div style="font-size:15px;font-weight:600;margin-top:4px">${r.creator}</div>
+            </div>
+        </div>
+        <div style="margin-bottom:16px">
+            <div style="font-size:13px;font-weight:600;margin-bottom:6px">规则描述</div>
+            <div style="font-size:13px;color:#666;line-height:1.8;padding:12px;background:#f8f9fa;border-radius:6px">${r.desc}</div>
+        </div>
+        <div style="margin-bottom:16px">
+            <div style="font-size:13px;font-weight:600;margin-bottom:6px">规则内容</div>
+            <pre style="font-size:12px;color:#333;padding:12px;background:#1e1e1e;color:#d4d4d4;border-radius:6px;overflow-x:auto;font-family:Consolas,Monaco,monospace;line-height:1.6;white-space:pre-wrap">${contentDisplay}</pre>
+        </div>
+        <div style="display:flex;gap:12px;font-size:12px;color:#999;padding-top:12px;border-top:1px solid #f0f0f0">
+            <span>创建时间：${r.createdAt}</span>
+            <span>最后更新：${r.updatedAt}</span>
+        </div>
+    `;
+    openModal('ruleDetailModal');
+}
+
+function openRuleGroupModal(groupId) {
+    const titleEl = document.getElementById('ruleGroupModalTitle');
+    if (groupId) {
+        titleEl.textContent = '编辑分组';
+        const g = ruleGroups.find(x => x.id === groupId);
+        if (g) {
+            document.getElementById('ruleGroupNameInput').value = g.name;
+            document.getElementById('ruleGroupDescInput').value = g.desc;
+            pickRuleGroupIcon(document.querySelector(`.rule-icon-option[onclick*="${g.icon}"]`), g.icon);
+        }
+    } else {
+        titleEl.textContent = '新建分组';
+        document.getElementById('ruleGroupNameInput').value = '';
+        document.getElementById('ruleGroupDescInput').value = '';
+        selectedRuleGroupIcon = '📁';
+        document.querySelectorAll('.rule-icon-option').forEach((el, i) => {
+            el.style.borderColor = i === 0 ? '#1890ff' : '#f0f0f0';
+            el.style.background = i === 0 ? '#e6f7ff' : '';
+        });
+    }
+    openModal('ruleGroupModal');
+}
+
+function pickRuleGroupIcon(el, icon) {
+    selectedRuleGroupIcon = icon;
+    document.querySelectorAll('.rule-icon-option').forEach(e => {
+        e.style.borderColor = '#f0f0f0';
+        e.style.background = '';
+    });
+    if (el) { el.style.borderColor = '#1890ff'; el.style.background = '#e6f7ff'; }
+}
+
+function saveRuleGroup() {
+    const name = document.getElementById('ruleGroupNameInput').value.trim();
+    const desc = document.getElementById('ruleGroupDescInput').value.trim();
+    if (!name) { alert('请输入分组名称'); return; }
+
+    const existingGroup = ruleGroups.find(g => g.name === name);
+    if (existingGroup) {
+        existingGroup.icon = selectedRuleGroupIcon;
+        existingGroup.desc = desc;
+    } else {
+        ruleGroups.push({
+            id: 'rg' + (Date.now() % 100000),
+            name, icon: selectedRuleGroupIcon, desc
+        });
+    }
+    closeModal('ruleGroupModal');
+    renderRuleGroupTabs();
+    renderRuleList();
+}
+
 /* ==================== INIT ==================== */
 function init() {
     // Enterprise dashboard
@@ -2289,6 +2847,10 @@ function init() {
     // Knowledge base
     renderKbBreadcrumb();
     renderKbFileList();
+    // Rules library
+    renderRuleStats();
+    renderRuleGroupTabs();
+    renderRuleList();
 }
 
 /* ==================== PLAN/PACK ROW ADD ==================== */
