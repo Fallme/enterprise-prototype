@@ -1438,8 +1438,10 @@ function formatNum(n) { return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','
 
 /* ==================== PAGE SWITCHING ==================== */
 function showPage(pageId, menuItem) {
-    document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
-    document.getElementById(pageId).classList.add('active');
+    document.querySelectorAll('.page-content').forEach(p => { p.classList.remove('active'); p.style.display = 'none'; });
+    const target = document.getElementById(pageId);
+    target.classList.add('active');
+    target.style.display = '';
     document.querySelectorAll('.sidebar-menu-item').forEach(m => m.classList.remove('active'));
     if (menuItem) menuItem.classList.add('active');
 }
