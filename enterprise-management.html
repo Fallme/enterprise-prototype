@@ -608,204 +608,244 @@ tr:hover { background: #fafafa; }
     </div>
 
     <!-- ========== PAGE 5: Profile ========== -->
-    <div class="page-content" id="page-profile" style="display:none;padding:0">
-      <!-- Full-width Hero -->
-      <div style="background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);padding:36px 40px;color:#fff;position:relative;overflow:hidden">
-        <!-- Decorative shapes -->
-        <div style="position:absolute;top:-40px;right:-40px;width:220px;height:220px;background:rgba(88,166,255,0.08);border-radius:50%"></div>
-        <div style="position:absolute;bottom:-80px;right:120px;width:180px;height:180px;background:rgba(88,166,255,0.05);border-radius:50%"></div>
-        <div style="position:absolute;top:20px;right:300px;width:100px;height:100px;background:rgba(255,255,255,0.03);border-radius:50%"></div>
+    <div class="page-content" id="page-profile" style="display:none;padding:0;background:#0a0e27;min-height:100vh">
+      <!-- ========== HERO: Deep Space Gradient ========== -->
+      <div style="background:linear-gradient(135deg,#0a0e27 0%,#1a1040 25%,#0d2137 50%,#0a1628 75%,#0f0a2a 100%);padding:48px 48px 40px;color:#fff;position:relative;overflow:hidden;border-bottom:1px solid rgba(88,166,255,0.1)">
+        <!-- Animated floating orbs -->
+        <div style="position:absolute;top:-60px;right:-30px;width:300px;height:300px;background:radial-gradient(circle,rgba(88,166,255,0.12) 0%,transparent 70%);border-radius:50%;animation:floatOrb1 8s ease-in-out infinite"></div>
+        <div style="position:absolute;bottom:-100px;left:200px;width:250px;height:250px;background:radial-gradient(circle,rgba(139,92,246,0.1) 0%,transparent 70%);border-radius:50%;animation:floatOrb2 10s ease-in-out infinite"></div>
+        <div style="position:absolute;top:40px;left:50%;width:180px;height:180px;background:radial-gradient(circle,rgba(52,211,153,0.06) 0%,transparent 70%);border-radius:50%;animation:floatOrb3 12s ease-in-out infinite"></div>
+        <!-- Grid lines overlay -->
+        <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(88,166,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(88,166,255,0.03) 1px,transparent 1px);background-size:60px 60px"></div>
+        <!-- Glowing dots -->
+        <div style="position:absolute;top:30%;left:15%;width:4px;height:4px;background:#58a6ff;border-radius:50%;box-shadow:0 0 8px #58a6ff,0 0 20px rgba(88,166,255,0.3);animation:pulse 3s ease-in-out infinite"></div>
+        <div style="position:absolute;top:60%;right:20%;width:3px;height:3px;background:#a78bfa;border-radius:50%;box-shadow:0 0 8px #a78bfa,0 0 16px rgba(167,139,250,0.3);animation:pulse 4s ease-in-out infinite 1s"></div>
+        <div style="position:absolute;top:20%;right:35%;width:3px;height:3px;background:#34d399;border-radius:50%;box-shadow:0 0 8px #34d399;animation:pulse 5s ease-in-out infinite 2s"></div>
 
-        <div style="display:flex;align-items:center;gap:28px;position:relative;z-index:1">
-          <!-- Avatar -->
-          <div style="position:relative">
-            <div style="width:88px;height:88px;background:linear-gradient(135deg,#58a6ff,#1f6feb);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:700;border:3px solid rgba(255,255,255,0.25);box-shadow:0 4px 20px rgba(31,111,235,0.4);cursor:pointer" title="更换头像">X</div>
-            <div style="position:absolute;bottom:2px;right:2px;width:20px;height:20px;background:#52c41a;border-radius:50%;border:2px solid #1a1a2e;display:flex;align-items:center;justify-content:center;font-size:10px">✓</div>
-          </div>
-          <!-- Info -->
-          <div style="flex:1">
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
-              <h2 style="font-size:26px;font-weight:700;letter-spacing:0.5px">xxx</h2>
-              <span style="background:rgba(88,166,255,0.2);color:#58a6ff;padding:3px 12px;border-radius:20px;font-size:11px;font-weight:600;border:1px solid rgba(88,166,255,0.3)">管理员</span>
-              <span style="background:rgba(82,196,26,0.15);color:#7ee787;padding:3px 12px;border-radius:20px;font-size:11px;font-weight:600;border:1px solid rgba(82,196,26,0.3)">在线</span>
+        <div style="display:flex;align-items:center;gap:32px;position:relative;z-index:1">
+          <!-- Avatar with glow ring -->
+          <div style="position:relative;flex-shrink:0">
+            <div style="width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,#58a6ff 0%,#a78bfa 50%,#34d399 100%);padding:3px;box-shadow:0 0 30px rgba(88,166,255,0.3),0 0 60px rgba(167,139,246,0.15)">
+              <div style="width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,#1e293b,#0f172a);display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:800;background-clip:padding-box;letter-spacing:-1px">X</div>
             </div>
-            <div style="display:flex;align-items:center;gap:20px;font-size:13px;opacity:0.8">
-              <span>🏢 通友科技</span><span>💻 技术部</span><span>📱 136****6666</span><span>📅 2024-01-15 加入</span>
+            <!-- Online pulse -->
+            <div style="position:absolute;bottom:4px;right:4px;width:22px;height:22px;background:#34d399;border-radius:50%;border:3px solid #0a0e27;display:flex;align-items:center;justify-content:center;box-shadow:0 0 10px rgba(52,211,153,0.5)">
+              <div style="width:6px;height:6px;background:#fff;border-radius:50%"></div>
+            </div>
+          </div>
+
+          <!-- Info -->
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+              <h2 style="font-size:28px;font-weight:800;letter-spacing:-0.5px;background:linear-gradient(135deg,#fff 0%,#94a3b8 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent">xxx</h2>
+              <span style="background:linear-gradient(135deg,rgba(88,166,255,0.2),rgba(139,92,246,0.2));color:#a5b4fc;padding:4px 14px;border-radius:20px;font-size:11px;font-weight:600;border:1px solid rgba(139,92,246,0.25);backdrop-filter:blur(8px)">🛡️ 管理员</span>
+              <span style="background:rgba(52,211,153,0.12);color:#6ee7b7;padding:4px 14px;border-radius:20px;font-size:11px;font-weight:600;border:1px solid rgba(52,211,153,0.2);display:flex;align-items:center;gap:5px"><span style="width:6px;height:6px;background:#34d399;border-radius:50%;box-shadow:0 0 6px #34d399"></span>在线</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:20px;font-size:13px;color:rgba(255,255,255,0.55)">
+              <span style="display:flex;align-items:center;gap:5px">🏢 通友科技</span>
+              <span style="width:1px;height:12px;background:rgba(255,255,255,0.15)"></span>
+              <span style="display:flex;align-items:center;gap:5px">💻 技术部</span>
+              <span style="width:1px;height:12px;background:rgba(255,255,255,0.15)"></span>
+              <span style="display:flex;align-items:center;gap:5px">📱 136****6666</span>
+              <span style="width:1px;height:12px;background:rgba(255,255,255,0.15)"></span>
+              <span style="display:flex;align-items:center;gap:5px">📅 2024-01-15 加入</span>
             </div>
             <!-- Stats in hero -->
-            <div style="display:flex;gap:32px;margin-top:18px">
-              <div style="text-align:center;padding:0 16px;border-right:1px solid rgba(255,255,255,0.1)"><div style="font-size:26px;font-weight:700;color:#58a6ff">156</div><div style="font-size:11px;opacity:0.6;margin-top:2px">累计生成</div></div>
-              <div style="text-align:center;padding:0 16px;border-right:1px solid rgba(255,255,255,0.1)"><div style="font-size:26px;font-weight:700;color:#7ee787">38,560</div><div style="font-size:11px;opacity:0.6;margin-top:2px">剩余积分</div></div>
-              <div style="text-align:center;padding:0 16px;border-right:1px solid rgba(255,255,255,0.1)"><div style="font-size:26px;font-weight:700;color:#f0883e">11,440</div><div style="font-size:11px;opacity:0.6;margin-top:2px">已消耗</div></div>
-              <div style="text-align:center;padding:0 16px"><div style="font-size:26px;font-weight:700;color:#d2a8ff">428天</div><div style="font-size:11px;opacity:0.6;margin-top:2px">连续使用</div></div>
+            <div style="display:flex;gap:0;margin-top:22px">
+              <div style="text-align:center;padding:0 24px;border-right:1px solid rgba(255,255,255,0.08)">
+                <div style="font-size:28px;font-weight:800;background:linear-gradient(135deg,#60a5fa,#93c5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent">156</div>
+                <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:3px;letter-spacing:0.5px">累计生成</div>
+              </div>
+              <div style="text-align:center;padding:0 24px;border-right:1px solid rgba(255,255,255,0.08)">
+                <div style="font-size:28px;font-weight:800;background:linear-gradient(135deg,#34d399,#6ee7b7);-webkit-background-clip:text;-webkit-text-fill-color:transparent">38,560</div>
+                <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:3px;letter-spacing:0.5px">剩余积分</div>
+              </div>
+              <div style="text-align:center;padding:0 24px;border-right:1px solid rgba(255,255,255,0.08)">
+                <div style="font-size:28px;font-weight:800;background:linear-gradient(135deg,#f97316,#fb923c);-webkit-background-clip:text;-webkit-text-fill-color:transparent">11,440</div>
+                <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:3px;letter-spacing:0.5px">已消耗</div>
+              </div>
+              <div style="text-align:center;padding:0 24px">
+                <div style="font-size:28px;font-weight:800;background:linear-gradient(135deg,#c084fc,#e879f9);-webkit-background-clip:text;-webkit-text-fill-color:transparent">428天</div>
+                <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:3px;letter-spacing:0.5px">连续使用</div>
+              </div>
             </div>
           </div>
-          <!-- Action buttons -->
-          <div style="display:flex;flex-direction:column;gap:8px;position:relative;z-index:1">
-            <button onclick="openModal('exitModal')" style="background:rgba(248,81,73,0.6);color:#fff;border:1px solid rgba(248,81,73,0.4);padding:10px 28px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;transition:all 0.2s" onmouseover="this.style.background='rgba(248,81,73,0.9)'" onmouseout="this.style.background='rgba(248,81,73,0.6)'">退出企业</button>
+
+          <!-- Exit button -->
+          <div style="position:relative;z-index:1;flex-shrink:0">
+            <button onclick="openModal('exitModal')" style="background:rgba(239,68,68,0.15);color:#fca5a5;border:1px solid rgba(239,68,68,0.25);padding:10px 28px;border-radius:10px;cursor:pointer;font-size:13px;font-weight:500;backdrop-filter:blur(8px);transition:all 0.3s" onmouseover="this.style.background='rgba(239,68,68,0.3)';this.style.borderColor='rgba(239,68,68,0.5)';this.style.boxShadow='0 0 20px rgba(239,68,68,0.2)'" onmouseout="this.style.background='rgba(239,68,68,0.15)';this.style.borderColor='rgba(239,68,68,0.25)';this.style.boxShadow='none'">退出企业</button>
           </div>
         </div>
       </div>
 
-      <!-- Content area with padding -->
-      <div style="padding:24px 28px">
-        <!-- Stats Cards Row -->
-        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:20px">
-          <div style="background:#fff;border-radius:10px;padding:16px 18px;box-shadow:0 1px 6px rgba(0,0,0,0.05);border-left:3px solid #58a6ff;display:flex;align-items:center;gap:12px">
-            <div style="width:38px;height:38px;background:#f0f6ff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px">📅</div>
-            <div><div style="font-size:11px;color:#999">加入时间</div><div style="font-size:13px;font-weight:600;color:#333">2024-01-15</div></div>
+      <!-- ========== CONTENT: Dark glass panels ========== -->
+      <div style="padding:28px 40px;background:linear-gradient(180deg,#0a0e27 0%,#0d1229 100%)">
+        <!-- Stats Cards Row: Glass style -->
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:24px">
+          <div style="background:rgba(255,255,255,0.04);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:18px 20px;display:flex;align-items:center;gap:14px;transition:all 0.3s;cursor:default" onmouseover="this.style.background='rgba(255,255,255,0.07)';this.style.borderColor='rgba(88,166,255,0.2)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(255,255,255,0.04)';this.style.borderColor='rgba(255,255,255,0.06)';this.style.transform='none'">
+            <div style="width:42px;height:42px;background:linear-gradient(135deg,rgba(96,165,250,0.15),rgba(96,165,250,0.05));border:1px solid rgba(96,165,250,0.2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px">📅</div>
+            <div><div style="font-size:11px;color:rgba(255,255,255,0.45);margin-bottom:2px">加入时间</div><div style="font-size:14px;font-weight:600;color:#e2e8f0">2024-01-15</div></div>
           </div>
-          <div style="background:#fff;border-radius:10px;padding:16px 18px;box-shadow:0 1px 6px rgba(0,0,0,0.05);border-left:3px solid #52c41a;display:flex;align-items:center;gap:12px">
-            <div style="width:38px;height:38px;background:#f6ffed;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px">🏢</div>
-            <div><div style="font-size:11px;color:#999">所属企业</div><div style="font-size:13px;font-weight:600;color:#333">通友科技</div></div>
+          <div style="background:rgba(255,255,255,0.04);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:18px 20px;display:flex;align-items:center;gap:14px;transition:all 0.3s;cursor:default" onmouseover="this.style.background='rgba(255,255,255,0.07)';this.style.borderColor='rgba(52,211,153,0.2)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(255,255,255,0.04)';this.style.borderColor='rgba(255,255,255,0.06)';this.style.transform='none'">
+            <div style="width:42px;height:42px;background:linear-gradient(135deg,rgba(52,211,153,0.15),rgba(52,211,153,0.05));border:1px solid rgba(52,211,153,0.2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px">🏢</div>
+            <div><div style="font-size:11px;color:rgba(255,255,255,0.45);margin-bottom:2px">所属企业</div><div style="font-size:14px;font-weight:600;color:#e2e8f0">通友科技</div></div>
           </div>
-          <div style="background:#fff;border-radius:10px;padding:16px 18px;box-shadow:0 1px 6px rgba(0,0,0,0.05);border-left:3px solid #fa8c16;display:flex;align-items:center;gap:12px">
-            <div style="width:38px;height:38px;background:#fff7e6;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px">💳</div>
-            <div><div style="font-size:11px;color:#999">当前套餐</div><div style="font-size:13px;font-weight:600;color:#333">企业版</div></div>
+          <div style="background:rgba(255,255,255,0.04);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:18px 20px;display:flex;align-items:center;gap:14px;transition:all 0.3s;cursor:default" onmouseover="this.style.background='rgba(255,255,255,0.07)';this.style.borderColor='rgba(251,146,60,0.2)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(255,255,255,0.04)';this.style.borderColor='rgba(255,255,255,0.06)';this.style.transform='none'">
+            <div style="width:42px;height:42px;background:linear-gradient(135deg,rgba(251,146,60,0.15),rgba(251,146,60,0.05));border:1px solid rgba(251,146,60,0.2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px">💳</div>
+            <div><div style="font-size:11px;color:rgba(255,255,255,0.45);margin-bottom:2px">当前套餐</div><div style="font-size:14px;font-weight:600;color:#e2e8f0">企业版</div></div>
           </div>
-          <div style="background:#fff;border-radius:10px;padding:16px 18px;box-shadow:0 1px 6px rgba(0,0,0,0.05);border-left:3px solid #722ed1;display:flex;align-items:center;gap:12px">
-            <div style="width:38px;height:38px;background:#f9f0ff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px">📊</div>
-            <div><div style="font-size:11px;color:#999">本月消耗</div><div style="font-size:13px;font-weight:600;color:#333">3,280 积分</div></div>
+          <div style="background:rgba(255,255,255,0.04);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:18px 20px;display:flex;align-items:center;gap:14px;transition:all 0.3s;cursor:default" onmouseover="this.style.background='rgba(255,255,255,0.07)';this.style.borderColor='rgba(167,139,250,0.2)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(255,255,255,0.04)';this.style.borderColor='rgba(255,255,255,0.06)';this.style.transform='none'">
+            <div style="width:42px;height:42px;background:linear-gradient(135deg,rgba(167,139,250,0.15),rgba(167,139,250,0.05));border:1px solid rgba(167,139,250,0.2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px">📊</div>
+            <div><div style="font-size:11px;color:rgba(255,255,255,0.45);margin-bottom:2px">本月消耗</div><div style="font-size:14px;font-weight:600;color:#e2e8f0">3,280 积分</div></div>
           </div>
-          <div style="background:#fff;border-radius:10px;padding:16px 18px;box-shadow:0 1px 6px rgba(0,0,0,0.05);border-left:3px solid #eb2f96;display:flex;align-items:center;gap:12px">
-            <div style="width:38px;height:38px;background:#fff0f6;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px">⏰</div>
-            <div><div style="font-size:11px;color:#999">最后登录</div><div style="font-size:13px;font-weight:600;color:#333">今天 15:30</div></div>
+          <div style="background:rgba(255,255,255,0.04);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:18px 20px;display:flex;align-items:center;gap:14px;transition:all 0.3s;cursor:default" onmouseover="this.style.background='rgba(255,255,255,0.07)';this.style.borderColor='rgba(244,114,182,0.2)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(255,255,255,0.04)';this.style.borderColor='rgba(255,255,255,0.06)';this.style.transform='none'">
+            <div style="width:42px;height:42px;background:linear-gradient(135deg,rgba(244,114,182,0.15),rgba(244,114,182,0.05));border:1px solid rgba(244,114,182,0.2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px">⏰</div>
+            <div><div style="font-size:11px;color:rgba(255,255,255,0.45);margin-bottom:2px">最后登录</div><div style="font-size:14px;font-weight:600;color:#e2e8f0">今天 15:30</div></div>
           </div>
         </div>
 
         <!-- Main Two-column -->
-        <div style="display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:start">
-          <!-- Left: Settings Panel -->
-          <div style="background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,0.05);overflow:hidden">
-            <div class="profile-tabs" style="border-bottom:1px solid #f0f0f0">
-              <div class="profile-tab active" onclick="switchProfileTab(0, this)" style="padding:14px 24px">👤 基本资料</div>
-              <div class="profile-tab" onclick="switchProfileTab(1, this)" style="padding:14px 24px">🔒 修改密码</div>
-              <div class="profile-tab" onclick="switchProfileTab(2, this)" style="padding:14px 24px">🔗 第三方应用</div>
-              <div class="profile-tab" onclick="switchProfileTab(3, this)" style="padding:14px 24px">💻 在线设备</div>
+        <div style="display:grid;grid-template-columns:1fr 380px;gap:20px;align-items:start">
+          <!-- Left: Settings Panel (Glass) -->
+          <div style="background:rgba(255,255,255,0.04);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.06);border-radius:16px;overflow:hidden">
+            <!-- Tabs -->
+            <div style="display:flex;border-bottom:1px solid rgba(255,255,255,0.06);padding:0 8px">
+              <div class="profile-tab active" onclick="switchProfileTab(0, this)" style="padding:16px 24px;color:rgba(255,255,255,0.5);font-size:13px;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s" onmouseover="this.style.color='rgba(255,255,255,0.8)'" onmouseout="if(!this.classList.contains('active'))this.style.color='rgba(255,255,255,0.5)'">👤 基本资料</div>
+              <div class="profile-tab" onclick="switchProfileTab(1, this)" style="padding:16px 24px;color:rgba(255,255,255,0.5);font-size:13px;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s" onmouseover="this.style.color='rgba(255,255,255,0.8)'" onmouseout="if(!this.classList.contains('active'))this.style.color='rgba(255,255,255,0.5)'">🔒 修改密码</div>
+              <div class="profile-tab" onclick="switchProfileTab(2, this)" style="padding:16px 24px;color:rgba(255,255,255,0.5);font-size:13px;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s" onmouseover="this.style.color='rgba(255,255,255,0.8)'" onmouseout="if(!this.classList.contains('active'))this.style.color='rgba(255,255,255,0.5)'">🔗 第三方应用</div>
+              <div class="profile-tab" onclick="switchProfileTab(3, this)" style="padding:16px 24px;color:rgba(255,255,255,0.5);font-size:13px;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s" onmouseover="this.style.color='rgba(255,255,255,0.8)'" onmouseout="if(!this.classList.contains('active'))this.style.color='rgba(255,255,255,0.5)'">💻 在线设备</div>
             </div>
             <!-- Tab 0: Basic Info -->
-            <div class="profile-tab-content active" id="ptab0" style="padding:24px">
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px 24px">
-                <div class="form-group"><label style="font-size:13px;color:#666;margin-bottom:6px;display:block">昵称</label><input type="text" value="xxx" style="padding:10px 14px;border:1px solid #d9d9d9;border-radius:8px;width:100%;font-size:14px;outline:none;transition:border 0.2s" onfocus="this.style.borderColor='#1890ff'" onblur="this.style.borderColor='#d9d9d9'"></div>
-                <div class="form-group"><label style="font-size:13px;color:#666;margin-bottom:6px;display:block">姓名</label><input type="text" value="xxx" style="padding:10px 14px;border:1px solid #d9d9d9;border-radius:8px;width:100%;font-size:14px;outline:none;transition:border 0.2s" onfocus="this.style.borderColor='#1890ff'" onblur="this.style.borderColor='#d9d9d9'"></div>
-                <div class="form-group"><label style="font-size:13px;color:#666;margin-bottom:6px;display:block">手机号</label><input type="text" value="13666666666" disabled style="padding:10px 14px;border:1px solid #e8e8e8;border-radius:8px;width:100%;font-size:14px;background:#f7f8fa;color:#999"></div>
-                <div class="form-group"><label style="font-size:13px;color:#666;margin-bottom:6px;display:block">邮箱</label><input type="text" placeholder="未绑定" style="padding:10px 14px;border:1px solid #d9d9d9;border-radius:8px;width:100%;font-size:14px;outline:none;transition:border 0.2s" onfocus="this.style.borderColor='#1890ff'" onblur="this.style.borderColor='#d9d9d9'"></div>
-                <div class="form-group"><label style="font-size:13px;color:#666;margin-bottom:6px;display:block">部门</label><select style="padding:10px 14px;border:1px solid #d9d9d9;border-radius:8px;width:100%;font-size:14px;background:#fff;outline:none"><option>技术部</option><option>销售部</option><option>人事部</option><option>财务部</option></select></div>
-                <div class="form-group"><label style="font-size:13px;color:#666;margin-bottom:6px;display:block">角色</label><select style="padding:10px 14px;border:1px solid #d9d9d9;border-radius:8px;width:100%;font-size:14px;background:#fff;outline:none"><option>管理员</option><option>普通成员</option><option>只读</option></select></div>
+            <div class="profile-tab-content active" id="ptab0" style="padding:28px">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px 28px">
+                <div class="form-group"><label style="font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:8px;display:block;letter-spacing:0.5px">昵称</label><input type="text" value="xxx" style="padding:11px 16px;border:1px solid rgba(255,255,255,0.08);border-radius:10px;width:100%;font-size:14px;outline:none;transition:all 0.3s;background:rgba(255,255,255,0.04);color:#e2e8f0" onfocus="this.style.borderColor='rgba(88,166,255,0.4)';this.style.background='rgba(255,255,255,0.06)';this.style.boxShadow='0 0 0 3px rgba(88,166,255,0.1)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)';this.style.background='rgba(255,255,255,0.04)';this.style.boxShadow='none'"></div>
+                <div class="form-group"><label style="font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:8px;display:block;letter-spacing:0.5px">姓名</label><input type="text" value="xxx" style="padding:11px 16px;border:1px solid rgba(255,255,255,0.08);border-radius:10px;width:100%;font-size:14px;outline:none;transition:all 0.3s;background:rgba(255,255,255,0.04);color:#e2e8f0" onfocus="this.style.borderColor='rgba(88,166,255,0.4)';this.style.background='rgba(255,255,255,0.06)';this.style.boxShadow='0 0 0 3px rgba(88,166,255,0.1)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)';this.style.background='rgba(255,255,255,0.04)';this.style.boxShadow='none'"></div>
+                <div class="form-group"><label style="font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:8px;display:block;letter-spacing:0.5px">手机号</label><input type="text" value="13666666666" disabled style="padding:11px 16px;border:1px solid rgba(255,255,255,0.05);border-radius:10px;width:100%;font-size:14px;background:rgba(255,255,255,0.02);color:rgba(255,255,255,0.3)"></div>
+                <div class="form-group"><label style="font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:8px;display:block;letter-spacing:0.5px">邮箱</label><input type="text" placeholder="未绑定" style="padding:11px 16px;border:1px solid rgba(255,255,255,0.08);border-radius:10px;width:100%;font-size:14px;outline:none;transition:all 0.3s;background:rgba(255,255,255,0.04);color:#e2e8f0" onfocus="this.style.borderColor='rgba(88,166,255,0.4)';this.style.background='rgba(255,255,255,0.06)';this.style.boxShadow='0 0 0 3px rgba(88,166,255,0.1)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)';this.style.background='rgba(255,255,255,0.04)';this.style.boxShadow='none'"></div>
+                <div class="form-group"><label style="font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:8px;display:block;letter-spacing:0.5px">部门</label><select style="padding:11px 16px;border:1px solid rgba(255,255,255,0.08);border-radius:10px;width:100%;font-size:14px;background:rgba(255,255,255,0.04);outline:none;color:#e2e8f0"><option>技术部</option><option>销售部</option><option>人事部</option><option>财务部</option></select></div>
+                <div class="form-group"><label style="font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:8px;display:block;letter-spacing:0.5px">角色</label><select style="padding:11px 16px;border:1px solid rgba(255,255,255,0.08);border-radius:10px;width:100%;font-size:14px;background:rgba(255,255,255,0.04);outline:none;color:#e2e8f0"><option>管理员</option><option>普通成员</option><option>只读</option></select></div>
               </div>
-              <div style="display:flex;gap:12px;margin-top:16px;padding-top:16px;border-top:1px solid #f0f0f0">
-                <button class="btn btn-primary" style="padding:10px 28px;border-radius:8px;font-size:14px">💾 保存修改</button>
-                <button class="btn" style="padding:10px 28px;border-radius:8px;font-size:14px">取消</button>
+              <div style="display:flex;gap:12px;margin-top:20px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.06)">
+                <button style="padding:11px 32px;border-radius:10px;font-size:14px;font-weight:600;border:none;cursor:pointer;background:linear-gradient(135deg,#3b82f6,#6366f1);color:#fff;box-shadow:0 4px 15px rgba(59,130,246,0.3);transition:all 0.3s" onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 6px 20px rgba(59,130,246,0.4)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 4px 15px rgba(59,130,246,0.3)'">💾 保存修改</button>
+                <button style="padding:11px 32px;border-radius:10px;font-size:14px;border:1px solid rgba(255,255,255,0.1);cursor:pointer;background:transparent;color:rgba(255,255,255,0.6);transition:all 0.3s" onmouseover="this.style.borderColor='rgba(255,255,255,0.2)';this.style.color='rgba(255,255,255,0.8)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.1)';this.style.color='rgba(255,255,255,0.6)'">取消</button>
               </div>
             </div>
             <!-- Tab 1: Change Password -->
-            <div class="profile-tab-content" id="ptab1" style="padding:24px">
-              <div style="max-width:520px">
-                <div style="display:grid;grid-template-columns:1fr;gap:14px">
-                  <div class="form-group"><label style="font-size:13px;color:#666;margin-bottom:6px;display:block">当前密码</label><input type="password" placeholder="请输入当前密码" style="padding:10px 14px;border:1px solid #d9d9d9;border-radius:8px;width:100%;font-size:14px"></div>
-                  <div class="form-group"><label style="font-size:13px;color:#666;margin-bottom:6px;display:block">新密码</label><input type="password" placeholder="请输入新密码" style="padding:10px 14px;border:1px solid #d9d9d9;border-radius:8px;width:100%;font-size:14px"></div>
-                  <div class="form-group"><label style="font-size:13px;color:#666;margin-bottom:6px;display:block">确认密码</label><input type="password" placeholder="请再次输入新密码" style="padding:10px 14px;border:1px solid #d9d9d9;border-radius:8px;width:100%;font-size:14px"></div>
+            <div class="profile-tab-content" id="ptab1" style="padding:28px">
+              <div style="max-width:540px">
+                <div style="display:grid;grid-template-columns:1fr;gap:16px">
+                  <div class="form-group"><label style="font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:8px;display:block;letter-spacing:0.5px">当前密码</label><input type="password" placeholder="请输入当前密码" style="padding:11px 16px;border:1px solid rgba(255,255,255,0.08);border-radius:10px;width:100%;font-size:14px;background:rgba(255,255,255,0.04);color:#e2e8f0;outline:none"></div>
+                  <div class="form-group"><label style="font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:8px;display:block;letter-spacing:0.5px">新密码</label><input type="password" placeholder="请输入新密码" style="padding:11px 16px;border:1px solid rgba(255,255,255,0.08);border-radius:10px;width:100%;font-size:14px;background:rgba(255,255,255,0.04);color:#e2e8f0;outline:none"></div>
+                  <div class="form-group"><label style="font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:8px;display:block;letter-spacing:0.5px">确认密码</label><input type="password" placeholder="请再次输入新密码" style="padding:11px 16px;border:1px solid rgba(255,255,255,0.08);border-radius:10px;width:100%;font-size:14px;background:rgba(255,255,255,0.04);color:#e2e8f0;outline:none"></div>
                 </div>
-                <div style="background:linear-gradient(135deg,#f0f7ff,#e8f4fd);border:1px solid #bae0ff;border-radius:10px;padding:18px;margin:18px 0">
-                  <div style="font-size:14px;font-weight:600;color:#1677ff;margin-bottom:10px;display:flex;align-items:center;gap:6px">📱 手机验证（交叉验证）</div>
+                <div style="background:linear-gradient(135deg,rgba(59,130,246,0.08),rgba(99,102,241,0.08));border:1px solid rgba(99,102,241,0.15);border-radius:12px;padding:20px;margin:20px 0;backdrop-filter:blur(8px)">
+                  <div style="font-size:14px;font-weight:600;color:#a5b4fc;margin-bottom:12px;display:flex;align-items:center;gap:8px">📱 手机验证（交叉验证）</div>
                   <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-                    <div class="form-group"><label style="font-size:13px;color:#666;margin-bottom:6px;display:block">当前手机号</label><input type="text" value="136****6666" disabled style="padding:10px 14px;border:1px solid #e8e8e8;border-radius:8px;width:100%;font-size:14px;background:#fff"></div>
-                    <div class="form-group"><label style="font-size:13px;color:#666;margin-bottom:6px;display:block">验证码</label>
-                      <div style="display:flex;gap:8px"><input type="text" placeholder="输入验证码" style="flex:1;padding:10px 14px;border:1px solid #d9d9d9;border-radius:8px;font-size:14px"><button class="btn btn-primary" onclick="alert('验证码已发送至 136****6666')" style="white-space:nowrap;padding:10px 16px;border-radius:8px">发送验证码</button></div>
+                    <div class="form-group"><label style="font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:8px;display:block">当前手机号</label><input type="text" value="136****6666" disabled style="padding:11px 16px;border:1px solid rgba(255,255,255,0.05);border-radius:10px;width:100%;font-size:14px;background:rgba(255,255,255,0.03);color:rgba(255,255,255,0.4)"></div>
+                    <div class="form-group"><label style="font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:8px;display:block">验证码</label>
+                      <div style="display:flex;gap:8px"><input type="text" placeholder="输入验证码" style="flex:1;padding:11px 16px;border:1px solid rgba(255,255,255,0.08);border-radius:10px;font-size:14px;background:rgba(255,255,255,0.04);color:#e2e8f0;outline:none"><button onclick="alert('验证码已发送至 136****6666')" style="white-space:nowrap;padding:11px 16px;border-radius:10px;font-size:13px;border:none;cursor:pointer;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-weight:500;transition:all 0.3s" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='none'">发送验证码</button></div>
                     </div>
                   </div>
-                  <div style="font-size:12px;color:#999;margin-top:6px">需通过当前绑定手机接收验证码，确认身份后方可修改密码</div>
+                  <div style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:8px">需通过当前绑定手机接收验证码，确认身份后方可修改密码</div>
                 </div>
-                <button class="btn btn-primary" style="padding:10px 28px;border-radius:8px;font-size:14px">🔐 修改密码</button>
+                <button style="padding:11px 32px;border-radius:10px;font-size:14px;font-weight:600;border:none;cursor:pointer;background:linear-gradient(135deg,#3b82f6,#6366f1);color:#fff;box-shadow:0 4px 15px rgba(59,130,246,0.3);transition:all 0.3s" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='none'">🔐 修改密码</button>
               </div>
             </div>
             <!-- Tab 2: Third-party Apps -->
-            <div class="profile-tab-content" id="ptab2" style="padding:24px">
-              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
-                <div style="border:1px solid #e8e8e8;border-radius:10px;padding:20px;text-align:center;transition:all 0.2s;cursor:pointer" onmouseover="this.style.borderColor='#1890ff'" onmouseout="this.style.borderColor='#e8e8e8'">
-                  <div style="font-size:28px;margin-bottom:8px">🪶</div><div style="font-weight:600;font-size:14px;margin-bottom:4px">飞书</div><div style="font-size:12px;color:#999">文档同步</div>
-                  <button class="btn btn-sm btn-primary" style="margin-top:12px">授权</button>
+            <div class="profile-tab-content" id="ptab2" style="padding:28px">
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+                <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:24px 16px;text-align:center;transition:all 0.3s;cursor:pointer;backdrop-filter:blur(8px)" onmouseover="this.style.background='rgba(255,255,255,0.06)';this.style.borderColor='rgba(88,166,255,0.3)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 25px rgba(88,166,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(255,255,255,0.06)';this.style.transform='none';this.style.boxShadow='none'">
+                  <div style="font-size:32px;margin-bottom:10px">🪶</div><div style="font-weight:600;font-size:14px;margin-bottom:4px;color:#e2e8f0">飞书</div><div style="font-size:12px;color:rgba(255,255,255,0.4)">文档同步</div>
+                  <button style="margin-top:14px;padding:8px 20px;border-radius:8px;font-size:12px;border:none;cursor:pointer;background:linear-gradient(135deg,#3b82f6,#6366f1);color:#fff;font-weight:500;transition:all 0.2s" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">授权</button>
                 </div>
-                <div style="border:1px solid #e8e8e8;border-radius:10px;padding:20px;text-align:center;transition:all 0.2s;cursor:pointer" onmouseover="this.style.borderColor='#1890ff'" onmouseout="this.style.borderColor='#e8e8e8'">
-                  <div style="font-size:28px;margin-bottom:8px">💬</div><div style="font-weight:600;font-size:14px;margin-bottom:4px">企业微信</div><div style="font-size:12px;color:#999">消息通知</div>
-                  <button class="btn btn-sm btn-primary" style="margin-top:12px">授权</button>
+                <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:24px 16px;text-align:center;transition:all 0.3s;cursor:pointer;backdrop-filter:blur(8px)" onmouseover="this.style.background='rgba(255,255,255,0.06)';this.style.borderColor='rgba(52,211,153,0.3)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 25px rgba(52,211,153,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(255,255,255,0.06)';this.style.transform='none';this.style.boxShadow='none'">
+                  <div style="font-size:32px;margin-bottom:10px">💬</div><div style="font-weight:600;font-size:14px;margin-bottom:4px;color:#e2e8f0">企业微信</div><div style="font-size:12px;color:rgba(255,255,255,0.4)">消息通知</div>
+                  <button style="margin-top:14px;padding:8px 20px;border-radius:8px;font-size:12px;border:none;cursor:pointer;background:linear-gradient(135deg,#3b82f6,#6366f1);color:#fff;font-weight:500;transition:all 0.2s" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">授权</button>
                 </div>
-                <div style="border:1px solid #e8e8e8;border-radius:10px;padding:20px;text-align:center;transition:all 0.2s;cursor:pointer" onmouseover="this.style.borderColor='#1890ff'" onmouseout="this.style.borderColor='#e8e8e8'">
-                  <div style="font-size:28px;margin-bottom:8px">📌</div><div style="font-weight:600;font-size:14px;margin-bottom:4px">钉钉</div><div style="font-size:12px;color:#999">审批集成</div>
-                  <button class="btn btn-sm btn-primary" style="margin-top:12px">授权</button>
+                <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:24px 16px;text-align:center;transition:all 0.3s;cursor:pointer;backdrop-filter:blur(8px)" onmouseover="this.style.background='rgba(255,255,255,0.06)';this.style.borderColor='rgba(251,146,60,0.3)';this.style.transform='translateY(-3px)';this.style.boxShadow='0 8px 25px rgba(251,146,60,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(255,255,255,0.06)';this.style.transform='none';this.style.boxShadow='none'">
+                  <div style="font-size:32px;margin-bottom:10px">📌</div><div style="font-weight:600;font-size:14px;margin-bottom:4px;color:#e2e8f0">钉钉</div><div style="font-size:12px;color:rgba(255,255,255,0.4)">审批集成</div>
+                  <button style="margin-top:14px;padding:8px 20px;border-radius:8px;font-size:12px;border:none;cursor:pointer;background:linear-gradient(135deg,#3b82f6,#6366f1);color:#fff;font-weight:500;transition:all 0.2s" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">授权</button>
                 </div>
               </div>
             </div>
             <!-- Tab 3: Online Devices -->
-            <div class="profile-tab-content" id="ptab3" style="padding:24px">
-              <table style="width:100%">
-                <thead><tr style="background:#f7f8fa"><th style="padding:10px 14px;text-align:left;font-size:12px;color:#999;border-bottom:1px solid #f0f0f0">设备</th><th style="padding:10px 14px;text-align:left;font-size:12px;color:#999;border-bottom:1px solid #f0f0f0">系统</th><th style="padding:10px 14px;text-align:left;font-size:12px;color:#999;border-bottom:1px solid #f0f0f0">浏览器</th><th style="padding:10px 14px;text-align:left;font-size:12px;color:#999;border-bottom:1px solid #f0f0f0">IP 地址</th><th style="padding:10px 14px;text-align:left;font-size:12px;color:#999;border-bottom:1px solid #f0f0f0">最后活跃</th><th style="padding:10px 14px;text-align:left;font-size:12px;color:#999;border-bottom:1px solid #f0f0f0">状态</th><th style="padding:10px 14px;text-align:left;font-size:12px;color:#999;border-bottom:1px solid #f0f0f0">操作</th></tr></thead>
+            <div class="profile-tab-content" id="ptab3" style="padding:28px">
+              <table style="width:100%;border-collapse:separate;border-spacing:0">
+                <thead><tr><th style="padding:12px 16px;text-align:left;font-size:11px;color:rgba(255,255,255,0.35);border-bottom:1px solid rgba(255,255,255,0.06);letter-spacing:0.5px;text-transform:uppercase">设备</th><th style="padding:12px 16px;text-align:left;font-size:11px;color:rgba(255,255,255,0.35);border-bottom:1px solid rgba(255,255,255,0.06);letter-spacing:0.5px;text-transform:uppercase">系统</th><th style="padding:12px 16px;text-align:left;font-size:11px;color:rgba(255,255,255,0.35);border-bottom:1px solid rgba(255,255,255,0.06);letter-spacing:0.5px;text-transform:uppercase">浏览器</th><th style="padding:12px 16px;text-align:left;font-size:11px;color:rgba(255,255,255,0.35);border-bottom:1px solid rgba(255,255,255,0.06);letter-spacing:0.5px;text-transform:uppercase">IP</th><th style="padding:12px 16px;text-align:left;font-size:11px;color:rgba(255,255,255,0.35);border-bottom:1px solid rgba(255,255,255,0.06);letter-spacing:0.5px;text-transform:uppercase">最后活跃</th><th style="padding:12px 16px;text-align:left;font-size:11px;color:rgba(255,255,255,0.35);border-bottom:1px solid rgba(255,255,255,0.06);letter-spacing:0.5px;text-transform:uppercase">状态</th><th style="padding:12px 16px;text-align:left;font-size:11px;color:rgba(255,255,255,0.35);border-bottom:1px solid rgba(255,255,255,0.06);letter-spacing:0.5px;text-transform:uppercase">操作</th></tr></thead>
                 <tbody>
-                  <tr><td style="padding:12px 14px;border-bottom:1px solid #f5f5f5"><span style="margin-right:4px">💻</span>当前设备</td><td style="padding:12px 14px;border-bottom:1px solid #f5f5f5">Windows 11</td><td style="padding:12px 14px;border-bottom:1px solid #f5f5f5">Chrome 136</td><td style="padding:12px 14px;border-bottom:1px solid #f5f5f5;color:#666">192.168.1.100</td><td style="padding:12px 14px;border-bottom:1px solid #f5f5f5;color:#666">2026-06-30 15:30</td><td style="padding:12px 14px;border-bottom:1px solid #f5f5f5"><span class="status-badge normal">在线</span></td><td style="padding:12px 14px;border-bottom:1px solid #f5f5f5;color:#ccc">-</td></tr>
-                  <tr><td style="padding:12px 14px;border-bottom:1px solid #f5f5f5"><span style="margin-right:4px">📱</span>iPhone 15</td><td style="padding:12px 14px;border-bottom:1px solid #f5f5f5">iOS 18</td><td style="padding:12px 14px;border-bottom:1px solid #f5f5f5">Safari</td><td style="padding:12px 14px;border-bottom:1px solid #f5f5f5;color:#666">10.0.0.55</td><td style="padding:12px 14px;border-bottom:1px solid #f5f5f5;color:#666">2026-06-29 18:30</td><td style="padding:12px 14px;border-bottom:1px solid #f5f5f5"><span class="status-badge normal">在线</span></td><td style="padding:12px 14px;border-bottom:1px solid #f5f5f5"><button class="btn btn-sm btn-danger" onclick="alert('已下线')">下线</button></td></tr>
-                  <tr><td style="padding:12px 14px"><span style="margin-right:4px">💻</span>MacBook</td><td style="padding:12px 14px">macOS 14</td><td style="padding:12px 14px">Safari 17</td><td style="padding:12px 14px;color:#666">10.0.0.55</td><td style="padding:12px 14px;color:#666">2026-06-28 12:00</td><td style="padding:12px 14px"><span class="status-badge invalid">已离线</span></td><td style="padding:12px 14px"><button class="btn btn-sm btn-danger" onclick="alert('已下线')">下线</button></td></tr>
+                  <tr style="transition:background 0.2s" onmouseover="this.style.background='rgba(255,255,255,0.03)'" onmouseout="this.style.background='transparent'"><td style="padding:14px 16px;border-bottom:1px solid rgba(255,255,255,0.04);color:#e2e8f0"><span style="margin-right:6px">💻</span>当前设备</td><td style="padding:14px 16px;border-bottom:1px solid rgba(255,255,255,0.04);color:rgba(255,255,255,0.6)">Windows 11</td><td style="padding:14px 16px;border-bottom:1px solid rgba(255,255,255,0.04);color:rgba(255,255,255,0.6)">Chrome 136</td><td style="padding:14px 16px;border-bottom:1px solid rgba(255,255,255,0.04);color:rgba(255,255,255,0.45);font-family:monospace;font-size:12px">192.168.1.100</td><td style="padding:14px 16px;border-bottom:1px solid rgba(255,255,255,0.04);color:rgba(255,255,255,0.45)">2026-06-30 15:30</td><td style="padding:14px 16px;border-bottom:1px solid rgba(255,255,255,0.04)"><span style="background:rgba(52,211,153,0.12);color:#6ee7b7;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:500">● 在线</span></td><td style="padding:14px 16px;border-bottom:1px solid rgba(255,255,255,0.04);color:rgba(255,255,255,0.2)">—</td></tr>
+                  <tr style="transition:background 0.2s" onmouseover="this.style.background='rgba(255,255,255,0.03)'" onmouseout="this.style.background='transparent'"><td style="padding:14px 16px;border-bottom:1px solid rgba(255,255,255,0.04);color:#e2e8f0"><span style="margin-right:6px">📱</span>iPhone 15</td><td style="padding:14px 16px;border-bottom:1px solid rgba(255,255,255,0.04);color:rgba(255,255,255,0.6)">iOS 18</td><td style="padding:14px 16px;border-bottom:1px solid rgba(255,255,255,0.04);color:rgba(255,255,255,0.6)">Safari</td><td style="padding:14px 16px;border-bottom:1px solid rgba(255,255,255,0.04);color:rgba(255,255,255,0.45);font-family:monospace;font-size:12px">10.0.0.55</td><td style="padding:14px 16px;border-bottom:1px solid rgba(255,255,255,0.04);color:rgba(255,255,255,0.45)">2026-06-29 18:30</td><td style="padding:14px 16px;border-bottom:1px solid rgba(255,255,255,0.04)"><span style="background:rgba(52,211,153,0.12);color:#6ee7b7;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:500">● 在线</span></td><td style="padding:14px 16px;border-bottom:1px solid rgba(255,255,255,0.04)"><button style="padding:5px 12px;border-radius:6px;font-size:11px;border:1px solid rgba(239,68,68,0.25);cursor:pointer;background:rgba(239,68,68,0.1);color:#fca5a5;transition:all 0.2s" onmouseover="this.style.background='rgba(239,68,68,0.2)'" onmouseout="this.style.background='rgba(239,68,68,0.1)'" onclick="alert('已下线')">下线</button></td></tr>
+                  <tr style="transition:background 0.2s" onmouseover="this.style.background='rgba(255,255,255,0.03)'" onmouseout="this.style.background='transparent'"><td style="padding:14px 16px;color:#e2e8f0"><span style="margin-right:6px">💻</span>MacBook</td><td style="padding:14px 16px;color:rgba(255,255,255,0.6)">macOS 14</td><td style="padding:14px 16px;color:rgba(255,255,255,0.6)">Safari 17</td><td style="padding:14px 16px;color:rgba(255,255,255,0.45);font-family:monospace;font-size:12px">10.0.0.55</td><td style="padding:14px 16px;color:rgba(255,255,255,0.45)">2026-06-28 12:00</td><td style="padding:14px 16px"><span style="background:rgba(239,68,68,0.1);color:#fca5a5;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:500">● 离线</span></td><td style="padding:14px 16px"><button style="padding:5px 12px;border-radius:6px;font-size:11px;border:1px solid rgba(239,68,68,0.25);cursor:pointer;background:rgba(239,68,68,0.1);color:#fca5a5;transition:all 0.2s" onmouseover="this.style.background='rgba(239,68,68,0.2)'" onmouseout="this.style.background='rgba(239,68,68,0.1)'" onclick="alert('已下线')">下线</button></td></tr>
                 </tbody>
               </table>
             </div>
           </div>
 
-          <!-- Right Sidebar -->
+          <!-- Right Sidebar (Glass panels) -->
           <div style="display:flex;flex-direction:column;gap:16px">
             <!-- Quick Actions -->
-            <div style="background:#fff;border-radius:10px;padding:20px;box-shadow:0 1px 6px rgba(0,0,0,0.05)">
-              <h3 style="font-size:14px;font-weight:600;margin-bottom:14px;color:#333">⚡ 快捷操作</h3>
+            <div style="background:rgba(255,255,255,0.04);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:22px">
+              <h3 style="font-size:14px;font-weight:600;margin-bottom:16px;color:rgba(255,255,255,0.8);display:flex;align-items:center;gap:8px">⚡ 快捷操作</h3>
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-                <div onclick="alert('跳转合同生成')" style="padding:14px;background:#f0f7ff;border-radius:8px;text-align:center;cursor:pointer;transition:all 0.2s;border:1px solid transparent" onmouseover="this.style.borderColor='#1890ff'" onmouseout="this.style.borderColor='transparent'"><div style="font-size:22px;margin-bottom:4px">📝</div><div style="font-size:12px;font-weight:500;color:#333">生成合同</div></div>
-                <div onclick="alert('跳转合同审查')" style="padding:14px;background:#f6ffed;border-radius:8px;text-align:center;cursor:pointer;transition:all 0.2s;border:1px solid transparent" onmouseover="this.style.borderColor='#52c41a'" onmouseout="this.style.borderColor='transparent'"><div style="font-size:22px;margin-bottom:4px">🔍</div><div style="font-size:12px;font-weight:500;color:#333">审查合同</div></div>
-                <div onclick="alert('跳转知识库')" style="padding:14px;background:#f9f0ff;border-radius:8px;text-align:center;cursor:pointer;transition:all 0.2s;border:1px solid transparent" onmouseover="this.style.borderColor='#722ed1'" onmouseout="this.style.borderColor='transparent'"><div style="font-size:22px;margin-bottom:4px">📚</div><div style="font-size:12px;font-weight:500;color:#333">知识库</div></div>
-                <div onclick="alert('跳转帮助中心')" style="padding:14px;background:#fff7e6;border-radius:8px;text-align:center;cursor:pointer;transition:all 0.2s;border:1px solid transparent" onmouseover="this.style.borderColor='#fa8c16'" onmouseout="this.style.borderColor='transparent'"><div style="font-size:22px;margin-bottom:4px">❓</div><div style="font-size:12px;font-weight:500;color:#333">帮助中心</div></div>
+                <div onclick="alert('跳转合同生成')" style="padding:16px 12px;background:linear-gradient(135deg,rgba(59,130,246,0.1),rgba(59,130,246,0.03));border:1px solid rgba(59,130,246,0.15);border-radius:12px;text-align:center;cursor:pointer;transition:all 0.3s" onmouseover="this.style.background='linear-gradient(135deg,rgba(59,130,246,0.18),rgba(59,130,246,0.06))';this.style.borderColor='rgba(59,130,246,0.3)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='linear-gradient(135deg,rgba(59,130,246,0.1),rgba(59,130,246,0.03))';this.style.borderColor='rgba(59,130,246,0.15)';this.style.transform='none'"><div style="font-size:24px;margin-bottom:6px">📝</div><div style="font-size:12px;font-weight:500;color:#93c5fd">生成合同</div></div>
+                <div onclick="alert('跳转合同审查')" style="padding:16px 12px;background:linear-gradient(135deg,rgba(52,211,153,0.1),rgba(52,211,153,0.03));border:1px solid rgba(52,211,153,0.15);border-radius:12px;text-align:center;cursor:pointer;transition:all 0.3s" onmouseover="this.style.background='linear-gradient(135deg,rgba(52,211,153,0.18),rgba(52,211,153,0.06))';this.style.borderColor='rgba(52,211,153,0.3)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='linear-gradient(135deg,rgba(52,211,153,0.1),rgba(52,211,153,0.03))';this.style.borderColor='rgba(52,211,153,0.15)';this.style.transform='none'"><div style="font-size:24px;margin-bottom:6px">🔍</div><div style="font-size:12px;font-weight:500;color:#6ee7b7">审查合同</div></div>
+                <div onclick="alert('跳转知识库')" style="padding:16px 12px;background:linear-gradient(135deg,rgba(167,139,250,0.1),rgba(167,139,250,0.03));border:1px solid rgba(167,139,250,0.15);border-radius:12px;text-align:center;cursor:pointer;transition:all 0.3s" onmouseover="this.style.background='linear-gradient(135deg,rgba(167,139,250,0.18),rgba(167,139,250,0.06))';this.style.borderColor='rgba(167,139,250,0.3)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='linear-gradient(135deg,rgba(167,139,250,0.1),rgba(167,139,250,0.03))';this.style.borderColor='rgba(167,139,250,0.15)';this.style.transform='none'"><div style="font-size:24px;margin-bottom:6px">📚</div><div style="font-size:12px;font-weight:500;color:#c4b5fd">知识库</div></div>
+                <div onclick="alert('跳转帮助中心')" style="padding:16px 12px;background:linear-gradient(135deg,rgba(251,146,60,0.1),rgba(251,146,60,0.03));border:1px solid rgba(251,146,60,0.15);border-radius:12px;text-align:center;cursor:pointer;transition:all 0.3s" onmouseover="this.style.background='linear-gradient(135deg,rgba(251,146,60,0.18),rgba(251,146,60,0.06))';this.style.borderColor='rgba(251,146,60,0.3)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='linear-gradient(135deg,rgba(251,146,60,0.1),rgba(251,146,60,0.03))';this.style.borderColor='rgba(251,146,60,0.15)';this.style.transform='none'"><div style="font-size:24px;margin-bottom:6px">❓</div><div style="font-size:12px;font-weight:500;color:#fdba74">帮助中心</div></div>
               </div>
             </div>
 
             <!-- Monthly Usage -->
-            <div style="background:#fff;border-radius:10px;padding:20px;box-shadow:0 1px 6px rgba(0,0,0,0.05)">
-              <h3 style="font-size:14px;font-weight:600;margin-bottom:14px;color:#333">📊 本月使用</h3>
-              <div style="margin-bottom:16px">
-                <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px"><span style="color:#666">积分消耗</span><span style="font-weight:600;color:#333">3,280 / 50,000</span></div>
-                <div style="height:8px;background:#f0f0f0;border-radius:4px;overflow:hidden"><div style="width:6.56%;height:100%;background:linear-gradient(90deg,#1890ff,#40a9ff);border-radius:4px;transition:width 0.5s"></div></div>
+            <div style="background:rgba(255,255,255,0.04);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:22px">
+              <h3 style="font-size:14px;font-weight:600;margin-bottom:16px;color:rgba(255,255,255,0.8);display:flex;align-items:center;gap:8px">📊 本月使用</h3>
+              <div style="margin-bottom:18px">
+                <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:8px"><span style="color:rgba(255,255,255,0.45)">积分消耗</span><span style="font-weight:600;color:#e2e8f0">3,280 / 50,000</span></div>
+                <div style="height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden"><div style="width:6.56%;height:100%;background:linear-gradient(90deg,#3b82f6,#a78bfa);border-radius:3px;transition:width 0.5s;box-shadow:0 0 8px rgba(59,130,246,0.4)"></div></div>
               </div>
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-                <div style="padding:10px;background:#f0f7ff;border-radius:8px;text-align:center"><div style="font-size:20px;font-weight:700;color:#1890ff">42</div><div style="font-size:11px;color:#999;margin-top:2px">合同生成</div></div>
-                <div style="padding:10px;background:#f6ffed;border-radius:8px;text-align:center"><div style="font-size:20px;font-weight:700;color:#52c41a">18</div><div style="font-size:11px;color:#999;margin-top:2px">合同审查</div></div>
-                <div style="padding:10px;background:#f9f0ff;border-radius:8px;text-align:center"><div style="font-size:20px;font-weight:700;color:#722ed1">8</div><div style="font-size:11px;color:#999;margin-top:2px">文档解析</div></div>
-                <div style="padding:10px;background:#fff7e6;border-radius:8px;text-align:center"><div style="font-size:20px;font-weight:700;color:#fa8c16">12</div><div style="font-size:11px;color:#999;margin-top:2px">模板使用</div></div>
+                <div style="padding:12px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.12);border-radius:10px;text-align:center"><div style="font-size:22px;font-weight:700;background:linear-gradient(135deg,#60a5fa,#93c5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent">42</div><div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px">合同生成</div></div>
+                <div style="padding:12px;background:rgba(52,211,153,0.08);border:1px solid rgba(52,211,153,0.12);border-radius:10px;text-align:center"><div style="font-size:22px;font-weight:700;background:linear-gradient(135deg,#34d399,#6ee7b7);-webkit-background-clip:text;-webkit-text-fill-color:transparent">18</div><div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px">合同审查</div></div>
+                <div style="padding:12px;background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.12);border-radius:10px;text-align:center"><div style="font-size:22px;font-weight:700;background:linear-gradient(135deg,#a78bfa,#c4b5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent">8</div><div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px">文档解析</div></div>
+                <div style="padding:12px;background:rgba(251,146,60,0.08);border:1px solid rgba(251,146,60,0.12);border-radius:10px;text-align:center"><div style="font-size:22px;font-weight:700;background:linear-gradient(135deg,#fb923c,#fdba74);-webkit-background-clip:text;-webkit-text-fill-color:transparent">12</div><div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px">模板使用</div></div>
               </div>
             </div>
 
             <!-- Recent Activity -->
-            <div style="background:#fff;border-radius:10px;padding:20px;box-shadow:0 1px 6px rgba(0,0,0,0.05)">
-              <h3 style="font-size:14px;font-weight:600;margin-bottom:14px;color:#333">🕐 最近操作</h3>
+            <div style="background:rgba(255,255,255,0.04);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:22px">
+              <h3 style="font-size:14px;font-weight:600;margin-bottom:16px;color:rgba(255,255,255,0.8);display:flex;align-items:center;gap:8px">🕐 最近操作</h3>
               <div>
-                <div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #f5f5f5">
-                  <div style="width:8px;height:8px;border-radius:50%;background:#52c41a;margin-top:6px;flex-shrink:0"></div>
-                  <div style="flex:1;min-width:0"><div style="font-size:13px;color:#333">生成合同 <strong>采购合同-2026Q2</strong></div><div style="font-size:11px;color:#bbb;margin-top:2px">今天 15:30 · 消耗 120 积分</div></div>
+                <div style="display:flex;gap:10px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
+                  <div style="width:8px;height:8px;border-radius:50%;background:#34d399;margin-top:6px;flex-shrink:0;box-shadow:0 0 6px rgba(52,211,153,0.4)"></div>
+                  <div style="flex:1;min-width:0"><div style="font-size:13px;color:#e2e8f0">生成合同 <strong style="color:#93c5fd">采购合同-2026Q2</strong></div><div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:3px">今天 15:30 · 消耗 120 积分</div></div>
                 </div>
-                <div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #f5f5f5">
-                  <div style="width:8px;height:8px;border-radius:50%;background:#1890ff;margin-top:6px;flex-shrink:0"></div>
-                  <div style="flex:1;min-width:0"><div style="font-size:13px;color:#333">审查合同 <strong>劳动合同-张三</strong></div><div style="font-size:11px;color:#bbb;margin-top:2px">今天 14:10 · 消耗 80 积分</div></div>
+                <div style="display:flex;gap:10px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
+                  <div style="width:8px;height:8px;border-radius:50%;background:#3b82f6;margin-top:6px;flex-shrink:0;box-shadow:0 0 6px rgba(59,130,246,0.4)"></div>
+                  <div style="flex:1;min-width:0"><div style="font-size:13px;color:#e2e8f0">审查合同 <strong style="color:#93c5fd">劳动合同-张三</strong></div><div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:3px">今天 14:10 · 消耗 80 积分</div></div>
                 </div>
-                <div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #f5f5f5">
-                  <div style="width:8px;height:8px;border-radius:50%;background:#722ed1;margin-top:6px;flex-shrink:0"></div>
-                  <div style="flex:1;min-width:0"><div style="font-size:13px;color:#333">解析文档 <strong>营业执照.pdf</strong></div><div style="font-size:11px;color:#bbb;margin-top:2px">今天 11:00 · 消耗 30 积分</div></div>
+                <div style="display:flex;gap:10px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
+                  <div style="width:8px;height:8px;border-radius:50%;background:#a78bfa;margin-top:6px;flex-shrink:0;box-shadow:0 0 6px rgba(167,139,250,0.4)"></div>
+                  <div style="flex:1;min-width:0"><div style="font-size:13px;color:#e2e8f0">解析文档 <strong style="color:#c4b5fd">营业执照.pdf</strong></div><div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:3px">今天 11:00 · 消耗 30 积分</div></div>
                 </div>
-                <div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #f5f5f5">
-                  <div style="width:8px;height:8px;border-radius:50%;background:#fa8c16;margin-top:6px;flex-shrink:0"></div>
-                  <div style="flex:1;min-width:0"><div style="font-size:13px;color:#333">上传文档 <strong>供应商资质清单.xlsx</strong></div><div style="font-size:11px;color:#bbb;margin-top:2px">昨天 16:45 · 知识库</div></div>
+                <div style="display:flex;gap:10px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
+                  <div style="width:8px;height:8px;border-radius:50%;background:#fb923c;margin-top:6px;flex-shrink:0;box-shadow:0 0 6px rgba(251,146,60,0.4)"></div>
+                  <div style="flex:1;min-width:0"><div style="font-size:13px;color:#e2e8f0">上传文档 <strong style="color:#fdba74">供应商资质清单.xlsx</strong></div><div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:3px">昨天 16:45 · 知识库</div></div>
                 </div>
-                <div style="display:flex;gap:10px;padding:10px 0">
-                  <div style="width:8px;height:8px;border-radius:50%;background:#eb2f96;margin-top:6px;flex-shrink:0"></div>
-                  <div style="flex:1;min-width:0"><div style="font-size:13px;color:#333">生成合同 <strong>服务协议-创新工场</strong></div><div style="font-size:11px;color:#bbb;margin-top:2px">昨天 14:30 · 消耗 120 积分</div></div>
+                <div style="display:flex;gap:10px;padding:11px 0">
+                  <div style="width:8px;height:8px;border-radius:50%;background:#f472b6;margin-top:6px;flex-shrink:0;box-shadow:0 0 6px rgba(244,114,182,0.4)"></div>
+                  <div style="flex:1;min-width:0"><div style="font-size:13px;color:#e2e8f0">生成合同 <strong style="color:#f9a8d4">服务协议-创新工场</strong></div><div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:3px">昨天 14:30 · 消耗 120 积分</div></div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- Keyframe animations for floating orbs & pulse -->
+      <style>
+        @keyframes floatOrb1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-20px,30px)} }
+        @keyframes floatOrb2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(25px,-20px)} }
+        @keyframes floatOrb3 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-15px,-25px)} }
+        @keyframes pulse { 0%,100%{opacity:0.4;transform:scale(1)} 50%{opacity:1;transform:scale(1.5)} }
+      </style>
     </div>
 
     <!-- ========== Dashboard ========== -->
